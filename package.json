@@ -1,0 +1,29 @@
+{
+  "name": "highcharts-angular",
+  "version": "0.1.0",
+  "description": "Highcharts component for Angular.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blacklabel/highcharts-angular"
+  },
+  "keywords": [
+    "highcharts",
+    "highstock",
+    "highmaps",
+    "angular"
+  ],
+  "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
+  "bugs": {
+    "url": "https://github.com/blacklabel/highcharts-angular/issues"
+  },
+  "homepage": "https://github.com/blacklabel/highcharts-angular#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-jsdoc3": "^0.3.0"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "highcharts": "^5.0.0"
+  }
+}

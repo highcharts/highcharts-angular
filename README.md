@@ -1,0 +1,1 @@
+# Highcharts component for Angular
