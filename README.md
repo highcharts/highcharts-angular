@@ -2,12 +2,22 @@
 
 ## How to start:
 
+Make sure you have node and npm up to date. Tested and required versions:
+* node 6.10.2+
+* npm 4.6.1+
+
 ```
 npm install
 npm start
 ```
 
-This opens [http://localhost:4242/](http://localhost:4242/) in your default browser with the app
+This opens [http://localhost:4200/](http://localhost:4200/) in your default browser with the app.
+
+To open in different port, for example `12345`, use:
+
+```
+npm start -- --port 12345
+```
 
 ## Play with the app:
 

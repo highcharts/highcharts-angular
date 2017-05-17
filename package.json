@@ -20,7 +20,7 @@
 
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open --port 4242",
+    "start": "ng serve --open",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
