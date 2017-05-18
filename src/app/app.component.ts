@@ -2,22 +2,38 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `
-  <p>Data set (0,1 or 2): </p>
-  <input [(ngModel)]="usedIndex"><br/>
-
-  <p>Chart title text: </p>
-  <input 
-    [(ngModel)]="charts[usedIndex].hcOptions.title.text"
-    (ngModelChange)="titleChange($event)"
-  >
-
-  <p>The title should be as: {{ charts[usedIndex].hcOptions.title.text }}</p>
-  <app-chart [hcChart]="charts[usedIndex]"></app-chart>
-  `
+  templateUrl: 'app.component.html'
 })
 
 export class AppComponent {
+  // Demo #1
+  chartFromInputString = `
+  {
+    "chart": { "renderTo":"inputChart" },
+    "subtitle": { "text": "Highcharts chart" },
+    "series": [{
+      "type": "line",
+      "data": [11,2,3]
+    }, {
+      "data": [5,6,7]
+    }]
+  }
+  `;
+
+  chartFromInput = {
+    hcOptions: JSON.parse(this.chartFromInputString)
+  };
+
+  updateInputChart = function() {
+    this.chartFromInput.hcOptions = JSON.parse(this.chartFromInputString);
+    // trigger ngOnChanges
+    this.chartFromInput.update = true;
+  };
+
+
+  //----------------------------------------------------------------------
+  // Demo #2
+
   // starting value
   usedIndex = 0;
   chartTitle = 'My chart'; // for init - change through titleChange
@@ -31,7 +47,7 @@ export class AppComponent {
     });
     // trigger ngOnChanges
     this.charts[this.usedIndex].update = true;
-  }
+  };
 
   charts = [
     {

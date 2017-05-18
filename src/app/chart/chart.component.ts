@@ -18,9 +18,9 @@ export class ChartComponent {
     // store in window for reference
     Highcharts.win.Highcharts = Highcharts;
 
-    this.chart = Highcharts[this.hcChart.hcConstructor](
+    this.chart = Highcharts[this.hcChart.hcConstructor || 'chart'](
       this.hcChart.hcOptions,
-      this.hcChart.hcCallback
+      this.hcChart.hcCallback || null
     );
   }
 
