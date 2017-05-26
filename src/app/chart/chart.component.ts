@@ -1,42 +1,42 @@
-declare var require: any
-
-import { Component, Input } from '@angular/core';
-
-import * as Highcharts from 'highcharts/highstock';
-require('highcharts/modules/map')(Highcharts);
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-chart',
-  template: '<div [id]="hcChart.hcOptions.chart.renderTo">Chart placeholder</div>'
+  template: ''
 })
+
 export class ChartComponent {
-  @Input() hcChart: any;
+  constructor(private el: ElementRef) { };
 
   chart: any;
-  
-  ngAfterViewInit() {
-    // store in window for reference
-    Highcharts.win.Highcharts = Highcharts;
-
-    this.chart = Highcharts[this.hcChart.hcConstructor || 'chart'](
-      this.hcChart.hcOptions,
-      this.hcChart.hcCallback || null
-    );
+  @Input() Highcharts: any;
+  @Input() constructorType: string;
+  @Input() callbackFunction: any;
+  optionsValue: any;
+  @Input()
+  set options(val) {
+    this.optionsValue = val;
+    this.updateOrCreateChart();
   }
 
-  // big change is found
-  ngOnChanges(SimpleChanges) {
-     // a first change is on init
-    if (SimpleChanges.hcChart && !SimpleChanges.hcChart.firstChange) {
-      this.chart.update(this.hcChart.hcOptions);
+  updateValue = false;
+  @Output() updateChange = new EventEmitter(true);
+  @Input() set update(val) {
+    if (val) {
+      this.updateOrCreateChart();
+      this.updateChange.emit(false); // clear the flag after update
     }
   }
-
-  // small change needs to be triggered manually
-  ngDoCheck() {
-    if (this.hcChart.update) {
-      this.hcChart.update = false;
-      this.chart.update(this.hcChart.hcOptions);
+  
+  updateOrCreateChart = function () {
+    if (this.chart && this.chart.update) {
+      this.chart.update(this.optionsValue);
+    } else {
+      this.chart = this.Highcharts[this.constructorType || 'chart'](
+        this.el.nativeElement,
+        this.optionsValue,
+        this.callbackFunction || null
+      );
     }
   }
 }

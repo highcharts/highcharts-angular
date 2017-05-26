@@ -1,4 +1,10 @@
+declare var require: any
+
 import { Component } from '@angular/core';
+
+import * as Highcharts from 'highcharts';
+require('highcharts/modules/map')(Highcharts);
+require('highcharts/modules/exporting')(Highcharts);
 
 @Component({
   selector: 'app-root',
@@ -6,10 +12,12 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
+  // For all demos:
+  Highcharts = Highcharts;
+
   // Demo #1
-  chartFromInputString = `
+  optFromInputString = `
   {
-    "chart": { "renderTo":"inputChart" },
     "subtitle": { "text": "Highcharts chart" },
     "series": [{
       "type": "line",
@@ -20,21 +28,31 @@ export class AppComponent {
   }
   `;
 
-  chartFromInput = {
-    hcOptions: JSON.parse(this.chartFromInputString)
-  };
+  optFromInput = JSON.parse(this.optFromInputString);
+  updateFromInput = false;
 
   updateInputChart = function() {
-    this.chartFromInput.hcOptions = JSON.parse(this.chartFromInputString);
-    // trigger ngOnChanges
-    this.chartFromInput.update = true;
+    this.optFromInput = JSON.parse(this.optFromInputString);
   };
 
+  seriesTypes = {
+    line: 'column',
+    column: 'scatter',
+    scatter: 'spline',
+    spline: 'line'
+  };
+
+  toggleSeriesType = function(index = 0) {
+    this.optFromInput.series[index].type = this.seriesTypes[this.optFromInput.series[index].type];
+    // nested change - must trigger update
+    this.updateFromInput = true;
+  };
 
   //----------------------------------------------------------------------
   // Demo #2
 
-  // starting value
+  // starting values
+  updateDemo2 = false;
   usedIndex = 0;
   chartTitle = 'My chart'; // for init - change through titleChange
 
@@ -46,33 +64,30 @@ export class AppComponent {
       el.hcOptions.title.text = v;
     });
     // trigger ngOnChanges
-    this.charts[this.usedIndex].update = true;
+    this.updateDemo2 = true;
   };
 
   charts = [
     {
     	hcConstructor: 'chart',
     	hcOptions: {
-        chart: {renderTo:'firstChart'},
         title: { text: this.chartTitle },
-        subtitle: { text: 'Highcharts chart' },
+        subtitle: { text: '1st chart' },
         series: [{ type: 'line', data: [11,2,3] }, { data: [5,6,7] }]
       },
-    	hcCallback: function(chart) { console.log(chart) }
+    	hcCallback: function(chart) { console.log(Highcharts, chart); }
     },
     {
     	hcOptions: {
-        chart: {renderTo:'secondChart'},
         title: { text: this.chartTitle },
-        subtitle: { text: 'Stock chart' },
-        series: [{ type: 'ohlc', data: [[6,8,4,5], [6,9,5,8]] }, { data: [] }]
+        subtitle: { text: '2nd chart' },
+        series: [{ type: 'column', data: [4,3,2,6] }, { data: [] }]
       }
     },
     {
     	hcOptions: {
-        chart: {renderTo:'thirdChart'},
         title: { text: this.chartTitle },
-        subtitle: { text: 'Could be a map chart' },
+        subtitle: { text: '3rd chart' },
         series: [{ type: 'scatter', data: [1,2,3,4,5] }, { data: [] }]
       }
     }
