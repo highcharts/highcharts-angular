@@ -5,7 +5,7 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
   template: ''
 })
 
-export class ChartComponent {
+export class HighchartsChartComponent {
   constructor(private el: ElementRef) { };
 
   chart: any;

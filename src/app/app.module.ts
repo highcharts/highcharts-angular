@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { ChartComponent } from './chart/chart.component';
+import { HighchartsChartComponent } from './highcharts-chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChartComponent
+    HighchartsChartComponent
   ],
   imports: [
     BrowserModule,

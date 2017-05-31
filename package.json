@@ -1,6 +1,7 @@
 {
   "name": "highcharts-angular",
   "version": "0.1.0",
+  "main": "index.js",
   "description": "Highcharts component for Angular.",
   "repository": {
     "type": "git",
