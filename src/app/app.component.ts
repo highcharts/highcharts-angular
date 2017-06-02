@@ -2,7 +2,7 @@ declare var require: any
 
 import { Component } from '@angular/core';
 
-import * as Highcharts from 'highcharts/highstock.src';
+import * as Highcharts from 'highcharts/highstock';
 import * as HC_map from 'highcharts/modules/map';
 import * as HC_myMap from './worldmap.js';
 import * as HC_exporting from 'highcharts/modules/exporting';
@@ -12,6 +12,14 @@ HC_map(Highcharts);
 HC_myMap(Highcharts);
 HC_exporting(Highcharts);
 HC_ce(Highcharts);
+
+Highcharts.setOptions({
+  title: {
+    style: {
+      color: 'orange'
+    }
+  }
+});
 
 @Component({
   selector: 'app-root',

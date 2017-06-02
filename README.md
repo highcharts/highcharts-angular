@@ -60,11 +60,11 @@ Next, in the app.component's template add Highcharts-angular component selector 
 
 
 
-### Available options explained
+### Options details
 
 1. `[Highcharts]="Highcharts"`
 
-`[Highcharts]` is a required variable that must be passed to Highcharts-angular component. It's Highcharts instance optionally with initialized **modules**, **plugin**, **maps**, **wrappers**. 
+`[Highcharts]` is a required variable that must be passed to Highcharts-angular component. It's Highcharts instance optionally with initialized **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. 
 
 
 #### Core
@@ -128,7 +128,7 @@ If a plugin doesn't support loading through NPM you could treat it as a wrapper 
 
 #### To load a **map** for Highmaps
 
-A map is JSON type file containing mapData code used when a chart is created. Download a map from [official Highcharts map collection](http://code.highcharts.com/mapdata/) in Javascript format or use a [custom map](https://www.highcharts.com/docs/maps/custom-maps) and add it to your app. Edit the file, so it could be loaded like a module by adding to beginning and end of a file code below:
+A map is JSON type file containing mapData code used when a chart is created. Download a map from [official Highcharts map collection](http://code.highcharts.com/mapdata/) in Javascript format or use a [custom map](https://www.highcharts.com/docs/maps/custom-maps) and add it to your app. Edit the map file, so it could be loaded like a module by adding to beginning and end of a file code below:
 
 ```js
 (function (factory) {
@@ -211,19 +211,31 @@ HC_myWrapper(Highcharts);
 Where `relative-path-to-the-wrapper-file` should be relative (for the module importing the wrapper) path to the wrapper file and `wrapper-file-name` should be the name of the wrapper file.
 
 
-### After Highcharts instance is ready
+#### To to use **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**
 
-It's ready when you import core and initialize all optional files that you want to add.
+The best place to use `setOptions` is afer your Highcharts instance is ready and before Highcharts variable is set in the main component. Example:
 
-In the component that will be using creating charts via Highcharts-angular component set local variable Highcharts and assign to it the Highcharts instance. This will be passed later (on `[Highcharts]="Highcharts"`) to Highcharts-angular component when creating a chart.
+```
+import * as Highcharts from 'highcharts/highstock';
+import * as HC_map from 'highcharts/modules/map';
+import * as HC_myMap from './worldmap.js';
 
-```ts
+HC_map(Highcharts);
+HC_myMap(Highcharts);
+
+Highcharts.setOptions({
+  title: {
+    style: {
+      color: 'orange'
+    }
+  }
+});
+
 ...
+
 export class AppComponent {
   Highcharts = Highcharts;
-  ...
-```
-
+``` 
 
 
 2. `[constructorType]="chartConstructor"`
@@ -253,3 +265,19 @@ A callback function for the created chart. First argument for the function will 
 5. `[(update)]="updateFlag"`
 
 A boolean to trigger update on a chart as Angular is not detecting nested changes in a object passed to a component. Set corresponding variable to true and after update on a chart is done it will be changed asynchronously to false by Highcharts-angular component.
+
+
+
+
+### After Highcharts instance is ready
+
+It's ready when you import core and initialize all optional files that you want to add.
+
+In the component that will be using creating charts via Highcharts-angular component set local variable Highcharts and assign to it the Highcharts instance. This will be passed later (on `[Highcharts]="Highcharts"`) to Highcharts-angular component when creating a chart.
+
+```ts
+...
+export class AppComponent {
+  Highcharts = Highcharts;
+  ...
+```
