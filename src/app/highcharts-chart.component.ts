@@ -18,7 +18,6 @@ export class HighchartsChartComponent {
     this.optionsValue = val;
     this.updateOrCreateChart();
   }
-
   updateValue = false;
   @Output() updateChange = new EventEmitter(true);
   @Input() set update(val) {
@@ -37,6 +36,7 @@ export class HighchartsChartComponent {
         this.optionsValue,
         this.callbackFunction || null
       );
+      this.optionsValue.series = this.chart.userOptions.series;
     }
   }
 }

@@ -1,6 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    
+    "allowJs": true,
+
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,

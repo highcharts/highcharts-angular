@@ -1,5 +1,5 @@
 <div style="width: 100%; float: left;">
-  <h2>Demo #1: basic editor</h2>
+  <h2>Demo #1: Highcharts with a basic editor</h2>
   <div style="width:30%; float: left;">
     <button (click)="updateInputChart()">Update chart</button>
     <br/>
@@ -24,7 +24,7 @@
 <hr/>
 
 <div style="width: 100%; float: left;">
-  <h2>Demo #2: simple updates</h2>
+  <h2>Demo #2: Highstock with simple updates</h2>
   <div style="width:30%; float: left;">
     <p>Chart title text: </p>
     <input 
@@ -41,12 +41,25 @@
   <div style="width:65%; float: left;">
     <highcharts-chart
       [Highcharts]="Highcharts"
-      [constructorType]="charts[usedIndex].hcConstructor"
+      [constructorType]="'stockChart'"
       [options]="charts[usedIndex].hcOptions"
-      [callbackFunction]="charts[usedIndex].hcCallback"
+      [callbackFunction]="charts[0].hcCallback"
       [(update)]="updateDemo2"
 
       style="width: 100%; height: 350px; display: block;"
     ></highcharts-chart>
   </div>
+</div>
+<br/>
+<hr/>
+
+<div style="width: 100%; float: left;">
+  <h2>Demo #3: Highmaps map chart</h2>
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [constructorType]="'mapChart'"
+    [options]="chartMap"
+
+    style="width: 100%; height: 650px; display: block;"
+  ></highcharts-chart>
 </div>
