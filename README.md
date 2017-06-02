@@ -153,7 +153,7 @@ Highcharts.maps["myMapName"] =
 ```
 Where `"myMapName"` is yours map name that will be used when creating charts. Next, you will be loading a local .js file, so you should add in `tsconfig.json` in your app `allowJs: true`:
 
-```json
+```js
 ...
 "compilerOptions": {
     "allowJs": true,
@@ -193,7 +193,7 @@ A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-high
 
 Next, you will be loading a local .js file, so you should add in `tsconfig.json` in your app `allowJs: true`:
 
-```json
+```js
 ...
 "compilerOptions": {
     "allowJs": true,
@@ -226,7 +226,7 @@ export class AppComponent {
 
 
 
-1. [constructorType]="chartConstructor"
+2. `[constructorType]="chartConstructor"`
 
 A string for [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). The option is optional and defaults to `'chart'`. Possible values:
 
@@ -238,18 +238,18 @@ A string for [constructor method](https://www.highcharts.com/docs/getting-starte
 
 
 
-1. [options]="chartOptions"
+3. `[options]="chartOptions"`
 
 `[options]` is a required variable that must be passed to Highcharts-angular component. Possible chart options could be found in [Highcharts API reference](http://api.highcharts.com/highcharts).
 
 
 
-1. [callbackFunction]="chartCallback"
+4. `[callbackFunction]="chartCallback"`
 
 A callback function for the created chart. First argument for the function will hold the created chart and default `this` in the function points to the chart. The option is optional.
 
 
 
-1. [(update)]="updateFlag"
+5. `[(update)]="updateFlag"`
 
 A boolean to trigger update on a chart as Angular is not detecting nested changes in a object passed to a component. Set corresponding variable to true and after update on a chart is done it will be changed asynchronously to false by Highcharts-angular component.
