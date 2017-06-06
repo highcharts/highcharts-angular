@@ -27,7 +27,7 @@ In your app.module.ts add the HighchartsChartComponent:
 
 ```ts
 ...
-import { HighchartsChartComponent } from 'blacklabel/highcharts-angular';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 @NgModule({
   declarations: [
