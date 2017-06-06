@@ -1,7 +1,8 @@
 {
   "name": "highcharts-angular",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "index",
+  "typings": "index",
   "description": "Highcharts component for Angular.",
   "repository": {
     "type": "git",
@@ -36,7 +37,6 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "core-js": "^2.4.1",
-    "highcharts-custom-events": "^2.0.16",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
@@ -58,6 +58,8 @@
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
     "typescript": "~2.2.0",
-    "highcharts": "^5.0.0"
+
+    "highcharts": "^5.0.0",
+    "highcharts-custom-events": "^2.0.16"
   }
 }
