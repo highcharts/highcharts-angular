@@ -35,13 +35,19 @@ import { HighchartsChartComponent } from 'highcharts-angular';
     ...
 ```
 
-In a component that will be building your Highcharts charts you will need to [import Highcharts](https://www.highcharts.com/docs/getting-started/install-from-npm) first.
+In a component that will be building your Highcharts charts you will need to [import Highcharts](https://www.highcharts.com/docs/getting-started/install-from-npm) first, so in system console, while in your Angular app:
+
+```cli
+npm install highcharts --save
+```
+
+Next, in the app.component.ts, in top lines where other `import`s are add another one for Highcharts:
 
 ```ts
 import * as Highcharts from 'highcharts';
 ```
 
-Next, in the app.component's template add Highcharts-angular component selector `highcharts-chart`
+In the same file (app.component.ts) add to the **template** Highcharts-angular component selector `highcharts-chart`:
 
 ```html
 <highcharts-chart 
@@ -57,6 +63,21 @@ Next, in the app.component's template add Highcharts-angular component selector 
 ></highcharts-chart>
 ```
 
+Right side names, in double quotes, are just names of variables you are going to set next, so you could name then whatever you like. Style at the bottom of the selector is optional, but browsers do not know how to display `<highcharts-chart>`, so you should set some styles.
+
+In the same file (app.component.ts) all variables should be set in `export class AppComponent {` like:
+
+```ts
+export class AppComponent {
+  Highcharts = Highcharts; // required
+  chartConstructor = 'chart'; // optional string, defaults to 'chart'
+  chartOptions = { ... }; // required
+  chartCallback = function (chart) { ... } // optional, defaults to null
+  updateFlag = false; // optional
+  ...
+```
+
+Used options are explained [below](#options-details).
 
 
 
@@ -64,8 +85,45 @@ Next, in the app.component's template add Highcharts-angular component selector 
 
 1. `[Highcharts]="Highcharts"`
 
-`[Highcharts]` is a required variable that must be passed to Highcharts-angular component. It's Highcharts instance optionally with initialized **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. 
+The option is **required**. This is a Highcharts instance with **required core** and optional **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. More detail for the option in [the next documentation section](#highcharts-instance-details).
 
+
+
+2. `[constructorType]="chartConstructor"`
+
+The option is **optional**. This is a string for [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Possible values:
+
+* `'chart'` - for standard Highcharts constructor - for any Highcharts instance, this is **default value**
+
+* `'stockChart'` - for Highstock constructor - Highstock is required
+
+* `'mapChart'` - for Highmaps constructor - Highmaps or map module is required
+
+
+
+3. `[options]="chartOptions"`
+
+The option is **required**. Possible chart options could be found in [Highcharts API reference](http://api.highcharts.com/highcharts). Minimal working object that could be set for basic testing is `{ series:[{ data:[1, 2] }] }`.
+
+
+
+4. `[callbackFunction]="chartCallback"`
+
+The option is **optional**. A callback function for the created chart. First argument for the function will hold the created **chart**. Default `this` in the function points to the **chart**.
+
+
+
+5. `[(update)]="updateFlag"`
+
+The option is **optional**. A boolean to trigger update on a chart as Angular is not detecting nested changes in a object passed to a component. Set corresponding variable (`updateFlag` in the example) to `true` and after update on a chart is done it will be changed asynchronously to `false` by Highcharts-angular component.
+
+
+
+
+
+### Highcharts instance details
+
+This is a Highcharts instance optionally with initialized **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
 
 #### Core
 
@@ -236,48 +294,3 @@ Highcharts.setOptions({
 export class AppComponent {
   Highcharts = Highcharts;
 ``` 
-
-
-2. `[constructorType]="chartConstructor"`
-
-A string for [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). The option is optional and defaults to `'chart'`. Possible values:
-
-* `'chart'` - for standard Highcharts constructor - for any Highcharts instance
-
-* `'stockChart'` - for Highstock constructor - Highstock is required
-
-* `'mapChart'` - for Highmaps constructor - Highmaps or map module is required
-
-
-
-3. `[options]="chartOptions"`
-
-`[options]` is a required variable that must be passed to Highcharts-angular component. Possible chart options could be found in [Highcharts API reference](http://api.highcharts.com/highcharts).
-
-
-
-4. `[callbackFunction]="chartCallback"`
-
-A callback function for the created chart. First argument for the function will hold the created chart and default `this` in the function points to the chart. The option is optional.
-
-
-
-5. `[(update)]="updateFlag"`
-
-A boolean to trigger update on a chart as Angular is not detecting nested changes in a object passed to a component. Set corresponding variable to true and after update on a chart is done it will be changed asynchronously to false by Highcharts-angular component.
-
-
-
-
-### After Highcharts instance is ready
-
-It's ready when you import core and initialize all optional files that you want to add.
-
-In the component that will be using creating charts via Highcharts-angular component set local variable Highcharts and assign to it the Highcharts instance. This will be passed later (on `[Highcharts]="Highcharts"`) to Highcharts-angular component when creating a chart.
-
-```ts
-...
-export class AppComponent {
-  Highcharts = Highcharts;
-  ...
-```
