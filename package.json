@@ -59,7 +59,6 @@
     "tslint": "~4.5.0",
     "typescript": "~2.2.0",
 
-    "highcharts": "^5.0.0",
-    "highcharts-custom-events": "^2.0.16"
+    "highcharts": "^5.0.0"
   }
 }
