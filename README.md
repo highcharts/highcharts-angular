@@ -20,7 +20,7 @@ Tested and required versions:
 Get package from NPM in your Angular app:
 
 ```cli
-npm install blacklabel/highcharts-angular
+npm install highcharts/highcharts-angular
 ```
 
 In your app.module.ts add the HighchartsChartComponent:
