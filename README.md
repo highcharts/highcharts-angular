@@ -1,10 +1,26 @@
 # Highcharts Angular
 Official minimal Highcharts wrapper for Angular
 
+## Table of Contents
+1. [Getting started](#getting-started)
+    1.1 [General prerequisites](#general-prerequisites)
+    1.2 [Installing](#installing)
+    1.3 [Hello world demo](#options-details)
+2. [Options details](#options-details)
+3. [Highcharts instance details](#highcharts-instance-details)
+    3.1 [Core](#core)
+    3.2 [To load a module](#to-load-a-module)
+    3.3 [To load a plugin](#to-load-a-plugin)
+    3.4 [To load a map for Highmaps](#to-load-a-map-for-highmaps)
+    3.5 [To load a wrapper](#to-load-a-wrapper)
+    3.5 [To use setOptions](#to-use-setoptions)
+4. [Demo app](#demo-app)
+    4.1 [Play with the app](#play-with-the-app)
+    4.2 [Files to play with](#files-to-play-with)
+
+
+
 ## Getting started
-
-
-
 
 ### General prerequisites
 
@@ -79,15 +95,43 @@ export class AppComponent {
 
 Used options are explained [below](#options-details).
 
+### Hello world demo
+
+To create a simple demo start with [installing](#installing).
+
+Next for `app.component.ts`'s HTML template use:
+
+```html
+<highcharts-chart 
+  [Highcharts]="Highcharts"
+  [options]="chartOptions"
+
+  style="width: 100%; height: 400px; display: block;"
+></highcharts-chart>
+```
+
+and export variables:
+
+```ts
+export class AppComponent {
+  Highcharts = Highcharts;
+  chartOptions = {
+    series: [{
+      data: [1, 2, 3]
+    }]
+  };
+  ...
+```
+
+Build and run your Angluar app to see a basic line chart.
 
 
-### Options details
+
+## Options details
 
 1. `[Highcharts]="Highcharts"`
 
 The option is **required**. This is a Highcharts instance with **required core** and optional **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. More detail for the option in [the next documentation section](#highcharts-instance-details).
-
-
 
 2. `[constructorType]="chartConstructor"`
 
@@ -99,19 +143,13 @@ The option is **optional**. This is a string for [constructor method](https://ww
 
 * `'mapChart'` - for Highmaps constructor - Highmaps or map module is required
 
-
-
 3. `[options]="chartOptions"`
 
 The option is **required**. Possible chart options could be found in [Highcharts API reference](http://api.highcharts.com/highcharts). Minimal working object that could be set for basic testing is `{ series:[{ data:[1, 2] }] }`.
 
-
-
 4. `[callbackFunction]="chartCallback"`
 
 The option is **optional**. A callback function for the created chart. First argument for the function will hold the created **chart**. Default `this` in the function points to the **chart**.
-
-
 
 5. `[(update)]="updateFlag"`
 
@@ -119,13 +157,11 @@ The option is **optional**. A boolean to trigger update on a chart as Angular is
 
 
 
+## Highcharts instance details
 
+This is a Highcharts instance optionally with initialized **[modules](#to-load-a-module)**, **[plugins](#to-load-a-plugin)**, **[maps](#to-load-a-map-for-highmaps)**, **[wrappers](#to-load-a-wrapper)** and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
 
-### Highcharts instance details
-
-This is a Highcharts instance optionally with initialized **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
-
-#### Core
+### Core
 
 As core you could load **Highcharts**, **Highstock** or **Highmaps**.
 
@@ -153,8 +189,7 @@ import * as HC_map from 'highcharts/modules/map';
 HC_map(Highcharts);
 ```
 
-
-#### To load a **module** 
+### To load a module
 
 A module is a Highcharts official addon. After Highcharts is imported using Highcharts, Highstock or Highmaps use `require` and initialize each module on the Highcharts variable.
 
@@ -170,8 +205,7 @@ import * as HC_exporting from 'highcharts/modules/exporting';
 HC_exporting(Highcharts);
 ```
 
-
-#### To load a **plugin**
+### To load a plugin
 
 A plugin is a third party/community made Highcharts addon (plugins are listed in the [Highcharts plugin registry](https://www.highcharts.com/plugin-registry)). First, make sure that a plugin support loading over NPM and load the required files. In example [Custom-Events](https://www.highcharts.com/plugin-registry/single/15/Custom-Events) supports NPM loading, so after installing the package you could initialize it like:
 
@@ -183,8 +217,7 @@ HC_customEvents(Highcharts);
 
 If a plugin doesn't support loading through NPM you could treat it as a wrapper - see instructions below.
 
-
-#### To load a **map** for Highmaps
+### To load a map for Highmaps
 
 A map is JSON type file containing mapData code used when a chart is created. Download a map from [official Highcharts map collection](http://code.highcharts.com/mapdata/) in Javascript format or use a [custom map](https://www.highcharts.com/docs/maps/custom-maps) and add it to your app. Edit the map file, so it could be loaded like a module by adding to beginning and end of a file code below:
 
@@ -228,8 +261,7 @@ HC_myMap(Highcharts);
 
 Where `relative-path-to-the-map-file` should be relative (for the module importing the map) path to the map file and `map-file-name` should be the name of the map file.
 
-
-#### To load a **wrapper**
+### To load a wrapper
 
 A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-highcharts/extending-highcharts) for Highcharts. To load a wrapper the same way as a module you could save it as a Javascript file and edit it by adding to beginning and end of a file same code as for a map:
 
@@ -268,8 +300,7 @@ HC_myWrapper(Highcharts);
 
 Where `relative-path-to-the-wrapper-file` should be relative (for the module importing the wrapper) path to the wrapper file and `wrapper-file-name` should be the name of the wrapper file.
 
-
-#### To to use **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**
+### To use [`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)
 
 The best place to use `setOptions` is afer your Highcharts instance is ready and before Highcharts variable is set in the main component. Example:
 
@@ -296,9 +327,10 @@ export class AppComponent {
 ``` 
 
 
-## Demo
 
-Download the contante of this github repository.
+## Demo app
+
+Download the content of this github repository.
 
 In system console, in main repo folder run:
 
@@ -315,11 +347,11 @@ To open on a different port, for example `12345`, use:
 npm start -- --port 12345
 ```
 
-## Play with the app:
+### Play with the app
 
 Keep the console running and change some files - after a save the app will rebuild and refresh the localhost preview.
 
-## Files to play with:
+### Files to play with
 
 * **app.component.ts** (in `src\app`)
 
