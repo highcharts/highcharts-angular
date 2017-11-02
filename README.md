@@ -5,7 +5,7 @@ Official minimal Highcharts wrapper for Angular
 1. [Getting started](#getting-started)
     1. [General prerequisites](#general-prerequisites)
     2. [Installing](#installing)
-    3. [Hello world demo](#options-details)
+    3. [Hello world demo](#hello-world-demo)
 2. [Options details](#options-details)
 3. [Highcharts instance details](#highcharts-instance-details)
     1. [Core](#core)
