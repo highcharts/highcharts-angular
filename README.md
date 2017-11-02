@@ -3,20 +3,20 @@ Official minimal Highcharts wrapper for Angular
 
 ## Table of Contents
 1. [Getting started](#getting-started)
-    1.1 [General prerequisites](#general-prerequisites)
-    1.2 [Installing](#installing)
-    1.3 [Hello world demo](#options-details)
+    1. [General prerequisites](#general-prerequisites)
+    2. [Installing](#installing)
+    3. [Hello world demo](#options-details)
 2. [Options details](#options-details)
 3. [Highcharts instance details](#highcharts-instance-details)
-    3.1 [Core](#core)
-    3.2 [To load a module](#to-load-a-module)
-    3.3 [To load a plugin](#to-load-a-plugin)
-    3.4 [To load a map for Highmaps](#to-load-a-map-for-highmaps)
-    3.5 [To load a wrapper](#to-load-a-wrapper)
-    3.5 [To use setOptions](#to-use-setoptions)
+    1. [Core](#core)
+    2. [To load a module](#to-load-a-module)
+    3. [To load a plugin](#to-load-a-plugin)
+    4. [To load a map for Highmaps](#to-load-a-map-for-highmaps)
+    5. [To load a wrapper](#to-load-a-wrapper)
+    6. [To use setOptions](#to-use-setoptions)
 4. [Demo app](#demo-app)
-    4.1 [Play with the app](#play-with-the-app)
-    4.2 [Files to play with](#files-to-play-with)
+    1. [Play with the app](#play-with-the-app)
+    2. [Files to play with](#files-to-play-with)
 
 
 
