@@ -4,12 +4,12 @@ import { Component } from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
 import * as HC_map from 'highcharts/modules/map';
-import * as HC_myMap from './worldmap.js';
 import * as HC_exporting from 'highcharts/modules/exporting';
 import * as HC_ce from 'highcharts-custom-events';
 
 HC_map(Highcharts);
-HC_myMap(Highcharts);
+require('../../js/worldmap')(Highcharts);
+
 HC_exporting(Highcharts);
 HC_ce(Highcharts);
 

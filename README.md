@@ -251,15 +251,18 @@ Where `"myMapName"` is yours map name that will be used when creating charts. Ne
     ...
 ```
 
-The map is ready to be imported to your app.
+The map is ready to be imported to your app. Use `require` instead of import to prevent TS5055 errors.
 
 ```ts
 import * as Highcharts from 'highcharts/highmaps';
-import * as HC_myMap from './relative-path-to-the-map-file/map-file-name';
-HC_myMap(Highcharts);
+require('./relative-path-to-the-map-file/map-file-name')(Highcharts);
 ```
 
 Where `relative-path-to-the-map-file` should be relative (for the module importing the map) path to the map file and `map-file-name` should be the name of the map file.
+
+The file should be placed in a directory that is not checked by typeScript. See example in this repository:
+- config in 'tsconfig.json'
+- map file in 'js' directory
 
 ### To load a wrapper
 
@@ -290,15 +293,18 @@ Next, you will be loading a local .js file, so you should add in `tsconfig.json`
     ...
 ```
 
-The wrapper is ready to be imported to your app.
+The wrapper is ready to be imported to your app. Use `require` instead of import to prevent TS5055 errors.
 
 ```ts
 import * as Highcharts from 'highcharts';
-import * as HC_myWrapper from './relative-path-to-the-wrapper-file/wrapper-file-name';
-HC_myWrapper(Highcharts);
+require('./relative-path-to-the-wrapper-file/wrapper-file-name')(Highcharts);
 ```
 
 Where `relative-path-to-the-wrapper-file` should be relative (for the module importing the wrapper) path to the wrapper file and `wrapper-file-name` should be the name of the wrapper file.
+
+The file should be placed in a directory that is not checked by typeScript. See example in this repository:
+- config in 'tsconfig.json'
+- map file in 'js' directory
 
 ### To use [`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)
 
@@ -307,10 +313,8 @@ The best place to use `setOptions` is afer your Highcharts instance is ready and
 ```
 import * as Highcharts from 'highcharts/highstock';
 import * as HC_map from 'highcharts/modules/map';
-import * as HC_myMap from './worldmap.js';
 
 HC_map(Highcharts);
-HC_myMap(Highcharts);
 
 Highcharts.setOptions({
   title: {
