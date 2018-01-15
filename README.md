@@ -95,6 +95,25 @@ export class AppComponent {
 
 Used options are explained [below](#options-details).
 
+
+#### Addition for Angular v5 to resolve a build fail:
+
+Include the component in `tsconfig.json` in `include`:
+
+```js
+{
+  /* ... */
+  "compilerOptions": {
+    /* ... */
+  },
+  "include": [
+    "src/**/*",
+    "node_modules/highcharts-angular/src/app/*"
+  ]
+}
+```
+
+
 ### Hello world demo
 
 To create a simple demo start with [installing](#installing).
