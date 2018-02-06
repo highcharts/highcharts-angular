@@ -123,7 +123,8 @@ export class AppComponent {
           [3, 10, -3, 3]
         ]
       }]
-    }
+    },
+    hcCallback: () => {}
   }, {
   	hcOptions: {
       title: { text: this.chartTitle },
@@ -141,7 +142,8 @@ export class AppComponent {
           0
         ]
       }]
-    }
+    },
+    hcCallback: () => {}
   }];
 
   //----------------------------------------------------------------------

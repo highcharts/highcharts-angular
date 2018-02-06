@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     
-    "allowJs": true,
+    "allowJs": false,
 
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
@@ -19,5 +19,9 @@
       "es2016",
       "dom"
     ]
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "preserveWhiteSpaces": false
   }
 }

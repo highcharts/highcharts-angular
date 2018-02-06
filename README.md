@@ -269,6 +269,7 @@ Where `"myMapName"` is yours map name that will be used when creating charts. Ne
     "allowJs": true,
     ...
 ```
+__Notice: this is not required for all Typescript / Angular versions - you can build the demo app with `allowJs` set to `false` for some cases. This part of the documentation will be revisited after Typescript / Angular further changes regarding this issue.__
 
 The map is ready to be imported to your app. Use `require` instead of import to prevent TS5055 errors.
 
