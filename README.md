@@ -36,7 +36,7 @@ Tested and required versions:
 Get package from NPM in your Angular app:
 
 ```cli
-npm install highcharts/highcharts-angular
+npm install highcharts-angular
 ```
 
 In your app.module.ts add the HighchartsChartComponent:
@@ -74,6 +74,7 @@ In the same file (app.component.ts) add to the **template** Highcharts-angular c
   [callbackFunction]="chartCallback"
 
   [(update)]="updateFlag"
+  [oneToOne]="oneToOneFlag"
 
   style="width: 100%; height: 400px; display: block;"
 ></highcharts-chart>
@@ -88,8 +89,9 @@ export class AppComponent {
   Highcharts = Highcharts; // required
   chartConstructor = 'chart'; // optional string, defaults to 'chart'
   chartOptions = { ... }; // required
-  chartCallback = function (chart) { ... } // optional, defaults to null
-  updateFlag = false; // optional
+  chartCallback = function (chart) { ... } // optional function, defaults to null
+  updateFlag = false; // optional boolean
+  oneToOneFlag = true; // optional boolean, defaults to false
   ...
 ```
 
@@ -173,6 +175,12 @@ The option is **optional**. A callback function for the created chart. First arg
 5. `[(update)]="updateFlag"`
 
 The option is **optional**. A boolean to trigger update on a chart as Angular is not detecting nested changes in a object passed to a component. Set corresponding variable (`updateFlag` in the example) to `true` and after update on a chart is done it will be changed asynchronously to `false` by Highcharts-angular component.
+
+6. `[oneToOne]="oneToOneFlag"`
+
+The option is **optional**, defaults to `false`. The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When true, the `series`, `xAxis` and `yAxis` collections will be updated one to one, and items will be either added or removed to match the new updated options. For example, if the chart has **two** series and we call `chart.update` (and this is called on each chart's data change or if `updateFlag` is set to true) with a configuration containing **three** series, **one** will be added. If we call `chart.update` with **one** series, **one** will be removed. Setting an empty series array will remove all series, but leaving out the series property will leave all series untouched. If the series have id's, the new series options will be matched by id, and the remaining ones removed.
+
+The options is presented in [the demo](#demo-app) in the first chart - try setting new chart options with different amounts of series in [the textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see this options in action.
 
 
 

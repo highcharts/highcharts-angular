@@ -26,10 +26,11 @@ export class HighchartsChartComponent {
       this.updateChange.emit(false); // clear the flag after update
     }
   }
+  @Input() oneToOne: boolean; //#20
   
   updateOrCreateChart = function () {
     if (this.chart && this.chart.update) {
-      this.chart.update(this.optionsValue);
+      this.chart.update(this.optionsValue, true, this.oneToOne || false);
     } else {
       this.chart = this.Highcharts[this.constructorType || 'chart'](
         this.el.nativeElement,
