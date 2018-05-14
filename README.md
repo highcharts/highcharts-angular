@@ -144,7 +144,7 @@ export class AppComponent {
   ...
 ```
 
-Build and run your Angluar app to see a basic line chart.
+Build and run your Angular app to see a basic line chart.
 
 
 
