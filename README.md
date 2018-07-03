@@ -36,7 +36,7 @@ Tested and required versions:
 Get package from NPM in your Angular app:
 
 ```cli
-npm install highcharts-angular
+npm install highcharts-angular --save
 ```
 
 In your app.module.ts add the HighchartsChartComponent:
