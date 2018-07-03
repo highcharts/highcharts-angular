@@ -5,7 +5,7 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
   template: ''
 })
 export class HighchartsChartComponent {
-  constructor(private el: ElementRef) { };
+  constructor(private el: ElementRef) {}
 
   chart: any;
   @Input() Highcharts: any;
@@ -18,7 +18,7 @@ export class HighchartsChartComponent {
     this.updateOrCreateChart();
   }
   updateValue = false;
-  @Output() updateChange = new EventEmitter(true);
+  @Output() updateChange = new EventEmitter<boolean>(true);
   @Input() set update(val: boolean) {
     if (val) {
       this.updateOrCreateChart();

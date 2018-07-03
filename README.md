@@ -29,26 +29,26 @@ Tested and required versions:
 
 * node 6.10.2+
 * npm 4.6.1+
-* @angular/cli 1.0.1+
+* @angular/cli 6.0.0+
 
 ### Installing
 
 Get package from NPM in your Angular app:
 
 ```cli
-npm install highcharts-angular
+npm install highcharts-angular --save
 ```
 
-In your app.module.ts add the HighchartsChartComponent:
+In your app.module.ts add the HighchartsChartModule:
 
 ```ts
 ...
-import { HighchartsChartComponent } from 'highcharts-angular';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
-  declarations: [
-    HighchartsChartComponent,
+  imports: [
     ...
+    HighchartsChartModule
 ```
 
 In a component that will be building your Highcharts charts you will need to [import Highcharts](https://www.highcharts.com/docs/getting-started/install-from-npm) first, so in system console, while in your Angular app:
@@ -96,24 +96,6 @@ export class AppComponent {
 ```
 
 Used options are explained [below](#options-details).
-
-
-#### Addition for Angular v5 to resolve a build fail:
-
-Include the component in `tsconfig.json` in `include`:
-
-```js
-{
-  /* ... */
-  "compilerOptions": {
-    /* ... */
-  },
-  "include": [
-    "src/**/*",
-    "node_modules/highcharts-angular/src/app/*"
-  ]
-}
-```
 
 
 ### Hello world demo
@@ -362,7 +344,7 @@ export class AppComponent {
 
 ## Demo app
 
-Download the content of this github repository.
+Download (or clone) the contents of this github repository.
 
 In system console, in main repo folder run:
 
@@ -392,3 +374,22 @@ Contains Angular main component that uses the *chart* component.
 * **chart.component.ts** (in `src\app\chart`)
 
 Contains the chart component that creates Highcharts chart.
+
+
+## Developing/Changing the highcharts-angular Component
+
+Using Angular CLI v6, the library must be manually rebuilt on each change 
+in order to reflect in the demo app. 
+
+Run the following command on each change to the `highcharts-chart.component.ts` file:
+
+```
+npm run build
+``` 
+
+If you are running the demo app in another terminal window when you rebuild the
+library, the changes should be reflected in your browser (note: you may need to 
+refresh the browser a second time after the live reload in order to see the change).
+
+See [https://github.com/angular/angular-cli/wiki/stories-create-library](https://github.com/angular/angular-cli/wiki/stories-create-library)
+for details on library builds.

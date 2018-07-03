@@ -1,38 +1,24 @@
 {
-  "name": "highcharts-angular",
-  "version": "1.0.2",
+  "name": "highcharts-angular-project",
+  "private": true,
+  "description": "Project to develop the Highcharts component for Angular. See the ./highcharts-angular folder for published project.",
+  "version": "0.0.0",
   "license": "SEE LICENSE IN <LICENSE>",
-  "main": "index",
-  "typings": "index",
-  "description": "Highcharts component for Angular.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/highcharts/highcharts-angular"
-  },
-  "keywords": [
-    "highcharts",
-    "highstock",
-    "highmaps",
-    "angular"
-  ],
   "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
-  "bugs": {
-    "url": "https://github.com/highcharts/highcharts-angular/issues"
-  },
-  "homepage": "https://github.com/highcharts/highcharts-angular#readme",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
+    "start": "node tasks/build.js && ng serve --open",
+    "build": "node tasks/build.js",
+    "test": "ng test highcharts-angular",
+    "lint": "ng lint highcharts-angular",
+    "publish": "node tasks/build.js && node tasks/publish.js",
     "e2e": "ng e2e"
   },
   "dependencies": {
-    "@angular/animations": "^5.2.0",
     "@angular/common": "^5.2.0",
-    "@angular/compiler": "^5.2.0",
     "@angular/core": "^5.2.0",
+    "@angular/compiler": "^5.2.0",
+    "@angular/animations": "^5.2.0",
     "@angular/forms": "^5.2.0",
     "@angular/http": "^5.2.0",
     "@angular/platform-browser": "^5.2.0",
@@ -45,8 +31,14 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "~1.7.3",
     "@angular/compiler-cli": "^5.2.0",
+    "@angular-devkit/build-ng-packagr": "~0.6.8",
+    "@angular-devkit/build-angular": "~0.6.8",
+    "ng-packagr": "^3.0.0-rc.2",
+    "tsickle": ">=0.25.5",
+    "tslib": "^1.7.1",
+    "typescript": "~2.5.3",
+    "@angular/cli": "^6.0.8",
     "@angular/language-service": "^5.2.0",
     "@types/highcharts": "^5.0.23",
     "@types/jasmine": "~2.8.3",
@@ -62,7 +54,6 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
-    "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "tslint": "~5.9.1"
   }
 }
