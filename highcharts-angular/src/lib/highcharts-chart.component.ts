@@ -25,7 +25,7 @@ export class HighchartsChartComponent {
       this.updateChange.emit(false); // clear the flag after update
     }
   }
-  @Input() oneToOne: boolean; //#20
+  @Input() oneToOne: boolean; // #20
 
   updateOrCreateChart() {
     if (this.chart && this.chart.update) {

@@ -9,11 +9,11 @@ const child_process = require( 'child_process' ),
 
 const rootDir = path.normalize( __dirname + '/..' ),
       distDir = `${rootDir}/dist/highcharts-angular`,
-      ng = `${rootDir}${path.sep}node_modules${path.sep}.bin${path.sep}ng`;
+      ngLocation = `${rootDir}/node_modules/@angular/cli/bin/ng`.replace( /\//g, path.sep );
 
 
 // Build the package
-child_process.spawnSync( ng, [ 'build', 'highcharts-angular' ], { cwd: rootDir, stdio: 'inherit' } );
+child_process.spawnSync( 'node', [ ngLocation, 'build', 'highcharts-angular' ], { cwd: rootDir, stdio: 'inherit' } );
 
 // Copy License and Readme to package
 console.log( 'Copying ./LICENSE to dist/highcharts-angular/LICENSE' );
