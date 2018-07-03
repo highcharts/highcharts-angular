@@ -1,11 +1,11 @@
-declare var require: any
+declare var require: any;
 
 import { Component } from '@angular/core';
 
 import * as Highcharts from 'highcharts/highstock';
-import * as HC_map from 'highcharts/modules/map';
-import * as HC_exporting from 'highcharts/modules/exporting';
-import * as HC_ce from 'highcharts-custom-events';
+const HC_map = require('highcharts/modules/map');
+const HC_exporting = require('highcharts/modules/exporting');
+const HC_ce = require('highcharts-custom-events');
 
 HC_map(Highcharts);
 require('../../js/worldmap')(Highcharts);
@@ -46,22 +46,22 @@ export class AppComponent {
   optFromInput = JSON.parse(this.optFromInputString);
   updateFromInput = false;
 
-  updateInputChart = function() {
+  updateInputChart() {
     this.optFromInput = JSON.parse(this.optFromInputString);
-  };
+  }
 
-  seriesTypes = {
+  seriesTypes: {[key: string]: string} = {
     line: 'column',
     column: 'scatter',
     scatter: 'spline',
     spline: 'line'
   };
 
-  toggleSeriesType = function(index = 0) {
+  toggleSeriesType(index = 0) {
     this.optFromInput.series[index].type = this.seriesTypes[this.optFromInput.series[index].type];
     // nested change - must trigger update
     this.updateFromInput = true;
-  };
+  }
 
   //----------------------------------------------------------------------
   // Demo #2
@@ -72,7 +72,7 @@ export class AppComponent {
   chartTitle = 'My chart'; // for init - change through titleChange
 
   // change in all places
-  titleChange = function(event) {
+  titleChange(event: any) {
     var v = event;
     this.chartTitle = v;
     this.charts.forEach((el) => {
@@ -106,7 +106,7 @@ export class AppComponent {
         ]
       }]
     },
-  	hcCallback: (chart) => { console.log('some variables: ', Highcharts, chart, this.charts); }
+  	hcCallback: (chart: Highcharts.Chart) => { console.log('some variables: ', Highcharts, chart, this.charts); }
   }, {
   	hcOptions: {
       title: { text: this.chartTitle },

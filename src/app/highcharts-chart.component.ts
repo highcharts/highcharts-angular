@@ -4,7 +4,6 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
   selector: 'highcharts-chart',
   template: ''
 })
-
 export class HighchartsChartComponent {
   constructor(private el: ElementRef) { };
 
@@ -14,21 +13,21 @@ export class HighchartsChartComponent {
   @Input() callbackFunction: any;
   optionsValue: any;
   @Input()
-  set options(val) {
+  set options(val: any) {
     this.optionsValue = val;
     this.updateOrCreateChart();
   }
   updateValue = false;
   @Output() updateChange = new EventEmitter(true);
-  @Input() set update(val) {
+  @Input() set update(val: boolean) {
     if (val) {
       this.updateOrCreateChart();
       this.updateChange.emit(false); // clear the flag after update
     }
   }
   @Input() oneToOne: boolean; //#20
-  
-  updateOrCreateChart = function () {
+
+  updateOrCreateChart() {
     if (this.chart && this.chart.update) {
       this.chart.update(this.optionsValue, true, this.oneToOne || false);
     } else {
