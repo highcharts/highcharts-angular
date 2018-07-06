@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { HighchartsChartComponent } from './highcharts-chart.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HighchartsChartComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HighchartsChartModule,
     HttpModule
   ],
   providers: [],

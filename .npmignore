@@ -1,7 +1,0 @@
-# only component and npm needed files
-*
-!.npmignore
-!index.js
-!/src/app/highcharts-chart.component.ts
-!README.md
-!package.json

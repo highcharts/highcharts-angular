@@ -4,7 +4,15 @@
     "outDir": "../out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "types": [],
+    "paths": {
+      "highcharts-angular": [
+        "../dist/highcharts-angular"
+      ],
+      "highcharts-angular/*": [
+        "../dist/highcharts-angular/*"
+      ]
+    }
   },
   "exclude": [
     "test.ts",
