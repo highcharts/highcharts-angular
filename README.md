@@ -313,8 +313,8 @@ require('./relative-path-to-the-wrapper-file/wrapper-file-name')(Highcharts);
 Where `relative-path-to-the-wrapper-file` should be relative (for the module importing the wrapper) path to the wrapper file and `wrapper-file-name` should be the name of the wrapper file.
 
 The file should be placed in a directory that is not checked by typeScript. See example in this repository:
-- config in 'tsconfig.json'
-- map file in 'js' directory
+- configuration in `tsconfig.json`
+- a map file in `js` directory
 
 ### To use [`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)
 
@@ -344,7 +344,7 @@ export class AppComponent {
 
 ## Demo app
 
-Download (or clone) the contents of this github repository.
+Download (or clone) the contents of the **[highcharts-angular](https://github.com/highcharts/highcharts-angular)** GitHub repository.
 
 In system console, in main repo folder run:
 
