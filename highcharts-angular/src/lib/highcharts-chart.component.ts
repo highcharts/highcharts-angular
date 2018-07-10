@@ -1,10 +1,10 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
 @Component({
   selector: 'highcharts-chart',
   template: ''
 })
-export class HighchartsChartComponent {
+export class HighchartsChartComponent implements OnDestroy {
   constructor(private el: ElementRef) {}
 
   chart: any;
@@ -38,5 +38,10 @@ export class HighchartsChartComponent {
       );
       this.optionsValue.series = this.chart.userOptions.series;
     }
+  }
+
+  ngOnDestroy() { // #44
+    this.chart.destroy();
+    this.chart = null;
   }
 }
