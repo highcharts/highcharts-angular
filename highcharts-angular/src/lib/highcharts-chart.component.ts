@@ -5,20 +5,13 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@
   template: ''
 })
 export class HighchartsChartComponent implements OnDestroy {
-  constructor(private el: ElementRef) {}
-
-  chart: any;
   @Input() Highcharts: any;
   @Input() constructorType: string;
   @Input() callbackFunction: any;
-  optionsValue: any;
-  @Input()
-  set options(val: any) {
+  @Input() set options(val: any) {
     this.optionsValue = val;
     this.updateOrCreateChart();
   }
-  updateValue = false;
-  @Output() updateChange = new EventEmitter<boolean>(true);
   @Input() set update(val: boolean) {
     if (val) {
       this.updateOrCreateChart();
@@ -26,6 +19,15 @@ export class HighchartsChartComponent implements OnDestroy {
     }
   }
   @Input() oneToOne: boolean; // #20
+
+  @Output() updateChange = new EventEmitter<boolean>(true);
+
+  private chart: any;
+  private optionsValue: any;
+
+  constructor(
+    private el: ElementRef
+  ) {}
 
   updateOrCreateChart() {
     if (this.chart && this.chart.update) {
@@ -41,7 +43,9 @@ export class HighchartsChartComponent implements OnDestroy {
   }
 
   ngOnDestroy() { // #44
-    this.chart.destroy();
-    this.chart = null;
+    if (this.chart) {  // #56
+      this.chart.destroy();
+      this.chart = null;
+    }
   }
 }
