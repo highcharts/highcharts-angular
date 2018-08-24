@@ -8,11 +8,11 @@ const child_process = require( 'child_process' ),
       path = require( 'path' );
 
 const rootDir = path.normalize( __dirname + '/..' ),
-      distDir = `${rootDir}/dist/highcharts-angular`;
+      codeDir = `${rootDir}/highcharts-angular`;
 
 // Copy CHANGELOG.md to the main folder for GitHub
-console.log( 'Copying dist/highcharts-angular/CHANGELOG.md to the main directory' );
-fs.copyFileSync( `${distDir}/CHANGELOG.md`, `${rootDir}/CHANGELOG.md` );
+console.log( 'Copying ./highcharts-angular/CHANGELOG.md to the main directory' );
+fs.copyFileSync( `${codeDir}/CHANGELOG.md`, `${rootDir}/CHANGELOG.md` );
 
 // Further instructions
 console.log( '-------------------------------------------------------' );
