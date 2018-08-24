@@ -1,5 +1,6 @@
 /**
  * Publishes the package from the dist/highcharts-angular directory.
+ * Note: publishing manually, but keeping the file just in case.
  */
 
 const child_process = require( 'child_process' ),

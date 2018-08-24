@@ -11,7 +11,7 @@
     "build": "node tasks/build.js",
     "test": "ng test highcharts-angular",
     "lint": "ng lint highcharts-angular",
-    "publish": "node tasks/build.js && node tasks/publish.js",
+    "release": "cd ./highcharts-angular && standard-version && node tasks/build.js && node tasks/release.js",
     "e2e": "ng e2e"
   },
   "dependencies": {
@@ -50,6 +50,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "ng-packagr": "^3.0.0-rc.2",
     "protractor": "~5.1.2",
+    "standard-version": "^4.4.0",
     "ts-node": "~4.1.0",
     "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",

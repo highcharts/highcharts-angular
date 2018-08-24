@@ -17,6 +17,7 @@ Official minimal Highcharts wrapper for Angular
 4. [Demo app](#demo-app)
     1. [Play with the app](#play-with-the-app)
     2. [Files to play with](#files-to-play-with)
+5. [Changing the Component](#changing-the-component)
 
 
 
@@ -232,11 +233,11 @@ A map is JSON type file containing mapData code used when a chart is created. Do
 
 ```js
 (function (factory) {
-	if (typeof module === 'object' && module.exports) {
-		module.exports = factory;
-	} else {
-		factory(Highcharts);
-	}
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory;
+  } else {
+    factory(Highcharts);
+  }
 }(function (Highcharts) {
 
 ...
@@ -280,11 +281,11 @@ A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-high
 
 ```js
 (function (factory) {
-	if (typeof module === 'object' && module.exports) {
-		module.exports = factory;
-	} else {
-		factory(Highcharts);
-	}
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory;
+  } else {
+    factory(Highcharts);
+  }
 }(function (Highcharts) {
 
 ...
@@ -376,7 +377,7 @@ Contains Angular main component that uses the *chart* component.
 Contains the chart component that creates Highcharts chart.
 
 
-## Developing/Changing the highcharts-angular Component
+## Changing the Component
 
 Using Angular CLI v6, the library must be manually rebuilt on each change 
 in order to reflect in the demo app. 
@@ -393,3 +394,5 @@ refresh the browser a second time after the live reload in order to see the chan
 
 See [https://github.com/angular/angular-cli/wiki/stories-create-library](https://github.com/angular/angular-cli/wiki/stories-create-library)
 for details on library builds.
+
+For CHANGELOG.md update use `npm run release`.
