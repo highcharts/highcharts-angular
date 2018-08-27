@@ -22,11 +22,11 @@ export class HighchartsChartComponent implements OnDestroy {
 
   @Output() updateChange = new EventEmitter<boolean>(true);
 
-  private chart: any;
-  private optionsValue: any;
+  protected chart: any;
+  protected optionsValue: any;
 
   constructor(
-    private el: ElementRef
+    protected el: ElementRef
   ) {}
 
   updateOrCreateChart() {
