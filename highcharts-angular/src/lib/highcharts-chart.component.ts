@@ -30,20 +30,18 @@ export class HighchartsChartComponent implements OnDestroy {
   }
 
   updateOrCreateChart() {
-    window.setTimeout(() => {
-      this._zone.runOutsideAngular(() => {
-        if (this.chart && this.chart.update) {
-          this.chart.update(this.optionsValue, true, this.oneToOne || false);
-        } else {
-          this.chart = this.Highcharts[this.constructorType || 'chart'](
-            this.el.nativeElement,
-            this.optionsValue,
-            this.callbackFunction || null
-          );
-          this.optionsValue.series = this.chart.userOptions.series;
-        }
-      });
-    }, 0);
+    this._zone.runOutsideAngular(() => {
+      if (this.chart && this.chart.update) {
+        this.chart.update(this.optionsValue, true, this.oneToOne || false);
+      } else {
+        this.chart = this.Highcharts[this.constructorType || 'chart'](
+          this.el.nativeElement,
+          this.optionsValue,
+          this.callbackFunction || null
+        );
+        this.optionsValue.series = this.chart.userOptions.series;
+      }
+    });
   }
 
   ngOnDestroy() { // #44
