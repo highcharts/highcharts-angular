@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone } from '@angular/core';
 
 @Component({
   selector: 'highcharts-chart',
@@ -25,21 +25,23 @@ export class HighchartsChartComponent implements OnDestroy {
   private chart: any;
   private optionsValue: any;
 
-  constructor(
-    private el: ElementRef
-  ) {}
+  constructor(private el: ElementRef,
+              private _zone: NgZone) {
+  }
 
   updateOrCreateChart() {
-    if (this.chart && this.chart.update) {
-      this.chart.update(this.optionsValue, true, this.oneToOne || false);
-    } else {
-      this.chart = this.Highcharts[this.constructorType || 'chart'](
-        this.el.nativeElement,
-        this.optionsValue,
-        this.callbackFunction || null
-      );
-      this.optionsValue.series = this.chart.userOptions.series;
-    }
+    this._zone.runOutsideAngular(() => {
+      if (this.chart && this.chart.update) {
+        this.chart.update(this.optionsValue, true, this.oneToOne || false);
+      } else {
+        this.chart = this.Highcharts[this.constructorType || 'chart'](
+          this.el.nativeElement,
+          this.optionsValue,
+          this.callbackFunction || null
+        );
+        this.optionsValue.series = this.chart.userOptions.series;
+      }
+    });
   }
 
   ngOnDestroy() { // #44
