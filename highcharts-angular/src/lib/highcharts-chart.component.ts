@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone } from '@angular/core';
 
 @Component({
   selector: 'highcharts-chart',
@@ -8,17 +8,19 @@ export class HighchartsChartComponent implements OnDestroy {
   @Input() Highcharts: any;
   @Input() constructorType: string;
   @Input() callbackFunction: any;
+  @Input() oneToOne: boolean; // #20
+  @Input() runOutsideAngular: boolean; // #75
+
   @Input() set options(val: any) {
     this.optionsValue = val;
-    this.updateOrCreateChart();
+    this.wrappedUpdateOrCreateChart();
   }
   @Input() set update(val: boolean) {
     if (val) {
-      this.updateOrCreateChart();
+      this.wrappedUpdateOrCreateChart();
       this.updateChange.emit(false); // clear the flag after update
     }
   }
-  @Input() oneToOne: boolean; // #20
 
   @Output() updateChange = new EventEmitter<boolean>(true);
 
@@ -26,8 +28,19 @@ export class HighchartsChartComponent implements OnDestroy {
   private optionsValue: any;
 
   constructor(
-    private el: ElementRef
+    private el: ElementRef,
+    private _zone: NgZone // #75
   ) {}
+
+  wrappedUpdateOrCreateChart() { // #75
+    if (this.runOutsideAngular) {
+      this._zone.runOutsideAngular(() => {
+        this.updateOrCreateChart()
+      });
+    } else {
+      this.updateOrCreateChart();
+    }
+  }
 
   updateOrCreateChart() {
     if (this.chart && this.chart.update) {

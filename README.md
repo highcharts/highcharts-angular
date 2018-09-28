@@ -76,6 +76,7 @@ In the same file (app.component.ts) add to the **template** Highcharts-angular c
 
   [(update)]="updateFlag"
   [oneToOne]="oneToOneFlag"
+  [runOutsideAngular]="runOutsideAngularFlag"
 
   style="width: 100%; height: 400px; display: block;"
 ></highcharts-chart>
@@ -93,6 +94,7 @@ export class AppComponent {
   chartCallback = function (chart) { ... } // optional function, defaults to null
   updateFlag = false; // optional boolean
   oneToOneFlag = true; // optional boolean, defaults to false
+  runOutsideAngular = false; // optional boolean, defaults to false
   ...
 ```
 
@@ -164,6 +166,12 @@ The option is **optional**. A boolean to trigger update on a chart as Angular is
 The option is **optional**, defaults to `false`. The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When true, the `series`, `xAxis` and `yAxis` collections will be updated one to one, and items will be either added or removed to match the new updated options. For example, if the chart has **two** series and we call `chart.update` (and this is called on each chart's data change or if `updateFlag` is set to true) with a configuration containing **three** series, **one** will be added. If we call `chart.update` with **one** series, **one** will be removed. Setting an empty series array will remove all series, but leaving out the series property will leave all series untouched. If the series have id's, the new series options will be matched by id, and the remaining ones removed.
 
 The options is presented in [the demo](#demo-app) in the first chart - try setting new chart options with different amounts of series in [the textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see this options in action.
+
+7. `[runOutsideAngular]="runOutsideAngularFlag"`
+
+The option is **optional**, defaults to `false`. When this option is set to `true` chart is created and updated outside of Angular's zone and Highcharts events do not trigger Angular change-detection. Details about `runOutsideAngular` are available in [Angular documentation](https://angular.io/api/core/NgZone#runoutsideangular). This options is more useful for bigger, more complex application (see [discussion](https://github.com/highcharts/highcharts-angular/pull/73)).
+
+The option is presented in [this demo](https://codesandbox.io/s/k24qxvzlk7).
 
 
 
