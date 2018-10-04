@@ -46,6 +46,11 @@ export class AppComponent {
   optFromInput = JSON.parse(this.optFromInputString);
   updateFromInput = false;
 
+  // Demonstrate chart instance
+  logChartInstance(chart: any) {
+    console.log('Chart instance: ', chart);
+  }
+
   updateInputChart() {
     this.optFromInput = JSON.parse(this.optFromInputString);
   }

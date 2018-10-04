@@ -23,6 +23,7 @@ export class HighchartsChartComponent implements OnDestroy {
   }
 
   @Output() updateChange = new EventEmitter<boolean>(true);
+  @Output() chartInstance = new EventEmitter<any>(); // #26
 
   private chart: any;
   private optionsValue: any;
@@ -52,6 +53,9 @@ export class HighchartsChartComponent implements OnDestroy {
         this.callbackFunction || null
       );
       this.optionsValue.series = this.chart.userOptions.series;
+
+      // emit chart instance on init
+      this.chartInstance.emit(this.chart);
     }
   }
 

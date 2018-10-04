@@ -7,17 +7,19 @@ Official minimal Highcharts wrapper for Angular
     2. [Installing](#installing)
     3. [Hello world demo](#hello-world-demo)
 2. [Options details](#options-details)
-3. [Highcharts instance details](#highcharts-instance-details)
+3. [Chart instance](#chart-instance)
+4. [Highcharts instance details](#highcharts-instance-details)
     1. [Core](#core)
     2. [To load a module](#to-load-a-module)
     3. [To load a plugin](#to-load-a-plugin)
     4. [To load a map for Highmaps](#to-load-a-map-for-highmaps)
     5. [To load a wrapper](#to-load-a-wrapper)
     6. [To use setOptions](#to-use-setoptions)
-4. [Demo app](#demo-app)
+5. [Demo app](#demo-app)
     1. [Play with the app](#play-with-the-app)
     2. [Files to play with](#files-to-play-with)
-5. [Changing the Component](#changing-the-component)
+6. [Changing the Component](#changing-the-component)
+7. [Help](#help)
 
 
 
@@ -172,6 +174,18 @@ The options is presented in [the demo](#demo-app) in the first chart - try setti
 The option is **optional**, defaults to `false`. When this option is set to `true` chart is created and updated outside of Angular's zone and Highcharts events do not trigger Angular change-detection. Details about `runOutsideAngular` are available in [Angular documentation](https://angular.io/api/core/NgZone#runoutsideangular). This options is more useful for bigger, more complex application (see [discussion](https://github.com/highcharts/highcharts-angular/pull/73)).
 
 The option is presented in [this demo](https://codesandbox.io/s/k24qxvzlk7).
+
+
+
+## Chart instance
+
+A chart instance could be obtained using:
+
+* **chart's callback function** - `chart` is provided as first argument (see [demo app](#demo-app) and first `hcCallback` function)
+* **chart's events** - context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance
+* **component output `chartInstance`** - emitted after chart is created (see [demo app](#demo-app) and `logChartInstance` function)
+
+**Notice:** If you are getting chart instance from **[chart's load event](https://api.highcharts.com/highcharts/chart.events.load)** or **chart's callback funciton** and will be supporting exporting, then this function runs again when the chart is exported, because a chart for export is being created. To distinguish when the function is called for the chart and when it's called for the for-export chart you could check `chart.renderer.forExport`. If will be set to `true` for the for-export chart and `undefined` for the main chart.
 
 
 
@@ -385,6 +399,7 @@ Contains Angular main component that uses the *chart* component.
 Contains the chart component that creates Highcharts chart.
 
 
+
 ## Changing the Component
 
 Using Angular CLI v6, the library must be manually rebuilt on each change 
@@ -404,3 +419,9 @@ See [https://github.com/angular/angular-cli/wiki/stories-create-library](https:/
 for details on library builds.
 
 For CHANGELOG.md update use `npm run release`.
+
+
+
+## Help
+
+For technical support please contact [Highcharts technical support](https://www.highcharts.com/support).
