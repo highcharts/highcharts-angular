@@ -19,7 +19,7 @@ Official minimal Highcharts wrapper for Angular
     1. [Play with the app](#play-with-the-app)
     2. [Files to play with](#files-to-play-with)
 6. [Changing the Component](#changing-the-component)
-7. [Help](#help)
+7. [Help and FAQ](#help-and-faq)
 
 
 
@@ -422,6 +422,13 @@ For CHANGELOG.md update use `npm run release`.
 
 
 
-## Help
+## Help and FAQ
 
 For technical support please contact [Highcharts technical support](https://www.highcharts.com/support).
+
+### FAQ:
+
+#### How to add and use indicators?
+
+Add [indicators](https://www.highcharts.com/docs/chart-and-series-types/technical-indicator-series) as any other module.
+[Live demo](https://codesandbox.io/s/lpn3yvv3zl)
