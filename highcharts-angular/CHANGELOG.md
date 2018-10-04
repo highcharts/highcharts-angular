@@ -9,7 +9,6 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * Added chart instance as the component's output. Closes [#26](https://github.com/highcharts/highcharts-angular/issues/26). ([04c2bd8](https://github.com/highcharts/highcharts-angular/commit/04c2bd8))
-* Added support for optional running Highcharts outside of Angular. Closes [#75](https://github.com/highcharts/highcharts-angular/issues/75). ([2ebcb07](https://github.com/highcharts/highcharts-angular/commit/2ebcb07))
 
 
 
