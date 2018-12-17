@@ -53,8 +53,8 @@
     "standard-version": "^4.4.0",
     "ts-node": "~4.1.0",
     "tsickle": ">=0.25.5",
-    "tslib": "^1.7.1",
-    "tslint": "^5.10.0",
-    "typescript": "~2.7.2"
+    "tslib": "^1.9.3",
+    "tslint": "^5.11.0",
+    "typescript": "~2.8.0"
   }
 }
