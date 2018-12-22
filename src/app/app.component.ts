@@ -2,38 +2,44 @@ declare var require: any;
 
 import { Component } from '@angular/core';
 
-import * as Highcharts from 'highcharts/highstock';
-const HC_map = require('highcharts/modules/map');
-const HC_exporting = require('highcharts/modules/exporting');
+import * as Highcharts from 'highcharts/highcharts';
+
+import StockModule from 'highcharts/modules/stock';
+import MapModule from 'highcharts/modules/map';
+import ExportingModule from 'highcharts/modules/exporting';
+
 const HC_ce = require('highcharts-custom-events');
 
-HC_map(Highcharts);
+StockModule(Highcharts);
+MapModule(Highcharts);
+ExportingModule(Highcharts);
+
 require('../../js/worldmap')(Highcharts);
 
-HC_exporting(Highcharts);
 HC_ce(Highcharts);
 
 Highcharts.setOptions({
   title: {
     style: {
-      color: 'orange'
+      color: 'tomato'
     }
   }
 });
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html'
+  templateUrl: 'app.component.html',
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent {
   // For all demos:
-  Highcharts = Highcharts;
+  Highcharts: typeof Highcharts = Highcharts; // Highcharts, it's Highcharts
 
   // Demo #1
-  optFromInputString = `
+  optFromInputString: string = `
   {
-    "subtitle": { "text": "Highcharts chart" },
+    "title": { "text": "Highcharts chart" },
     "series": [{
       "type": "line",
       "data": [11,2,3]
@@ -43,11 +49,11 @@ export class AppComponent {
   }
   `;
 
-  optFromInput = JSON.parse(this.optFromInputString);
-  updateFromInput = false;
+  optFromInput: Highcharts.Options = JSON.parse(this.optFromInputString);
+  updateFromInput: boolean = false;
 
   // Demonstrate chart instance
-  logChartInstance(chart: any) {
+  logChartInstance(chart: Highcharts.Chart) {
     console.log('Chart instance: ', chart);
   }
 
@@ -63,7 +69,9 @@ export class AppComponent {
   };
 
   toggleSeriesType(index = 0) {
-    this.optFromInput.series[index].type = this.seriesTypes[this.optFromInput.series[index].type];
+    this.optFromInput.series[index].type =
+      this.seriesTypes[this.optFromInput.series[index].type] as
+        "column" | "scatter" | "spline" | "line";
     // nested change - must trigger update
     this.updateFromInput = true;
   }
@@ -72,17 +80,19 @@ export class AppComponent {
   // Demo #2
 
   // starting values
-  updateDemo2 = false;
-  usedIndex = 0;
-  chartTitle = 'My chart'; // for init - change through titleChange
+  updateDemo2: boolean = false;
+  usedIndex: number = 0;
+  chartTitle: string = 'My chart'; // for init - change through titleChange
 
   // change in all places
   titleChange(event: any) {
     var v = event;
     this.chartTitle = v;
+
     this.charts.forEach((el) => {
       el.hcOptions.title.text = v;
     });
+
     // trigger ngOnChanges
     this.updateDemo2 = true;
   };
@@ -101,7 +111,12 @@ export class AppComponent {
         type: 'line',
         data: [11, 2, 3],
         threshold: 5,
-        negativeColor: 'red'
+        negativeColor: 'red',
+        events: {
+          dblclick: function () {
+            console.log('dblclick - thanks to the Custom Events plugin');
+          }
+        }
       }, {
         type: 'candlestick',
         data: [
@@ -110,8 +125,10 @@ export class AppComponent {
           [3, 10, -3, 3]
         ]
       }]
-    },
-  	hcCallback: (chart: Highcharts.Chart) => { console.log('some variables: ', Highcharts, chart, this.charts); }
+    } as Highcharts.Options,
+  	hcCallback: (chart: Highcharts.Chart) => {
+      console.log('some variables: ', Highcharts, chart, this.charts);
+    }
   }, {
   	hcOptions: {
       title: { text: this.chartTitle },
@@ -128,7 +145,7 @@ export class AppComponent {
           [3, 10, -3, 3]
         ]
       }]
-    },
+    } as Highcharts.Options,
     hcCallback: () => {}
   }, {
   	hcOptions: {
@@ -147,14 +164,14 @@ export class AppComponent {
           0
         ]
       }]
-    },
+    } as Highcharts.Options,
     hcCallback: () => {}
   }];
 
   //----------------------------------------------------------------------
   // Demo #3
 
-  chartMap = {
+  chartMap: Highcharts.Options = {
     chart: {
       map: 'myMapName'
     },
@@ -400,6 +417,6 @@ export class AppComponent {
         ['kg', 211],
         ['np', 212]
       ]
-    }]
+    } as Highcharts.SeriesMapOptions]
   }
 }

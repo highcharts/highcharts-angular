@@ -1,6 +1,6 @@
-<div style="width: 100%; float: left;">
+<div class="full-left">
   <h2>Demo #1: Highcharts with a basic editor</h2>
-  <div style="width:30%; float: left;">
+  <div class="third-left">
     <button (click)="updateInputChart()">Update chart</button>
     <br/>
     <textarea rows="16" cols="50"
@@ -9,7 +9,7 @@
     <br/>
     <button (click)="toggleSeriesType()">1st series type toggle</button>
   </div>
-  <div style="width:65%; float: left;">
+  <div class="medium-right">
     <highcharts-chart 
       [Highcharts]="Highcharts"
       [options]="optFromInput"
@@ -23,11 +23,10 @@
 </div>
 
 <br/>
-<hr/>
 
-<div style="width: 100%; float: left;">
+<div class="full-left">
   <h2>Demo #2: Highstock with simple updates</h2>
-  <div style="width:30%; float: left;">
+  <div class="third-left">
     <p>Chart title text: </p>
     <input 
       [(ngModel)]="charts[usedIndex].hcOptions.title.text"
@@ -40,7 +39,7 @@
       {{i+1}}
     </button>
   </div>
-  <div style="width:65%; float: left;">
+  <div class="medium-right">
     <highcharts-chart
       [Highcharts]="Highcharts"
       [constructorType]="'stockChart'"
@@ -52,10 +51,10 @@
     ></highcharts-chart>
   </div>
 </div>
-<br/>
-<hr/>
 
-<div style="width: 100%; float: left;">
+<br/>
+
+<div class="full-left">
   <h2>Demo #3: Highmaps map chart</h2>
   <highcharts-chart
     [Highcharts]="Highcharts"
