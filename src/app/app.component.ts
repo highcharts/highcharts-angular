@@ -2,7 +2,7 @@ declare var require: any;
 
 import { Component } from '@angular/core';
 
-import * as Highcharts from 'highcharts/highcharts';
+import * as Highcharts from 'highcharts';
 
 import StockModule from 'highcharts/modules/stock';
 import MapModule from 'highcharts/modules/map';
@@ -41,7 +41,6 @@ export class AppComponent {
   {
     "title": { "text": "Highcharts chart" },
     "series": [{
-      "type": "line",
       "data": [11,2,3]
     }, {
       "data": [5,6,7]
@@ -68,9 +67,9 @@ export class AppComponent {
     spline: 'line'
   };
 
-  toggleSeriesType(index = 0) {
+  toggleSeriesType(index: number = 0) {
     this.optFromInput.series[index].type =
-      this.seriesTypes[this.optFromInput.series[index].type] as
+      this.seriesTypes[this.optFromInput.series[index].type || 'line'] as
         "column" | "scatter" | "spline" | "line";
     // nested change - must trigger update
     this.updateFromInput = true;

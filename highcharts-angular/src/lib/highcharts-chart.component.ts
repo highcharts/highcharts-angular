@@ -1,17 +1,18 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone } from '@angular/core';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'highcharts-chart',
   template: ''
 })
 export class HighchartsChartComponent implements OnDestroy {
-  @Input() Highcharts: any;
+  @Input() Highcharts: typeof Highcharts;
   @Input() constructorType: string;
-  @Input() callbackFunction: any;
+  @Input() callbackFunction: Highcharts.ChartCallbackFunction;
   @Input() oneToOne: boolean; // #20
   @Input() runOutsideAngular: boolean; // #75
 
-  @Input() set options(val: any) {
+  @Input() set options(val: Highcharts.Options) {
     this.optionsValue = val;
     this.wrappedUpdateOrCreateChart();
   }
@@ -23,10 +24,10 @@ export class HighchartsChartComponent implements OnDestroy {
   }
 
   @Output() updateChange = new EventEmitter<boolean>(true);
-  @Output() chartInstance = new EventEmitter<any>(); // #26
+  @Output() chartInstance = new EventEmitter<Highcharts.Chart>(); // #26
 
-  private chart: any;
-  private optionsValue: any;
+  private chart: Highcharts.Chart;
+  private optionsValue: Highcharts.Options;
 
   constructor(
     private el: ElementRef,
@@ -47,12 +48,11 @@ export class HighchartsChartComponent implements OnDestroy {
     if (this.chart && this.chart.update) {
       this.chart.update(this.optionsValue, true, this.oneToOne || false);
     } else {
-      this.chart = this.Highcharts[this.constructorType || 'chart'](
+      this.chart = (this.Highcharts as any)[this.constructorType || 'chart'](
         this.el.nativeElement,
         this.optionsValue,
         this.callbackFunction || null
       );
-      this.optionsValue.series = this.chart.userOptions.series;
 
       // emit chart instance on init
       this.chartInstance.emit(this.chart);
