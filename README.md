@@ -193,6 +193,8 @@ A chart instance could be obtained using:
 
 This is a Highcharts instance optionally with initialized **[modules](#to-load-a-module)**, **[plugins](#to-load-a-plugin)**, **[maps](#to-load-a-map-for-highmaps)**, **[wrappers](#to-load-a-wrapper)** and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
 
+_Notice:_ The Highcharts instance is shared through components in an Angular app, so loaded modules will affect all charts.
+
 ### Core
 
 As core you could load **Highcharts**, **Highstock** or **Highmaps**.
