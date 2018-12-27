@@ -402,3 +402,8 @@ More info about custom themes in [Highcharts general documentation](https://www.
 #### I have a general issue with Highcharts and TypeScript
 
 The correct repository to report such issues is [main Highcharts repository](https://github.com/highcharts/highcharts/issues).
+
+#### Synchronized Charts Angular demo
+
+Based on original Highcharts demo for [Synchronized charts](https://www.highcharts.com/demo/synchronized-charts).
+Additionally added class based sync between charts - [demo](https://codesandbox.io/s/5wwz8qy1l4).
