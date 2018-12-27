@@ -8,21 +8,35 @@ import StockModule from 'highcharts/modules/stock';
 import MapModule from 'highcharts/modules/map';
 import ExportingModule from 'highcharts/modules/exporting';
 
-const HC_ce = require('highcharts-custom-events');
+import SunsetTheme from 'highcharts/themes/sunset';
+
+const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
+
+import * as HC_customEvents from 'highcharts-custom-events';
+HC_customEvents(Highcharts);
+
+// Alternative way of a plugin loading:
+//const HC_ce = require('highcharts-custom-events');
+//HC_ce(Highcharts);
 
 StockModule(Highcharts);
 MapModule(Highcharts);
 ExportingModule(Highcharts);
 
-require('../../js/worldmap')(Highcharts);
+// Legacy way of map loading - see file at the path for more info.
+//require('../../js/worldmap')(Highcharts);
 
-HC_ce(Highcharts);
+SunsetTheme(Highcharts);
+
 
 Highcharts.setOptions({
   title: {
     style: {
       color: 'tomato'
     }
+  },
+  legend: {
+    enabled: false
   }
 });
 
@@ -41,7 +55,12 @@ export class AppComponent {
   {
     "title": { "text": "Highcharts chart" },
     "series": [{
-      "data": [11,2,3]
+      "data": [11,2,3],
+      "zones": [{
+        "value": 7.2,
+        "dashStyle": "dot",
+        "color": "red"
+      }]
     }, {
       "data": [5,6,7]
     }]
@@ -118,6 +137,7 @@ export class AppComponent {
         }
       }, {
         type: 'candlestick',
+
         data: [
           [0, 15, -6, 7],
           [7, 12, -1, 3],
@@ -172,7 +192,7 @@ export class AppComponent {
 
   chartMap: Highcharts.Options = {
     chart: {
-      map: 'myMapName'
+      map: mapWorld
     },
     title: {
       text: 'Highmaps basic demo'
@@ -185,6 +205,9 @@ export class AppComponent {
       buttonOptions: {
         alignTo: 'spacingBox'
       }
+    },
+    legend: {
+      enabled: true
     },
     colorAxis: {
       min: 0

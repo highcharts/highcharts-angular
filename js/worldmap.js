@@ -1,3 +1,68 @@
+/*
+
+Before map collection was published this was a suggested way of loading maps.
+Here's the legacy documentation:
+
+
+		A map is JSON type file containing mapData code used when a chart is created.
+	Download a map from [official Highcharts map collection](http://code.highcharts.com/mapdata/)
+	in Javascript format or use a [custom map](https://www.highcharts.com/docs/maps/custom-maps)
+	and add it to your app. Edit the map file, so it could be loaded like a module by adding to
+	beginning and end of a file code below:
+
+	```js
+	(function (factory) {
+	  if (typeof module === 'object' && module.exports) {
+	    module.exports = factory;
+	  } else {
+	    factory(Highcharts);
+	  }
+	}(function (Highcharts) {
+
+	...
+	/* map file data * /
+	...
+
+	}));
+	```
+
+	In case of using a GeoJSON map file format you should add the above code and additionally,
+	between the added beginning and the map file data, the below code:
+
+	```js
+	Highcharts.maps["myMapName"] =
+	```
+	Where `"myMapName"` is yours map name that will be used when creating charts. Next,
+	you will be loading a local .js file, so you should add in `tsconfig.json`
+	in your app `allowJs: true`:
+
+	```js
+	...
+	"compilerOptions": {
+	    "allowJs": true,
+	    ...
+	```
+	__Notice: this is not required for all Typescript / Angular versions - you can build
+	the demo app with `allowJs` set to `false` for some cases. This part of the documentation
+	will be revisited after Typescript / Angular further changes regarding this issue.__
+
+	The map is ready to be imported to your app. Use `require` instead of import to prevent TS5055 errors.
+
+	```ts
+	import * as Highcharts from 'highcharts/highmaps';
+	require('./relative-path-to-the-map-file/map-file-name')(Highcharts);
+	```
+
+	Where `relative-path-to-the-map-file` should be relative (for the module importing the map)
+	path to the map file and `map-file-name` should be the name of the map file.
+
+	The file should be placed in a directory that is not checked by typeScript.
+	See example in this repository:
+	- config in 'tsconfig.json'
+	- map file in 'js' directory
+
+*/
+
 (function (factory) {
 	if (typeof module === 'object' && module.exports) {
 		module.exports = factory;

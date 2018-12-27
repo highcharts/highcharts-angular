@@ -217,24 +217,25 @@ import * as Highcharts from 'highcharts/highmaps';
 or as Highcharts with map module:
 ```ts
 import * as Highcharts from 'highcharts';
-import * as HC_map from 'highcharts/modules/map';
+import HC_map from 'highcharts/modules/map';
 HC_map(Highcharts);
 ```
 
 ### To load a module
 
-A module is a Highcharts official addon. After Highcharts is imported using Highcharts, Highstock or Highmaps use `require` and initialize each module on the Highcharts variable.
+A module is a Highcharts official addon - including Highstock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)). After Highcharts is imported using Highcharts, Highstock or Highmaps use `import` and initialize each module on the Highcharts variable.
+
+```ts
+import * as Highcharts from 'highcharts';
+import HC_exporting from 'highcharts/modules/exporting';
+HC_exporting(Highcharts);
+```
+
+Alternatively, this could be done with `require`, but usually (depends on your app configuration) additional declaration `declare var require: any;` is needed at the top of the TypeScript file in which the modules are loaded.
 
 ```ts
 import * as Highcharts from 'highcharts';
 require('highcharts/modules/exporting')(Highcharts);
-```
-
-This could be [done without `require`](https://github.com/highcharts/highcharts/issues/4994#issuecomment-305113651), but the initialization is still needed.
-```ts
-import * as Highcharts from 'highcharts';
-import * as HC_exporting from 'highcharts/modules/exporting';
-HC_exporting(Highcharts);
 ```
 
 ### To load a plugin
@@ -249,57 +250,16 @@ HC_customEvents(Highcharts);
 
 If a plugin doesn't support loading through NPM you could treat it as a wrapper - see instructions below.
 
+If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/typescript) section of Highcharts documentation for Typescript usage.
+
 ### To load a map for Highmaps
 
-A map is JSON type file containing mapData code used when a chart is created. Download a map from [official Highcharts map collection](http://code.highcharts.com/mapdata/) in Javascript format or use a [custom map](https://www.highcharts.com/docs/maps/custom-maps) and add it to your app. Edit the map file, so it could be loaded like a module by adding to beginning and end of a file code below:
-
-```js
-(function (factory) {
-  if (typeof module === 'object' && module.exports) {
-    module.exports = factory;
-  } else {
-    factory(Highcharts);
-  }
-}(function (Highcharts) {
-
-...
-/* map file data */
-...
-
-}));
-```
-
-In case of using a GeoJSON map file format you should add the above code and additionally, between the added beginning and the map file data, the below code:
-
-```js
-Highcharts.maps["myMapName"] =
-```
-Where `"myMapName"` is yours map name that will be used when creating charts. Next, you will be loading a local .js file, so you should add in `tsconfig.json` in your app `allowJs: true`:
-
-```js
-...
-"compilerOptions": {
-    "allowJs": true,
-    ...
-```
-__Notice: this is not required for all Typescript / Angular versions - you can build the demo app with `allowJs` set to `false` for some cases. This part of the documentation will be revisited after Typescript / Angular further changes regarding this issue.__
-
-The map is ready to be imported to your app. Use `require` instead of import to prevent TS5055 errors.
-
-```ts
-import * as Highcharts from 'highcharts/highmaps';
-require('./relative-path-to-the-map-file/map-file-name')(Highcharts);
-```
-
-Where `relative-path-to-the-map-file` should be relative (for the module importing the map) path to the map file and `map-file-name` should be the name of the map file.
-
-The file should be placed in a directory that is not checked by typeScript. See example in this repository:
-- config in 'tsconfig.json'
-- map file in 'js' directory
+Official map collection is published and [here](https://www.npmjs.com/package/@highcharts/map-collection#install-from-npm) are basic instructions for loading a map.
+An example can also be found in the [demo app](#demo-app).
 
 ### To load a wrapper
 
-A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-highcharts/extending-highcharts) for Highcharts. To load a wrapper the same way as a module you could save it as a Javascript file and edit it by adding to beginning and end of a file same code as for a map:
+A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-highcharts/extending-highcharts) for Highcharts. To load a wrapper the same way as a module you could save it as a Javascript file and edit it by adding below code to beginning and end of a file:
 
 ```js
 (function (factory) {
@@ -335,19 +295,16 @@ require('./relative-path-to-the-wrapper-file/wrapper-file-name')(Highcharts);
 
 Where `relative-path-to-the-wrapper-file` should be relative (for the module importing the wrapper) path to the wrapper file and `wrapper-file-name` should be the name of the wrapper file.
 
-The file should be placed in a directory that is not checked by typeScript. See example in this repository:
-- configuration in `tsconfig.json`
-- a map file in `js` directory
+If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/typescript) section of Highcharts documentation for Typescript usage.
 
 ### To use [`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)
 
 The best place to use `setOptions` is afer your Highcharts instance is ready and before Highcharts variable is set in the main component. Example:
 
-```
+```ts
 import * as Highcharts from 'highcharts/highstock';
-import * as HC_map from 'highcharts/modules/map';
 
-HC_map(Highcharts);
+...
 
 Highcharts.setOptions({
   title: {
@@ -371,7 +328,7 @@ Download (or clone) the contents of the **[highcharts-angular](https://github.co
 
 In system console, in main repo folder run:
 
-```
+```cli
 npm install
 npm start
 ```
@@ -380,7 +337,7 @@ This opens [http://localhost:4200/](http://localhost:4200/) in your default brow
 
 To open on a different port, for example `12345`, use:
 
-```
+```cli
 npm start -- --port 12345
 ```
 
@@ -407,7 +364,7 @@ in order to reflect in the demo app.
 
 Run the following command on each change to the `highcharts-chart.component.ts` file:
 
-```
+```cli
 npm run build
 ``` 
 
@@ -426,9 +383,22 @@ For CHANGELOG.md update use `npm run release`.
 
 For technical support please contact [Highcharts technical support](https://www.highcharts.com/support).
 
+For TypeScript problems with Highcharts first see [Highcharts documentation for TypeScript usage](https://www.highcharts.com/docs/advanced-chart-features/typescript).
+
 ### FAQ:
 
 #### How to add and use indicators?
 
 Add [indicators](https://www.highcharts.com/docs/chart-and-series-types/technical-indicator-series) as any other module.
 [Live demo](https://codesandbox.io/s/lpn3yvv3zl)
+
+#### How to add and use themes?
+
+Add [themes](https://www.highcharts.com/docs/chart-design-and-style/themes) as any other module.
+See the [demo app](#demo-app) in this repository for an example.
+
+More info about custom themes in [Highcharts general documentation](https://www.highcharts.com/docs/chart-design-and-style/custom-themes-in-styled-mode).
+
+#### I have a general issue with Highcharts and TypeScript
+
+The correct repository to report such issues is [main Highcharts repository](https://github.com/highcharts/highcharts/issues).
