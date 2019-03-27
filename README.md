@@ -145,11 +145,13 @@ The option is **required**. This is a Highcharts instance with **required core**
 
 The option is **optional**. This is a string for [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Possible values:
 
-* `'chart'` - for standard Highcharts constructor - for any Highcharts instance, this is **default value**
+* `'chart'` - for standard [Highcharts®](https://www.highcharts.com/products/highcharts/) constructor - for any Highcharts instance, this is **default value**
 
-* `'stockChart'` - for Highstock constructor - Highstock is required
+* `'stockChart'` - for [Highstock®](https://www.highcharts.com/blog/products/highstock/) constructor - [Highstock or Stock module](https://www.highcharts.com/docs/getting-started/installation) is required
 
-* `'mapChart'` - for Highmaps constructor - Highmaps or map module is required
+* `'mapChart'` - for [Highmaps®](https://www.highcharts.com/blog/products/highmaps/) constructor - [Highmaps or Map module](https://www.highcharts.com/docs/maps/getting-started) is required
+
+* `'ganttChart'` - for [Highcharts® Gantt](https://www.highcharts.com/blog/products/gantt/) constructor - [Highcharts® Gantt or Gantt module](https://www.highcharts.com/docs/gantt/getting-started-gantt) is required
 
 3. `[options]="chartOptions"`
 
