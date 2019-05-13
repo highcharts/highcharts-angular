@@ -6,9 +6,10 @@ import * as Highcharts from 'highcharts';
 
 import StockModule from 'highcharts/modules/stock';
 import MapModule from 'highcharts/modules/map';
+import GanttModule from 'highcharts/modules/gantt';
 import ExportingModule from 'highcharts/modules/exporting';
 
-import SunsetTheme from 'highcharts/themes/sunset';
+import SunsetTheme from 'highcharts/themes/sunset.src.js';
 
 const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
 
@@ -21,6 +22,7 @@ HC_customEvents(Highcharts);
 
 StockModule(Highcharts);
 MapModule(Highcharts);
+GanttModule(Highcharts);
 ExportingModule(Highcharts);
 
 // Legacy way of map loading - see file at the path for more info.
@@ -440,5 +442,45 @@ export class AppComponent {
         ['np', 212]
       ]
     } as Highcharts.SeriesMapOptions]
-  }
+  };
+
+  //----------------------------------------------------------------------
+  // Demo #4
+
+  chartGantt: Highcharts.Options = {
+    title: {
+      text: 'Gantt Chart with Progress Indicators'
+    },
+    xAxis: {
+      min: Date.UTC(2014, 10, 17),
+      max: Date.UTC(2014, 10, 30)
+    },
+
+    series: [{
+      name: 'Project 1',
+      type: 'gantt',
+      data: [{
+        name: 'Start prototype',
+        start: Date.UTC(2014, 10, 18),
+        end: Date.UTC(2014, 10, 25),
+        completed: 0.25
+      }, {
+        name: 'Test prototype',
+        start: Date.UTC(2014, 10, 27),
+        end: Date.UTC(2014, 10, 29)
+      }, {
+        name: 'Develop',
+        start: Date.UTC(2014, 10, 20),
+        end: Date.UTC(2014, 10, 25),
+        completed: {
+            amount: 0.12,
+            fill: '#fa0'
+        }
+      }, {
+        name: 'Run acceptance tests',
+        start: Date.UTC(2014, 10, 23),
+        end: Date.UTC(2014, 10, 26)
+      }]
+    }]
+  };
 }

@@ -84,19 +84,19 @@ In the same file (app.component.ts) add to the **template** Highcharts-angular c
 ></highcharts-chart>
 ```
 
-Right side names, in double quotes, are just names of variables you are going to set next, so you could name then whatever you like. Style at the bottom of the selector is optional, but browsers do not know how to display `<highcharts-chart>`, so you should set some styles.
+Right side names, in double quotes, are just names of variables you are going to set next, so you could name them whatever you like. Style at the bottom of the selector is optional, but browsers do not know how to display `<highcharts-chart>`, so you should set some styles.
 
 In the same file (app.component.ts) all variables should be set in `export class AppComponent {` like:
 
 ```ts
 export class AppComponent {
-  Highcharts = Highcharts; // required
-  chartConstructor = 'chart'; // optional string, defaults to 'chart'
-  chartOptions = { ... }; // required
-  chartCallback = function (chart) { ... } // optional function, defaults to null
-  updateFlag = false; // optional boolean
-  oneToOneFlag = true; // optional boolean, defaults to false
-  runOutsideAngular = false; // optional boolean, defaults to false
+  Highcharts: typeof Highcharts = Highcharts; // required
+  chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
+  chartOptions: Highcharts.Options = { ... }; // required
+  chartCallback: Highcharts.ChartCallbackFunction = function (chart) { ... } // optional function, defaults to null
+  updateFlag: boolean = false; // optional boolean
+  oneToOneFlag: boolean = true; // optional boolean, defaults to false
+  runOutsideAngular: boolean = false; // optional boolean, defaults to false
   ...
 ```
 
@@ -122,10 +122,11 @@ and export variables:
 
 ```ts
 export class AppComponent {
-  Highcharts = Highcharts;
-  chartOptions = {
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {
     series: [{
-      data: [1, 2, 3]
+      data: [1, 2, 3],
+      type: 'line'
     }]
   };
   ...
@@ -199,7 +200,7 @@ _Notice:_ The Highcharts instance is shared through components in an Angular app
 
 ### Core
 
-As core you could load **Highcharts**, **Highstock** or **Highmaps**.
+As core you could load **Highcharts**, **Highstock**, **Highmaps** or **Highcharts Gantt** (v. 6.2.0+).
 
 * For **Highcharts**:
 
@@ -212,17 +213,35 @@ import * as Highcharts from 'highcharts';
 ```ts
 import * as Highcharts from 'highcharts/highstock';
 ```
+or as Highcharts with **stock** module:
+```ts
+import * as Highcharts from 'highcharts';
+import HC_stock from 'highcharts/modules/stock';
+HC_stock(Highcharts);
+```
 
 * For **Highmaps**:
 
 ```ts
 import * as Highcharts from 'highcharts/highmaps';
 ```
-or as Highcharts with map module:
+or as Highcharts with **map** module:
 ```ts
 import * as Highcharts from 'highcharts';
 import HC_map from 'highcharts/modules/map';
 HC_map(Highcharts);
+```
+
+* For **Highcharts Gantt**:
+
+```ts
+import * as Highcharts from 'highcharts/highcharts-gantt';
+```
+or as Highcharts with **gantt** module:
+```ts
+import * as Highcharts from 'highcharts';
+import HC_gantt from 'highcharts/modules/gantt';
+HC_gantt(Highcharts);
 ```
 
 ### To load a module
@@ -321,7 +340,7 @@ Highcharts.setOptions({
 ...
 
 export class AppComponent {
-  Highcharts = Highcharts;
+  Highcharts: typeof Highcharts = Highcharts;
 ``` 
 
 
