@@ -322,7 +322,7 @@ If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving
 
 ### To use [`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)
 
-The best place to use `setOptions` is afer your Highcharts instance is ready and before Highcharts variable is set in the main component. Example:
+The best place to use `setOptions` is after your Highcharts instance is ready and before Highcharts variable is set in the main component. Example:
 
 ```ts
 import * as Highcharts from 'highcharts/highstock';
