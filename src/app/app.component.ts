@@ -2,6 +2,12 @@ declare var require: any;
 
 import { Component } from '@angular/core';
 
+import proj4 from 'proj4';
+declare global {
+  interface Window { proj4: any; }
+}
+window.proj4 = proj4;
+
 import * as Highcharts from 'highcharts';
 
 import StockModule from 'highcharts/modules/stock';
@@ -17,8 +23,8 @@ import * as HC_customEvents from 'highcharts-custom-events';
 HC_customEvents(Highcharts);
 
 // Alternative way of a plugin loading:
-//const HC_ce = require('highcharts-custom-events');
-//HC_ce(Highcharts);
+// const HC_ce = require('highcharts-custom-events');
+// HC_ce(Highcharts);
 
 StockModule(Highcharts);
 MapModule(Highcharts);
@@ -26,7 +32,7 @@ GanttModule(Highcharts);
 ExportingModule(Highcharts);
 
 // Legacy way of map loading - see file at the path for more info.
-//require('../../js/worldmap')(Highcharts);
+// require('../../js/worldmap')(Highcharts);
 
 SunsetTheme(Highcharts);
 
@@ -91,12 +97,12 @@ export class AppComponent {
   toggleSeriesType(index: number = 0) {
     this.optFromInput.series[index].type =
       this.seriesTypes[this.optFromInput.series[index].type || 'line'] as
-        "column" | "scatter" | "spline" | "line";
+        'column' | 'scatter' | 'spline' | 'line';
     // nested change - must trigger update
     this.updateFromInput = true;
   }
 
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Demo #2
 
   // starting values
@@ -118,7 +124,7 @@ export class AppComponent {
   };
 
   charts = [{
-  	hcOptions: {
+    hcOptions: {
       title: { text: this.chartTitle },
       subtitle: { text: '1st data set' },
       plotOptions: {
@@ -147,11 +153,11 @@ export class AppComponent {
         ]
       }]
     } as Highcharts.Options,
-  	hcCallback: (chart: Highcharts.Chart) => {
+    hcCallback: (chart: Highcharts.Chart) => {
       console.log('some variables: ', Highcharts, chart, this.charts);
     }
   }, {
-  	hcOptions: {
+    hcOptions: {
       title: { text: this.chartTitle },
       subtitle: { text: '2nd data set' },
       series: [{
@@ -169,7 +175,7 @@ export class AppComponent {
     } as Highcharts.Options,
     hcCallback: () => {}
   }, {
-  	hcOptions: {
+    hcOptions: {
       title: { text: this.chartTitle },
       subtitle: { text: '3rd data set' },
       series: [{
@@ -189,7 +195,7 @@ export class AppComponent {
     hcCallback: () => {}
   }];
 
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Demo #3
 
   chartMap: Highcharts.Options = {
@@ -441,10 +447,33 @@ export class AppComponent {
         ['kg', 211],
         ['np', 212]
       ]
-    } as Highcharts.SeriesMapOptions]
+    } as Highcharts.SeriesMapOptions,
+    {
+      // Specify points using lat/lon
+      type: 'mappoint',
+      name: 'Canada cities',
+      color: 'tomato',
+      data: [
+        {
+          name: 'Vancouver',
+          lat: 49.246292,
+          lon: -123.116226
+        },
+        {
+          name: 'Quebec City',
+          lat: 46.829853,
+          lon: -71.254028
+        },
+        {
+          name: 'Yellowknife',
+          lat: 62.4540,
+          lon: -114.3718
+        }
+      ]
+    } as Highcharts.SeriesMappointOptions]
   };
 
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Demo #4
 
   chartGantt: Highcharts.Options = {
