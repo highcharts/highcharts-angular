@@ -273,7 +273,7 @@ HC_customEvents(Highcharts);
 
 If a plugin doesn't support loading through NPM you could treat it as a wrapper - see instructions below.
 
-If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/typescript) section of Highcharts documentation for Typescript usage.
+If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-beta#solving-problems) section of Highcharts documentation for Typescript usage.
 
 ### To load a map for Highmaps
 
