@@ -1,38 +1,38 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'highcharts-chart',
   template: ''
 })
-export class HighchartsChartComponent implements OnDestroy {
+export class HighchartsChartComponent implements OnDestroy, OnChanges {
   @Input() Highcharts: typeof Highcharts;
   @Input() constructorType: string;
   @Input() callbackFunction: Highcharts.ChartCallbackFunction;
   @Input() oneToOne: boolean; // #20
   @Input() runOutsideAngular: boolean; // #75
-
-  @Input() set options(val: Highcharts.Options) {
-    this.optionsValue = val;
-    this.wrappedUpdateOrCreateChart();
-  }
-  @Input() set update(val: boolean) {
-    if (val) {
-      this.wrappedUpdateOrCreateChart();
-      this.updateChange.emit(false); // clear the flag after update
-    }
-  }
+  @Input() options: Highcharts.Options;
+  @Input() update: boolean;
 
   @Output() updateChange = new EventEmitter<boolean>(true);
   @Output() chartInstance = new EventEmitter<Highcharts.Chart>(); // #26
 
   private chart: Highcharts.Chart;
-  private optionsValue: Highcharts.Options;
 
   constructor(
     private el: ElementRef,
     private _zone: NgZone // #75
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const update = changes.update && changes.update.currentValue;
+    if (changes.options || update) {
+      this.wrappedUpdateOrCreateChart();
+      if (update) {
+        this.updateChange.emit(false); // clear the flag after update
+      }
+    }
+  }
 
   wrappedUpdateOrCreateChart() { // #75
     if (this.runOutsideAngular) {
@@ -46,11 +46,11 @@ export class HighchartsChartComponent implements OnDestroy {
 
   updateOrCreateChart() {
     if (this.chart && this.chart.update) {
-      this.chart.update(this.optionsValue, true, this.oneToOne || false);
+      this.chart.update(this.options, true, this.oneToOne || false);
     } else {
       this.chart = (this.Highcharts as any)[this.constructorType || 'chart'](
         this.el.nativeElement,
-        this.optionsValue,
+        this.options,
         this.callbackFunction || null
       );
 
