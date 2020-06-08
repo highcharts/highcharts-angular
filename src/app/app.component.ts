@@ -20,7 +20,7 @@ import SunsetTheme from 'highcharts/themes/sunset.src.js';
 
 const mapWorld = require('@highcharts/map-collection/custom/world.geo.json');
 
-import * as HC_customEvents from 'highcharts-custom-events';
+import HC_customEvents from 'highcharts-custom-events';
 HC_customEvents(Highcharts);
 
 // Alternative way of a plugin loading:
