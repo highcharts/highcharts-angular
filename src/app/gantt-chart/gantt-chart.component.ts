@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import * as Highcharts from "highcharts/highcharts-gantt";
-import ExportingModule from 'highcharts/modules/exporting';
+import * as Highcharts from 'highcharts';
+import HC_gantt from 'highcharts/modules/gantt';
 
-ExportingModule(Highcharts);
+HC_gantt(Highcharts);
 
 @Component({
   selector: 'app-gantt-chart',
@@ -14,7 +14,7 @@ export class GanttChartComponent {
 
   chartGantt: Highcharts.Options = {
     title: {
-      text: 'Gantt Chart with Progress Indicators'
+      text: 'Highcharts Gantt with Progress Indicators'
     },
     xAxis: {
       min: Date.UTC(2014, 10, 17),

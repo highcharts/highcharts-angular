@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import * as Highcharts from "highcharts/highmaps";
-import ExportingModule from 'highcharts/modules/exporting';
+import * as Highcharts from 'highcharts';
+import HC_map from 'highcharts/modules/map';
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import proj4 from 'proj4';
-ExportingModule(Highcharts);
+
+HC_map(Highcharts);
 
 // Legacy way of map loading - see file at the path for more info.
 // require('../../js/worldmap')(Highcharts);
@@ -24,10 +25,11 @@ export class MapChartComponent {
       proj4: proj4
     },
     title: {
-      text: 'Highmaps basic demo'
+      text: 'Highcharts Maps - basic demo'
     },
     subtitle: {
-      text: 'Source map: <a href="http://code.highcharts.com/mapdata/custom/world.js">World, Miller projection, medium resolution</a>'
+      text: `Selected Canadian cities were marked using their lat/lon coordinates.<br>
+      Source map: <a href="http://code.highcharts.com/mapdata/custom/world.js">World, Miller projection, medium resolution</a>.`
     },
     mapNavigation: {
       enabled: true,
@@ -273,7 +275,10 @@ export class MapChartComponent {
       // Specify points using lat/lon
       type: 'mappoint',
       name: 'Canada cities',
-      color: 'tomato',
+      marker: {
+          radius: 5,
+          fillColor: 'tomato'
+      },
       data: [
         {
           name: 'Vancouver',

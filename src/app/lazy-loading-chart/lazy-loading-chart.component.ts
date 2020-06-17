@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts/highstock';
+import * as Highcharts from 'highcharts';
+import HC_stock from 'highcharts/modules/stock';
 import $ from 'jquery';
+
+HC_stock(Highcharts);
 
 @Component({
   selector: 'app-lazy-loading-chart',

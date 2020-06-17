@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import ExportingModule from 'highcharts/modules/exporting';
 import HC_customEvents from 'highcharts-custom-events';
-ExportingModule(Highcharts);
 HC_customEvents(Highcharts);
 
 @Component({
@@ -11,11 +9,9 @@ HC_customEvents(Highcharts);
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent {
-
-  // For all demos:
+  
   Highcharts: typeof Highcharts = Highcharts; // Highcharts, it's Highcharts
 
-  // Demo #1
   optFromInputString: string = `
   {
     "title": { "text": "Highcharts chart" },

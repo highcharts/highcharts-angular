@@ -17,10 +17,6 @@ main {
   width: 100%;
 }
 
-main:first-child {
-  margin-top: 2rem;
-}
-
 main:last-child {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
