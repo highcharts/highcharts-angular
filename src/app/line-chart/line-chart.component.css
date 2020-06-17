@@ -1,23 +1,32 @@
+article {
+  display: flex;
+}
+
+button:first-of-type {
+  margin-right: 1rem;
+}
+
+.buttons-wrapper {
+  margin-top: 1.5rem;
+}
+
 h2 {
-    font-size: 20px;
-    color: #eeeaea;
-    background-color: #47475C;
-    padding: 10px;
-  }
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem 0;
+}
   
-  .full-left {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    float: left;
-    width: 98%;
-    background-color: #eee;
-    padding: 5px 1%;
-  }
-  .medium-right {
-    float: right;
-    width: 65%;
-  }
-  .third-left {
-    width: 30%;
-    float: left;
-  }
+highcharts-chart {
+  flex-grow: 3;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  width: 40%
+}
+
+textarea {
+  border: 1px solid #E1E1E1;
+  border-radius: 0.5rem;
+}

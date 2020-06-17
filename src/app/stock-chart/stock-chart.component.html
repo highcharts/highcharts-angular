@@ -1,27 +1,26 @@
-<div class="full-left">
-    <h2>Demo #2: Highstock with simple updates</h2>
-    <div class="third-left">
-      <p>Chart title text: </p>
-      <input 
-        [(ngModel)]="charts[usedIndex].hcOptions.title.text"
-        (ngModelChange)="titleChange($event)"
-      >
-      <br/>
-      <p>Data sets:</p>
+<h2>Demo #2: Highstock with simple updates</h2>
+<article>
+  <section>
+    <p>Chart title text: </p>
+    <input 
+      [(ngModel)]="charts[usedIndex].hcOptions.title.text"
+      (ngModelChange)="titleChange($event)"
+      style="max-width: 50%"
+    >
+    <p>Data sets:</p>
+    <div>
       <button *ngFor="let i of [0,1,2]"
         (click)="usedIndex = i">
         {{i+1}}
       </button>
     </div>
-    <div class="medium-right">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [constructorType]="'stockChart'"
-        [options]="charts[usedIndex].hcOptions"
-        [callbackFunction]="charts[0].hcCallback"
-        [(update)]="updateDemo2"
-  
-        style="width: 100%; height: 350px; display: block;"
-      ></highcharts-chart>
-    </div>
-  </div>
+  </section>
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [constructorType]="'stockChart'"
+    [options]="charts[usedIndex].hcOptions"
+    [callbackFunction]="charts[0].hcCallback"
+    [(update)]="updateDemo2"
+  ></highcharts-chart>
+</article>
+ 
