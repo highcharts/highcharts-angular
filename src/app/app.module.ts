@@ -4,14 +4,18 @@ import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { HighchartsChartModule } from "highcharts-angular";
 import { AppComponent } from "./app.component";
-
+import { LineChartComponent } from "./line-chart/line-chart.component";
+import { StockChartComponent } from "./stock-chart/stock-chart.component";
+import { MapChartComponent } from "./map-chart/map-chart.component";
+import { GanttChartComponent } from "./gantt-chart/gantt-chart.component";
+import { LazyLoadingChartComponent } from './lazy-loading-chart/lazy-loading-chart.component';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LineChartComponent, StockChartComponent, MapChartComponent, GanttChartComponent, LazyLoadingChartComponent],
   imports: [
     BrowserModule,
     FormsModule,
     HighchartsChartModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

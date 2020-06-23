@@ -1,0 +1,26 @@
+<h2>Demo #2: Highcharts Stock with simple updates</h2>
+<article>
+  <section>
+    <p>Chart title text: </p>
+    <input 
+      [(ngModel)]="charts[usedIndex].hcOptions.title.text"
+      (ngModelChange)="titleChange($event)"
+      style="max-width: 50%"
+    >
+    <p>Data sets:</p>
+    <div>
+      <button *ngFor="let i of [0,1,2]"
+        (click)="usedIndex = i">
+        {{i+1}}
+      </button>
+    </div>
+  </section>
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [constructorType]="'stockChart'"
+    [options]="charts[usedIndex].hcOptions"
+    [callbackFunction]="charts[0].hcCallback"
+    [(update)]="updateDemo2"
+  ></highcharts-chart>
+</article>
+ 

@@ -1,0 +1,19 @@
+<h2>Demo #1: Highcharts with a basic editor</h2>
+<article>
+  <section>
+    <textarea rows="16" cols="50"
+      [(ngModel)]="optFromInputString"
+    ></textarea>
+    <div class="buttons-wrapper">
+      <button (click)="updateInputChart()">Update chart</button>
+      <button (click)="toggleSeriesType()">1st series type toggle</button>
+    </div>
+  </section>
+  <highcharts-chart 
+    [Highcharts]="Highcharts"
+    [options]="optFromInput"
+    [(update)]="updateFromInput"
+    [oneToOne]=true
+    (chartInstance)="logChartInstance($event)"
+  ></highcharts-chart>
+</article>
