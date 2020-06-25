@@ -18,8 +18,9 @@ Official minimal Highcharts wrapper for Angular
 5. [Demo app](#demo-app)
     1. [Play with the app](#play-with-the-app)
     2. [Files to play with](#files-to-play-with)
-6. [Changing the Component](#changing-the-component)
-7. [Help and FAQ](#help-and-faq)
+6. [Online examples](#online-examples)
+7. [Changing the Component](#changing-the-component)
+8. [Help and FAQ](#help-and-faq)
 
 
 
@@ -378,6 +379,17 @@ Contains Angular main component that uses the *chart* component.
 
 Contains the chart component that creates Highcharts chart.
 
+
+## Online examples
+
+* Basic line: [https://stackblitz.com/edit/highcharts-angular-basic-line](https://stackblitz.com/edit/highcharts-angular-basic-line)
+* Stock: [https://stackblitz.com/edit/highcharts-angular-stock](https://stackblitz.com/edit/highcharts-angular-stock)
+* Stock + indicators: [https://stackblitz.com/edit/highcharts-angular-stock-indicators](https://stackblitz.com/edit/highcharts-angular-stock-indicators)
+* Stock + GUI: [https://stackblitz.com/edit/highcharts-angular-stock-gui](https://stackblitz.com/edit/highcharts-angular-stock-gui)
+* Map: [https://stackblitz.com/edit/highcharts-angular-map](https://stackblitz.com/edit/highcharts-angular-map)
+* Optimal way to update: [https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update](https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update)
+* Data from the service: [https://stackblitz.com/edit/highcharts-angular-data-from-service-2](https://stackblitz.com/edit/highcharts-angular-data-from-service-2)
+* Applying a custom plugin/wrap: [https://stackblitz.com/edit/highcharts-angular-custom-plugin](https://stackblitz.com/edit/highcharts-angular-custom-plugin)
 
 
 ## Changing the Component
