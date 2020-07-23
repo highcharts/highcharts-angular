@@ -139,47 +139,15 @@ Build and run your Angular app to see a basic line chart.
 
 ## Options details
 
-1. `[Highcharts]="Highcharts"`
-
-The option is **required**. This is a Highcharts instance with **required core** and optional **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. More detail for the option in [the next documentation section](#highcharts-instance-details).
-
-2. `[constructorType]="chartConstructor"`
-
-The option is **optional**. This is a string for [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Possible values:
-
-* `'chart'` - for standard [Highcharts®](https://www.highcharts.com/products/highcharts/) constructor - for any Highcharts instance, this is **default value**
-
-* `'stockChart'` - for [Highstock®](https://www.highcharts.com/blog/products/highstock/) constructor - [Highstock or Stock module](https://www.highcharts.com/docs/getting-started/installation) is required
-
-* `'mapChart'` - for [Highmaps®](https://www.highcharts.com/blog/products/highmaps/) constructor - [Highmaps or Map module](https://www.highcharts.com/docs/maps/getting-started) is required
-
-* `'ganttChart'` - for [Highcharts® Gantt](https://www.highcharts.com/blog/products/gantt/) constructor - [Highcharts® Gantt or Gantt module](https://www.highcharts.com/docs/gantt/getting-started-gantt) is required
-
-3. `[options]="chartOptions"`
-
-The option is **required**. Possible chart options could be found in [Highcharts API reference](http://api.highcharts.com/highcharts). Minimal working object that could be set for basic testing is `{ series:[{ data:[1, 2] }] }`.
-
-4. `[callbackFunction]="chartCallback"`
-
-The option is **optional**. A callback function for the created chart. First argument for the function will hold the created **chart**. Default `this` in the function points to the **chart**.
-
-5. `[(update)]="updateFlag"`
-
-The option is **optional**. A boolean to trigger update on a chart as Angular is not detecting nested changes in a object passed to a component. Set corresponding variable (`updateFlag` in the example) to `true` and after update on a chart is done it will be changed asynchronously to `false` by Highcharts-angular component.
-
-6. `[oneToOne]="oneToOneFlag"`
-
-The option is **optional**, defaults to `false`. The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When true, the `series`, `xAxis` and `yAxis` collections will be updated one to one, and items will be either added or removed to match the new updated options. For example, if the chart has **two** series and we call `chart.update` (and this is called on each chart's data change or if `updateFlag` is set to true) with a configuration containing **three** series, **one** will be added. If we call `chart.update` with **one** series, **one** will be removed. Setting an empty series array will remove all series, but leaving out the series property will leave all series untouched. If the series have id's, the new series options will be matched by id, and the remaining ones removed.
-
-The options is presented in [the demo](#demo-app) in the first chart - try setting new chart options with different amounts of series in [the textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see this options in action.
-
-7. `[runOutsideAngular]="runOutsideAngularFlag"`
-
-The option is **optional**, defaults to `false`. When this option is set to `true` chart is created and updated outside of Angular's zone and Highcharts events do not trigger Angular change-detection. Details about `runOutsideAngular` are available in [Angular documentation](https://angular.io/api/core/NgZone#runoutsideangular). This options is more useful for bigger, more complex application (see [discussion](https://github.com/highcharts/highcharts-angular/pull/73)).
-
-The option is presented in [this demo](https://codesandbox.io/s/k24qxvzlk7).
-
-
+| Parameter | Type | Required | Defaults | Description |
+| --------- | :----: | :--------: | :--------: | ----------- |
+| `[Highcharts]` | Object | yes | `-` | The option is **required**. This is a Highcharts instance with **required core** and optional **modules**, **plugin**, **maps**, **wrappers** and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. More detail for the option in [the next documentation section](#highcharts-instance-details). |
+| `[constructorType]` | String | no | `'chart'` | String for [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Official constructors: <br>- `'chart'` for Highcharts charts <br>- `'stockChart'` for Highstock charts <br>- `'mapChart'` for Highmaps charts <br>- `'ganttChart'` for Gantt charts|
+| `[options]` | Object | yes | `-` | The option is **required**. Possible chart options could be found in [Highcharts API reference](http://api.highcharts.com/highcharts). Minimal working object that could be set for basic testing is `{ series:[{ data:[1, 2] }] }`.(https://api.highcharts.com/highcharts/). |
+| `[(update)]` | Boolean | no | `-` | The option is **optional**. A boolean to trigger update on a chart as Angular is not detecting nested changes in a object passed to a component. Set corresponding variable (`updateFlag` in the example) to `true` and after update on a chart is done it will be changed asynchronously to `false` by Highcharts-angular component.|
+| `[oneToOne]` | Boolean | no | `false` | The option is **optional**, defaults to `false`. The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When true, the `series`, `xAxis` and `yAxis` collections will be updated one to one, and items will be either added or removed to match the new updated options. For example, if the chart has **two** series and we call `chart.update` (and this is called on each chart's data change or if `updateFlag` is set to true) with a configuration containing **three** series, **one** will be added. If we call `chart.update` with **one** series, **one** will be removed. Setting an empty series array will remove all series, but leaving out the series property will leave all series untouched. If the series have id's, the new series options will be matched by id, and the remaining ones removed. <br> <br> The options is presented in [the demo](#demo-app) in the first chart - try setting new chart options with different amounts of series in [the textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see this options in action.|
+| `[callbackFunction]` | Function | no | `-` | The option is **optional**. A callback function for the created chart. First argument for the function will hold the created **chart**. Default `this` in the function points to the **chart**. |
+| `[runOutsideAngular]` | Boolean | no | `-` | The option is **optional**, defaults to `false`. When this option is set to `true` chart is created and updated outside of Angular's zone and Highcharts events do not trigger Angular change-detection. Details about `runOutsideAngular` are available in [Angular documentation](https://angular.io/api/core/NgZone#runoutsideangular). This options is more useful for bigger, more complex application (see [discussion](https://github.com/highcharts/highcharts-angular/pull/73)). <br> <br> The option is presented in [this demo](https://codesandbox.io/s/k24qxvzlk7).|
 
 ## Chart instance
 
