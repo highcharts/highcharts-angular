@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
+import { AppleDataService } from '../apple-data.service'
 import $ from 'jquery';
+import { Observable } from 'rxjs';
 
 HC_stock(Highcharts);
 
@@ -12,37 +14,52 @@ HC_stock(Highcharts);
 })
 export class LazyLoadingChartComponent {
 
+  constructor(private appleDataService: AppleDataService) { }
+
   Highcharts: typeof Highcharts = Highcharts;
+
+  chartRef: Highcharts.Chart;
+
+  chartCallback: Highcharts.ChartCallbackFunction = (chart) => {
+    this.chartRef = chart;
+  };
+
+  fetchData(): Observable<Object> {
+    return this.appleDataService.fetchData();
+  }
+
+  fetchSqlData(min: number, max: number): Observable<Object> {
+    return this.appleDataService.fetchSqlData(min, max);
+  }
 
   chartLazyLoading: Highcharts.Options = {
     chart: {
       type: 'candlestick',
       zoomType: 'x',
       events: {
-        load: function() {
-          var chart = this;
+        load: () => {
+          const chart = this.chartRef;
+          const data = this.fetchData()
+            .subscribe((data: Array<[]>) => {
+              // Add a null value for the end date
+              const chartData = [...data, [Date.UTC(2011, 9, 14, 19, 59), null, null, null, null]];
 
-          $.getJSON('https://www.highcharts.com/samples/data/from-sql.php?callback=?', function(data) {
-            // Add a null value for the end date
-            data = [].concat(data, [
-              [Date.UTC(2011, 9, 14, 19, 59), null, null, null, null]
-            ]);
-
-            chart.addSeries({
-              data: data,
-              dataGrouping: {
-                enabled: false
-              }
-            } as Highcharts.SeriesOptionsType, false);
-
-            chart.update({
-              navigator: {
-                series: {
-                  data: data
+              chart.addSeries({
+                type: 'candlestick',
+                data: chartData,
+                dataGrouping: {
+                  enabled: false
                 }
-              }
+              }, false);
+
+              chart.update({
+                navigator: {
+                  series: {
+                    data: chartData
+                  }
+                }
+              });
             });
-          });
         }
       }
     },
@@ -90,18 +107,16 @@ export class LazyLoadingChartComponent {
 
     xAxis: {
       events: {
-        afterSetExtremes: function(e) {
-          var chart = this.chart;
-          /**
-           * Load new data depending on the selected min and max
-           */
+        afterSetExtremes: (event) => {
+          const chart = this.chartRef;
+
           chart.showLoading('Loading data from server...');
-          $.getJSON('https://www.highcharts.com/samples/data/from-sql.php?start=' + Math.round(e.min) +
-            '&end=' + Math.round(e.max) + '&callback=?',
-            function(data) {
-              chart.series[0].setData(data);
-              chart.hideLoading();
-            });
+
+          // Load new data depending on the selected min and max
+          this.fetchSqlData(event.min, event.max).subscribe((data: Array<[]>) => {
+            chart.series[0].setData(data);
+            chart.hideLoading();
+          })
         }
       },
       minRange: 3600 * 1000 // one hour
