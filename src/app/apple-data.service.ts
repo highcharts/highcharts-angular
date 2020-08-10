@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,17 @@ export class AppleDataService {
   constructor(private http: HttpClient) { }
 
   fetchData(): Observable<Object> {
-    return this.http.get(this.dataUrl);
+    return this.http.get(this.dataUrl)
+      .pipe(catchError(this.errorHandler));
   }
 
   fetchSqlData(min: number, max: number): Observable<Object> {
     return this.http.get(`${this.dataUrl}?start=${Math.round(min)}&end=${Math.round(max)}`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  errorHandler(error: HttpErrorResponse) {
+    return throwError(error.message || "server error.");
   }
 
 }
