@@ -1,14 +1,16 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
-    "baseUrl": "",
+    "baseUrl": "tsconfig.spec",
     "types": ["jasmine", "node"],
     "paths": {
       "highcharts-angular": ["../dist/highcharts-angular"],
       "highcharts-angular/*": ["../dist/highcharts-angular/*"]
     }
   },
-  "files": ["test.ts"],
+  "files": [
+    "src/test.ts"
+  ],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }
