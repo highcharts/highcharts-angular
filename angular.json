@@ -14,7 +14,7 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "./tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
@@ -72,7 +72,7 @@
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsConfig": "./tsconfig.spec.json",
             "scripts": [],
             "styles": [],
             "assets": [
@@ -138,9 +138,12 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "highcharts-angular/src/test.ts",
-            "tsConfig": "highcharts-angular/tsconfig.spec.json",
-            "karmaConfig": "highcharts-angular/karma.conf.js"
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "./tsconfig.spec.json",
+            "scripts": [],
+            "styles": [],
           }
         },
         "lint": {

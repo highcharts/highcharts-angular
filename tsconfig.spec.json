@@ -1,16 +1,24 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/spec",
-    "baseUrl": "tsconfig.spec",
-    "types": ["jasmine", "node"],
     "paths": {
       "highcharts-angular": ["../dist/highcharts-angular"],
       "highcharts-angular/*": ["../dist/highcharts-angular/*"]
-    }
+    },
+    "outDir": "./out-tsc/spec",
+    "types": [
+      "jasmine",
+      "node"
+    ]
   },
   "files": [
-    "src/test.ts"
+    "src/test.ts",
+    "src/polyfills.ts"
   ],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
 }
+
