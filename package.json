@@ -9,7 +9,7 @@
     "ng": "ng",
     "start": "node tasks/build.js && ng serve --open",
     "build": "node tasks/build.js",
-    "test": "ng test highcharts-angular",
+    "test": "ng test",
     "lint": "ng lint highcharts-angular",
     "release": "cd ./highcharts-angular && standard-version && cd ../ && node tasks/build.js && node tasks/release.js",
     "e2e": "ng e2e"
