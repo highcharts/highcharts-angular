@@ -9,7 +9,6 @@ HC_customEvents(Highcharts);
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent {
-  
   Highcharts: typeof Highcharts = Highcharts; // Highcharts, it's Highcharts
 
   optFromInputString: string = `
