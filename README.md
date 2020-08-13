@@ -6,6 +6,7 @@ Official minimal Highcharts wrapper for Angular
     1. [General prerequisites](#general-prerequisites)
     2. [Installing](#installing)
     3. [Hello world demo](#hello-world-demo)
+    4. [Angular Universal - SSR](#angular-universal--SSR)
 2. [Options details](#options-details)
 3. [Chart instance](#chart-instance)
 4. [Highcharts instance details](#highcharts-instance-details)
@@ -135,7 +136,26 @@ export class AppComponent {
 
 Build and run your Angular app to see a basic line chart.
 
+### Angular Universal - SSR
 
+The code running in the server-side rendering runs twice. The first run is done in an environment that lacks window (server-side) and causes Highcharts to be loaded, but not initialized. 
+Because Highcharts is strictly bound with the browser events we need to prevent it from running on the server-side. 
+To achieve that you can check if `typeof Highcharts` is equal to object (this condition won't be `true` on the server-side), and then use it under the `*ngIf` directive.
+```TypeScript
+export class AppComponent {
+  isHighcharts = typeof Highcharts === 'object';
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {...};
+}
+```
+
+```HTML
+<highcharts-chart
+  *ngIf="isHighcharts"
+  [Highcharts]="Highcharts"
+  [options]="chartOptions"
+></highcharts-chart>
+```
 
 ## Options details
 
