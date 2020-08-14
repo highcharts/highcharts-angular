@@ -15,6 +15,6 @@
   },
   "files": [
     "src/main.ts",
-    "polyfills.ts"
+    "src/polyfills.ts"
   ]
 }
