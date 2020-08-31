@@ -1,8 +1,8 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "baseUrl": "",
+    "baseUrl": "tsconfig.app",
     "types": [],
     "paths": {
       "highcharts-angular": [
@@ -14,7 +14,7 @@
     }
   },
   "files": [
-    "main.ts",
-    "polyfills.ts"
+    "src/main.ts",
+    "src/polyfills.ts"
   ]
 }

@@ -9,8 +9,9 @@ import { StockChartComponent } from "./stock-chart/stock-chart.component";
 import { MapChartComponent } from "./map-chart/map-chart.component";
 import { GanttChartComponent } from "./gantt-chart/gantt-chart.component";
 import { LazyLoadingChartComponent } from './lazy-loading-chart/lazy-loading-chart.component';
+import { LineTestComponent } from './tests/line-test/line-test.component';
 @NgModule({
-  declarations: [AppComponent, LineChartComponent, StockChartComponent, MapChartComponent, GanttChartComponent, LazyLoadingChartComponent],
+  declarations: [AppComponent, LineChartComponent, StockChartComponent, MapChartComponent, GanttChartComponent, LazyLoadingChartComponent, LineTestComponent],
   imports: [
     BrowserModule,
     FormsModule,
