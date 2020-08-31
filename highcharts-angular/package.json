@@ -1,7 +1,7 @@
 {
   "name": "highcharts-angular",
   "description": "Highcharts component for Angular.",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "license": "SEE LICENSE IN <LICENSE>",
   "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
   "bugs": {
