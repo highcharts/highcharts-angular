@@ -19,8 +19,8 @@
     "angular"
   ],
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0",
+    "@angular/common": "^2.0.0-rc.0 || >=2.0.0",
+    "@angular/core": "^2.0.0-rc.0 || >=2.0.0",
     "highcharts": ">=6.0.0"
   },
   "dependencies": {
