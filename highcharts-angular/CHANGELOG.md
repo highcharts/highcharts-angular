@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.2](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.8.2) (2020-11-02)
+
+### Bug Fixes
+
+* Changed peer dependencies. ([07e6209](https://github.com/highcharts/highcharts-angular/pull/228/commits/07e6209e594e6026faae394a7b9b3edd5fdcc4b5))
+
 # [2.8.0](https://github.com/highcharts/highcharts-angular/compare/v2.4.0...v2.8.0) (2020-08-31)
 
 ### Features
