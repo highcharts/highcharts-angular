@@ -11,6 +11,9 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": false,
+            "allowedCommonJsDependencies": [
+              "highcharts"
+            ],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
