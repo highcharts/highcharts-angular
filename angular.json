@@ -12,7 +12,8 @@
           "options": {
             "aot": false,
             "allowedCommonJsDependencies": [
-              "highcharts"
+              "highcharts",
+              "highcharts-custom-events"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
