@@ -430,3 +430,13 @@ The correct repository to report such issues is [main Highcharts repository](htt
 
 Based on original Highcharts demo for [Synchronized charts](https://www.highcharts.com/demo/synchronized-charts).
 Additionally added class based sync between charts - [demo](https://codesandbox.io/s/5wwz8qy1l4).
+
+#### Property `XXX` does not exist on type `YYY`
+
+It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you could just the Highcharts type and add the missing property - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-yyy).
+
+
+
+
+
+
