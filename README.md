@@ -379,6 +379,7 @@ Contains the chart component that creates Highcharts chart.
 * Optimal way to update: [https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update](https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update)
 * Data from the service: [https://stackblitz.com/edit/highcharts-angular-data-from-service-2](https://stackblitz.com/edit/highcharts-angular-data-from-service-2)
 * Applying a custom plugin/wrap: [https://stackblitz.com/edit/highcharts-angular-custom-plugin](https://stackblitz.com/edit/highcharts-angular-custom-plugin)
+* Property `XXX` does not exist on type `YYY`: [https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy)
 * Using portals to render an angular component within a chart: [https://stackblitz.com/edit/highcharts-angular-portal-usage](https://stackblitz.com/edit/highcharts-angular-portal-usage)
 
 ## Changing the Component
@@ -433,6 +434,10 @@ Based on original Highcharts demo for [Synchronized charts](https://www.highchar
 
 Additionally added class based sync between charts - [demo](https://codesandbox.io/s/5wwz8qy1l4).
 
+#### Property `XXX` does not exist on type `YYY`
+
+It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you need to create your own type that will extend the default Highcharts one with the new properties. Then all you need to do is to cast the selected option / to the extended type - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy).
+
 #### How to use Highcharts Maps with the proj4?
 
 Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository or [live demo](https://stackblitz.com/edit/highcharts-angular-map-proj4) example.
@@ -440,4 +445,3 @@ Install the `proj4` library and its types `@types/proj4`. Then pass it to `chart
 #### I want to render angular component in the tooltip/axis formatter
 
 To render angular component within the chart you can use the angular [portals](https://material.angular.io/cdk/portal/overview) - [demo](https://stackblitz.com/edit/highcharts-angular-portal-usage)
-
