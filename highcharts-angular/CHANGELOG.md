@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.9.0) (2021-01-04)
+
+
+### Features
+
+* added common TS error example to the FAQ section ([1ebbf2f](https://github.com/highcharts/highcharts-angular/commit/1ebbf2fbb368f34bef54bd12bc44f9a50c0e12d1))
+* added common TS error example to the online examples section ([6c13fdd](https://github.com/highcharts/highcharts-angular/commit/6c13fdd21ac524140046f3a81fcedf24b2fae608))
+* added how to use proj4 to the FAQ section ([7f02d4e](https://github.com/highcharts/highcharts-angular/commit/7f02d4e887cc8d36b6adbac5f5e9bef3d8991358))
+* added portals demo to the online examples section ([5e166bf](https://github.com/highcharts/highcharts-angular/commit/5e166bfba22ed9038b0bbd564ec7524025ae2cec))
+* deleted duplicated line ([9bad2d2](https://github.com/highcharts/highcharts-angular/commit/9bad2d28dbca9b3916cfdf0cbcb58a5891f1917b))
+* extended faq description ([ff42cf4](https://github.com/highcharts/highcharts-angular/commit/ff42cf46405359b23bc907b7aac8931113fb41b2))
+* updated products names ([4831134](https://github.com/highcharts/highcharts-angular/commit/4831134e2e0a7f1a6295e0cb891850f38703157d))
+
+
+### Bug Fixes
+
+* fixed incorrect link ([c274d5e](https://github.com/highcharts/highcharts-angular/commit/c274d5edc5457f09f1e0631ea29c0f88a0145726))
+
 ### [2.8.2](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.8.2) (2020-11-02)
 
 ### Bug Fixes
