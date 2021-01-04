@@ -10,10 +10,9 @@ All notable changes to this project will be documented in this file. See [standa
 * Added how to use proj4 to the online examples, and the FAQ section. ([7f02d4e](https://github.com/highcharts/highcharts-angular/commit/7f02d4e887cc8d36b6adbac5f5e9bef3d8991358))
 * Added portals demo to the online examples, and the FAQ section. ([5e166bf](https://github.com/highcharts/highcharts-angular/commit/5e166bfba22ed9038b0bbd564ec7524025ae2cec))
 * Updated Highcharts products names in the README file. ([4831134](https://github.com/highcharts/highcharts-angular/commit/4831134e2e0a7f1a6295e0cb891850f38703157d))
-* Updated Angular to version 11. ([df1a505](https://github.com/highcharts/highcharts-angular/pull/257/commits/4cff05426831f8f524535c4d285b1b117495961a))
+* Updated Angular to version 11. ([594c411](https://github.com/highcharts/highcharts-angular/pull/257/commits/594c4112eb30b093649fe8ee0a36abc0642c589b))
 
-
-### [2.8.2](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.8.2) (2020-11-02)
+## [2.8.2](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.8.2) (2020-11-02)
 
 ### Bug Fixes
 
