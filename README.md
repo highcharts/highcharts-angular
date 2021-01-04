@@ -433,7 +433,7 @@ Additionally added class based sync between charts - [demo](https://codesandbox.
 
 #### Property `XXX` does not exist on type `YYY`
 
-It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you could just the Highcharts type and add the missing property - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy).
+It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you need to create your own type that will extend the default Highcharts one with the new properties. Then all you need to do is to cast the selected option / to the extended type - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy).
 
 
 
