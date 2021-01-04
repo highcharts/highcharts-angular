@@ -378,7 +378,7 @@ Contains the chart component that creates Highcharts chart.
 * Optimal way to update: [https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update](https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update)
 * Data from the service: [https://stackblitz.com/edit/highcharts-angular-data-from-service-2](https://stackblitz.com/edit/highcharts-angular-data-from-service-2)
 * Applying a custom plugin/wrap: [https://stackblitz.com/edit/highcharts-angular-custom-plugin](https://stackblitz.com/edit/highcharts-angular-custom-plugin)
-* Property `XXX` does not exist on type `YYY`: [https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-yyy](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-yyy)
+* Property `XXX` does not exist on type `YYY`: [https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy)
 
 ## Changing the Component
 
@@ -433,7 +433,7 @@ Additionally added class based sync between charts - [demo](https://codesandbox.
 
 #### Property `XXX` does not exist on type `YYY`
 
-It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you could just the Highcharts type and add the missing property - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-yyy).
+It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you could just the Highcharts type and add the missing property - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy).
 
 
 
