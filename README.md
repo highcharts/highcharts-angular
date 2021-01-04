@@ -375,6 +375,7 @@ Contains the chart component that creates Highcharts chart.
 * Stock + indicators: [https://stackblitz.com/edit/highcharts-angular-stock-indicators](https://stackblitz.com/edit/highcharts-angular-stock-indicators)
 * Stock + GUI: [https://stackblitz.com/edit/highcharts-angular-stock-gui](https://stackblitz.com/edit/highcharts-angular-stock-gui)
 * Map: [https://stackblitz.com/edit/highcharts-angular-map](https://stackblitz.com/edit/highcharts-angular-map)
+* Map + proj4: [https://stackblitz.com/edit/highcharts-angular-map-proj4](https://stackblitz.com/edit/highcharts-angular-map-proj4)
 * Optimal way to update: [https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update](https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update)
 * Data from the service: [https://stackblitz.com/edit/highcharts-angular-data-from-service-2](https://stackblitz.com/edit/highcharts-angular-data-from-service-2)
 * Applying a custom plugin/wrap: [https://stackblitz.com/edit/highcharts-angular-custom-plugin](https://stackblitz.com/edit/highcharts-angular-custom-plugin)
@@ -430,3 +431,7 @@ The correct repository to report such issues is [main Highcharts repository](htt
 
 Based on original Highcharts demo for [Synchronized charts](https://www.highcharts.com/demo/synchronized-charts).
 Additionally added class based sync between charts - [demo](https://codesandbox.io/s/5wwz8qy1l4).
+
+#### How to use Highcharts Maps with the proj4?
+
+Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository or [live demo](https://stackblitz.com/edit/highcharts-angular-map-proj4) example.
