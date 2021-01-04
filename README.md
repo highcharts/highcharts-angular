@@ -13,7 +13,7 @@ Official minimal Highcharts wrapper for Angular
     1. [Core](#core)
     2. [To load a module](#to-load-a-module)
     3. [To load a plugin](#to-load-a-plugin)
-    4. [To load a map for Highmaps](#to-load-a-map-for-highmaps)
+    4. [To load a map for Highcharts Maps](#to-load-a-map-for-Highcharts-Maps)
     5. [To load a wrapper](#to-load-a-wrapper)
     6. [To use setOptions](#to-use-setoptions)
 5. [Demo app](#demo-app)
@@ -189,7 +189,7 @@ _Notice:_ The Highcharts instance is shared through components in an Angular app
 
 ### Core
 
-As core you could load **Highcharts**, **Highstock**, **Highmaps** or **Highcharts Gantt** (v. 6.2.0+).
+As core you could load **Highcharts**, **Highcharts Stock**, **Highcharts Maps** or **Highcharts Gantt** (v. 6.2.0+).
 
 * For **Highcharts**:
 
@@ -197,7 +197,7 @@ As core you could load **Highcharts**, **Highstock**, **Highmaps** or **Highchar
 import * as Highcharts from 'highcharts';
 ```
 
-* For **Highstock**:
+* For **Highcharts Stock**:
 
 ```ts
 import * as Highcharts from 'highcharts/highstock';
@@ -209,7 +209,7 @@ import HC_stock from 'highcharts/modules/stock';
 HC_stock(Highcharts);
 ```
 
-* For **Highmaps**:
+* For **Highcharts Maps**:
 
 ```ts
 import * as Highcharts from 'highcharts/highmaps';
@@ -235,7 +235,7 @@ HC_gantt(Highcharts);
 
 ### To load a module
 
-A module is a Highcharts official addon - including Highstock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)). After Highcharts is imported using Highcharts, Highstock or Highmaps use `import` and initialize each module on the Highcharts variable.
+A module is a Highcharts official addon - including Highcharts Stock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)). After Highcharts is imported using Highcharts, Highcharts Stock or Highcharts Maps use `import` and initialize each module on the Highcharts variable.
 
 ```ts
 import * as Highcharts from 'highcharts';
@@ -264,7 +264,7 @@ If a plugin doesn't support loading through NPM you could treat it as a wrapper 
 
 If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-beta#solving-problems) section of Highcharts documentation for Typescript usage.
 
-### To load a map for Highmaps
+### To load a map for Highcharts Maps
 
 Official map collection is published and [here](https://www.npmjs.com/package/@highcharts/map-collection#install-from-npm) are basic instructions for loading a map.
 An example can also be found in the [demo app](#demo-app).
