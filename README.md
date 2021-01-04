@@ -437,8 +437,6 @@ Additionally added class based sync between charts - [demo](https://codesandbox.
 
 Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository or [live demo](https://stackblitz.com/edit/highcharts-angular-map-proj4) example.
 
-Additionally, added class based sync between charts - [demo](https://codesandbox.io/s/5wwz8qy1l4).
-
 #### I want to render angular component in the tooltip/axis formatter
 
 To render angular component within the chart you can use the angular [portals](https://material.angular.io/cdk/portal/overview) - [demo](https://stackblitz.com/edit/highcharts-angular-portal-usage)
