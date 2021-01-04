@@ -13,7 +13,7 @@ Official minimal Highcharts wrapper for Angular
     1. [Core](#core)
     2. [To load a module](#to-load-a-module)
     3. [To load a plugin](#to-load-a-plugin)
-    4. [To load a map for Highmaps](#to-load-a-map-for-highmaps)
+    4. [To load a map for Highcharts Maps](#to-load-a-map-for-Highcharts-Maps)
     5. [To load a wrapper](#to-load-a-wrapper)
     6. [To use setOptions](#to-use-setoptions)
 5. [Demo app](#demo-app)
@@ -189,7 +189,7 @@ _Notice:_ The Highcharts instance is shared through components in an Angular app
 
 ### Core
 
-As core you could load **Highcharts**, **Highstock**, **Highmaps** or **Highcharts Gantt** (v. 6.2.0+).
+As core you could load **Highcharts**, **Highcharts Stock**, **Highcharts Maps** or **Highcharts Gantt** (v. 6.2.0+).
 
 * For **Highcharts**:
 
@@ -197,7 +197,7 @@ As core you could load **Highcharts**, **Highstock**, **Highmaps** or **Highchar
 import * as Highcharts from 'highcharts';
 ```
 
-* For **Highstock**:
+* For **Highcharts Stock**:
 
 ```ts
 import * as Highcharts from 'highcharts/highstock';
@@ -209,7 +209,7 @@ import HC_stock from 'highcharts/modules/stock';
 HC_stock(Highcharts);
 ```
 
-* For **Highmaps**:
+* For **Highcharts Maps**:
 
 ```ts
 import * as Highcharts from 'highcharts/highmaps';
@@ -235,7 +235,7 @@ HC_gantt(Highcharts);
 
 ### To load a module
 
-A module is a Highcharts official addon - including Highstock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)). After Highcharts is imported using Highcharts, Highstock or Highmaps use `import` and initialize each module on the Highcharts variable.
+A module is a Highcharts official addon - including Highcharts Stock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)). After Highcharts is imported using Highcharts, Highcharts Stock or Highcharts Maps use `import` and initialize each module on the Highcharts variable.
 
 ```ts
 import * as Highcharts from 'highcharts';
@@ -264,7 +264,7 @@ If a plugin doesn't support loading through NPM you could treat it as a wrapper 
 
 If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-beta#solving-problems) section of Highcharts documentation for Typescript usage.
 
-### To load a map for Highmaps
+### To load a map for Highcharts Maps
 
 Official map collection is published and [here](https://www.npmjs.com/package/@highcharts/map-collection#install-from-npm) are basic instructions for loading a map.
 An example can also be found in the [demo app](#demo-app).
@@ -375,10 +375,12 @@ Contains the chart component that creates Highcharts chart.
 * Stock + indicators: [https://stackblitz.com/edit/highcharts-angular-stock-indicators](https://stackblitz.com/edit/highcharts-angular-stock-indicators)
 * Stock + GUI: [https://stackblitz.com/edit/highcharts-angular-stock-gui](https://stackblitz.com/edit/highcharts-angular-stock-gui)
 * Map: [https://stackblitz.com/edit/highcharts-angular-map](https://stackblitz.com/edit/highcharts-angular-map)
+* Map + proj4: [https://stackblitz.com/edit/highcharts-angular-map-proj4](https://stackblitz.com/edit/highcharts-angular-map-proj4)
 * Optimal way to update: [https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update](https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update)
 * Data from the service: [https://stackblitz.com/edit/highcharts-angular-data-from-service-2](https://stackblitz.com/edit/highcharts-angular-data-from-service-2)
 * Applying a custom plugin/wrap: [https://stackblitz.com/edit/highcharts-angular-custom-plugin](https://stackblitz.com/edit/highcharts-angular-custom-plugin)
-
+* Property `XXX` does not exist on type `YYY`: [https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy)
+* Using portals to render an angular component within a chart: [https://stackblitz.com/edit/highcharts-angular-portal-usage](https://stackblitz.com/edit/highcharts-angular-portal-usage)
 
 ## Changing the Component
 
@@ -429,4 +431,17 @@ The correct repository to report such issues is [main Highcharts repository](htt
 #### Synchronized Charts Angular demo
 
 Based on original Highcharts demo for [Synchronized charts](https://www.highcharts.com/demo/synchronized-charts).
+
 Additionally added class based sync between charts - [demo](https://codesandbox.io/s/5wwz8qy1l4).
+
+#### Property `XXX` does not exist on type `YYY`
+
+It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you need to create your own type that will extend the default Highcharts one with the new properties. Then all you need to do is to cast the selected option / to the extended type - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy).
+
+#### How to use Highcharts Maps with the proj4?
+
+Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository or [live demo](https://stackblitz.com/edit/highcharts-angular-map-proj4) example.
+
+#### I want to render angular component in the tooltip/axis formatter
+
+To render angular component within the chart you can use the angular [portals](https://material.angular.io/cdk/portal/overview) - [demo](https://stackblitz.com/edit/highcharts-angular-portal-usage)
