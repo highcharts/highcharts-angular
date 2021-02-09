@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.1](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.10.0) (2021-02-09)
+
+### Features
+
+* Updated Highcharts to 9.0.0 version. ([e23e896](https://github.com/highcharts/highcharts-angular/pull/267/commits/e23e896b8ff0ac49f8756b5e343ad4c39305c216))
+
+### Bug Fixes
+
+* fixed incorrect link ([c274d5e](https://github.com/highcharts/highcharts-angular/commit/c274d5edc5457f09f1e0631ea29c0f88a0145726))
+
 # [2.9.0](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.9.0) (2021-01-04)
 
 ### Features
