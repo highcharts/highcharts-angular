@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone, OnChanges, SimpleChanges } from '@angular/core';
-import * as Highcharts from 'highcharts';
+import type * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'highcharts-chart',
