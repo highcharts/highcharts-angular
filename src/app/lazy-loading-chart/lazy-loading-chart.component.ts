@@ -7,6 +7,10 @@ import { Observable } from 'rxjs';
 
 HC_stock(Highcharts);
 
+interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.PlotCandlestickDataGroupingOptions{
+  enabled: boolean
+}
+
 @Component({
   selector: 'app-lazy-loading-chart',
   templateUrl: './lazy-loading-chart.component.html',
@@ -49,7 +53,7 @@ export class LazyLoadingChartComponent {
                 data: chartData,
                 dataGrouping: {
                   enabled: false
-                }
+                } as ExtendedPlotCandlestickDataGroupingOptions
               }, false);
 
               chart.update({
