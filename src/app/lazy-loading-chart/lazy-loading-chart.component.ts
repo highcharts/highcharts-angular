@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 HC_stock(Highcharts);
 
-interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.PlotCandlestickDataGroupingOptions{
+interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject{
   enabled: boolean
 }
 
