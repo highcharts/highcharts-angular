@@ -12,6 +12,7 @@
     "test": "ng test",
     "lint": "ng lint highcharts-angular",
     "release": "cd ./highcharts-angular && standard-version && cd ../ && node tasks/build.js && node tasks/release.js",
+    "release-major": "cd ./highcharts-angular && standard-version --release-as major  && cd ../ && node tasks/build.js && node tasks/release.js",
     "e2e": "ng e2e"
   },
   "dependencies": {
