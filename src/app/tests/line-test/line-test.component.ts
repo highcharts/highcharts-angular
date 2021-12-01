@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import * as Highcharts from 'highcharts';
+
+interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickOptions {
+  color: Highcharts.ColorType;
+}
 
 @Component({
   selector: 'app-line-test',
@@ -20,7 +24,7 @@ export class LineTestComponent {
   };
 
   updateSeriesColor() {
-    this.chartOptions.series[0].color = 'hotpink';
+    (this.chartOptions.series[0] as ExtendedSeriesCandlestickOptions).color = 'hotpink';
     this.updateFlag = true;
   }
 }
