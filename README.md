@@ -173,7 +173,7 @@ export class AppComponent {
 | `[(update)]` | Boolean | no | `-` | A boolean to trigger an update on a chart as Angular is not detecting nested changes in an object passed to a component. Set corresponding variable (`updateFlag` in the example) to `true` and after update on a chart is done it will be changed asynchronously to `false` by Highcharts-angular component.|
 | `[oneToOne]` | Boolean | no | `false` | The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When true, the `series`, `xAxis` and `yAxis` collections will be updated one to one, and items will be either added or removed to match the new updated options. For example, if the chart has **two** series and we call the `chart.update` (and this is called on each chart's data change or if `updateFlag` is set to true) with a configuration containing **three** series, **one** will be added. If we call the `chart.update` with **one** series, **one** will be removed. Setting an empty series array will remove all series, but leaving out the series property will leave all series untouched. If the series have id's, the new series options will be matched by id, and the remaining ones removed. <br> <br> The option presented in [the demo](#demo-app) in the first chart - try setting new chart options with different amounts of series in [the textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see this option in action.|
 | `[callbackFunction]` | Function | no | `-` | A callback function for the created chart. The first argument for the function will hold the created **chart**. Default `this` in the function points to the **chart**. |
-| `[runOutsideAngular]` | Boolean | no | `false` | When this option is set to `true` chart is created and updated outside of Angular's zone and Highcharts events do not trigger Angular change-detection. Details about `runOutsideAngular` are available in [Angular documentation](https://angular.io/api/core/NgZone#runoutsideangular). This option is more useful for bigger, more complex application (see [discussion](https://github.com/highcharts/highcharts-angular/pull/73)). <br> <br> The option is presented in [this demo](https://codesandbox.io/s/k24qxvzlk7).|
+| `[runOutsideAngular]` | Boolean | no | `false` | When this option is set to `true` chart is created and updated outside of Angular's zone and Highcharts events do not trigger Angular change-detection. Details about `runOutsideAngular` are available in [Angular documentation](https://angular.io/api/core/NgZone#runoutsideangular). This option is more useful for bigger, more complex application (see [discussion](https://github.com/highcharts/highcharts-angular/pull/73)). <br> <br> The option is presented in [this demo](https://stackblitz.com/edit/highcharts-angular-runoutsideangular).|
 
 ## Chart instance
 
@@ -189,7 +189,7 @@ A chart instance could be obtained using:
 
 ## Highcharts instance details
 
-This is a Highcharts instance optionally with initialized **[modules](#to-load-a-module)**, **[plugins](#to-load-a-plugin)**, **[maps](#to-load-a-map-for-highmaps)**, **[wrappers](#to-load-a-wrapper)** and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
+This is a Highcharts instance optionally with initialized **[modules](#to-load-a-module)**, **[plugins](#to-load-a-plugin)**, **[maps](#to-load-a-map-for-Highcharts-Maps)**, **[wrappers](#to-load-a-wrapper)** and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
 
 _Notice:_ The Highcharts instance is shared through components in an Angular app, so loaded modules will affect all charts.
 
@@ -258,7 +258,7 @@ require('highcharts/modules/exporting')(Highcharts);
 
 ### To load a plugin
 
-A plugin is a third party/community made Highcharts addon (plugins are listed in the [Highcharts plugin registry](https://www.highcharts.com/products/plugin-registry)). First, make sure that a plugin support loading over NPM and load the required files. In example [Custom-Events](https://www.highcharts.com/plugin-registry/single/15/Custom-Events) supports NPM loading, so after installing the package you could initialize it like:
+A plugin is a third party/community made Highcharts addon (plugins are listed in the [Highcharts plugin registry](https://www.highcharts.com/blog/add-ons/)). First, make sure that a plugin support loading over NPM and load the required files. In example [Custom-Events](https://www.npmjs.com/package/highcharts-custom-events) supports NPM loading, so after installing the package you could initialize it like:
 
 ```ts
 import * as Highcharts from 'highcharts';
@@ -268,7 +268,7 @@ HC_customEvents(Highcharts);
 
 If a plugin doesn't support loading through NPM you could treat it as a wrapper - see instructions below.
 
-If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-beta#solving-problems) section of Highcharts documentation for Typescript usage.
+If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of Highcharts documentation for Typescript usage.
 
 ### To load a map for Highcharts Maps
 
@@ -313,7 +313,7 @@ require('./relative-path-to-the-wrapper-file/wrapper-file-name')(Highcharts);
 
 Where `relative-path-to-the-wrapper-file` should be relative (for the module importing the wrapper) path to the wrapper file and `wrapper-file-name` should be the name of the wrapper file.
 
-If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/typescript) section of Highcharts documentation for Typescript usage.
+If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of Highcharts documentation for Typescript usage.
 
 ### To use [`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)
 
@@ -376,31 +376,33 @@ Contains the chart component that creates Highcharts chart.
 
 ## Online examples
 
-* Basic line: [https://stackblitz.com/edit/highcharts-angular-basic-line](https://stackblitz.com/edit/highcharts-angular-basic-line)
-* Stock: [https://stackblitz.com/edit/highcharts-angular-stock](https://stackblitz.com/edit/highcharts-angular-stock)
-* Stock + indicators: [https://stackblitz.com/edit/highcharts-angular-stock-indicators](https://stackblitz.com/edit/highcharts-angular-stock-indicators)
-* Stock + GUI: [https://stackblitz.com/edit/highcharts-angular-stock-gui](https://stackblitz.com/edit/highcharts-angular-stock-gui)
-* Map: [https://stackblitz.com/edit/highcharts-angular-map](https://stackblitz.com/edit/highcharts-angular-map)
-* Map + proj4: [https://stackblitz.com/edit/highcharts-angular-map-proj4](https://stackblitz.com/edit/highcharts-angular-map-proj4)
-* Optimal way to update: [https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update](https://stackblitz.com/edit/highcharts-angular-optimal-way-to-update)
-* Data from the service: [https://stackblitz.com/edit/highcharts-angular-data-from-service-2](https://stackblitz.com/edit/highcharts-angular-data-from-service-2)
-* Applying a custom plugin/wrap: [https://stackblitz.com/edit/highcharts-angular-custom-plugin](https://stackblitz.com/edit/highcharts-angular-custom-plugin)
-* Property `XXX` does not exist on type `YYY`: [https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy)
-* Using portals to render an angular component within a chart: [https://stackblitz.com/edit/highcharts-angular-portal-usage](https://stackblitz.com/edit/highcharts-angular-portal-usage)
+* [Basic line](https://stackblitz.com/edit/highcharts-angular-line)
+* [Stock](https://stackblitz.com/edit/highcharts-angular-stock-chart)
+* [Stock + indicators](https://stackblitz.com/edit/highcharts-angular-stock-with-indicators)
+* [Stock + GUI](https://stackblitz.com/edit/highcharts-angular-stock-tools-gui)
+* [Map](https://stackblitz.com/edit/highcharts-angular-world-map)
+* [Gantt](https://stackblitz.com/edit/highcharts-angular-gantt-chart)
+* [Map + mapppoints with lat/lon](https://stackblitz.com/edit/highcharts-angular-mappoint-lat-lon)
+* [Map + mapppoints with proj4](https://stackblitz.com/edit/highcharts-angular-map-with-proj4)
+* [Optimal way to update](https://stackblitz.com/edit/highcharts-angular-update-optimal-way)
+* [Data from the service](https://stackblitz.com/edit/highcharts-angular-data-from-a-service)
+* [Applying a custom plugin/wrap](https://stackblitz.com/edit/highcharts-angular-a-custom-plugin)
+* [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
+* [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
 
 ## Changing the Component
 
-Using Angular CLI v6, the library must be manually rebuilt on each change 
-in order to reflect in the demo app. 
+Using Angular CLI v6, the library must be manually rebuilt on each change
+in order to reflect in the demo app.
 
 Run the following command on each change to the `highcharts-chart.component.ts` file:
 
 ```cli
 npm run build
-``` 
+```
 
 If you are running the demo app in another terminal window when you rebuild the
-library, the changes should be reflected in your browser (note: you may need to 
+library, the changes should be reflected in your browser (note: you may need to
 refresh the browser a second time after the live reload in order to see the change).
 
 See [https://github.com/angular/angular-cli/wiki/stories-create-library](https://github.com/angular/angular-cli/wiki/stories-create-library)
@@ -414,14 +416,14 @@ For CHANGELOG.md update use `npm run release`.
 
 For technical support please contact [Highcharts technical support](https://www.highcharts.com/support).
 
-For TypeScript problems with Highcharts first see [Highcharts documentation for TypeScript usage](https://www.highcharts.com/docs/advanced-chart-features/typescript).
+For TypeScript problems with Highcharts first see [Highcharts documentation for TypeScript usage](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations).
 
 ### FAQ:
 
 #### How to add and use indicators?
 
 Add [indicators](https://www.highcharts.com/docs/chart-and-series-types/technical-indicator-series) as any other module.
-[Live demo](https://codesandbox.io/s/lpn3yvv3zl)
+[Live demo](https://stackblitz.com/edit/highcharts-angular-stock-with-indicators)
 
 #### How to add and use themes?
 
@@ -438,16 +440,16 @@ The correct repository to report such issues is [main Highcharts repository](htt
 
 Based on original Highcharts demo for [Synchronized charts](https://www.highcharts.com/demo/synchronized-charts).
 
-Additionally added class based sync between charts - [demo](https://codesandbox.io/s/5wwz8qy1l4).
+Additionally added class based sync between charts - [demo](https://stackblitz.com/edit/highcharts-angular-synced-charts).
 
 #### Property `XXX` does not exist on type `YYY`
 
-It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you need to create your own type that will extend the default Highcharts one with the new properties. Then all you need to do is to cast the selected option / to the extended type - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist-on-type-yyy).
+It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you need to create your own type that will extend the default Highcharts one with the new properties. Then all you need to do is to cast the selected option / to the extended type - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist).
 
 #### How to use Highcharts Maps with the proj4?
 
-Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository or [live demo](https://stackblitz.com/edit/highcharts-angular-map-proj4) example.
+Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository or [live demo](https://stackblitz.com/edit/highcharts-angular-map-with-proj4) example.
 
 #### I want to render angular component in the tooltip/axis formatter
 
-To render angular component within the chart you can use the angular [portals](https://material.angular.io/cdk/portal/overview) - [demo](https://stackblitz.com/edit/highcharts-angular-portal-usage)
+To render angular component within the chart you can use the angular [portals](https://material.angular.io/cdk/portal/overview) - [demo](https://stackblitz.com/edit/highcharts-angular-portals)
