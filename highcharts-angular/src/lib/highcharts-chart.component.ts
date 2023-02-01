@@ -1,12 +1,13 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 import type * as Highcharts from 'highcharts';
+import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
 @Component({
   selector: 'highcharts-chart',
   template: ''
 })
 export class HighchartsChartComponent implements OnDestroy, OnChanges {
-  @Input() Highcharts: typeof Highcharts;
+  @Input() Highcharts: typeof Highcharts | typeof HighchartsESM;
   @Input() constructorType: string;
   @Input() callbackFunction: Highcharts.ChartCallbackFunction;
   @Input() oneToOne: boolean; // #20
