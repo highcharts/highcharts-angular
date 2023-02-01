@@ -86,7 +86,7 @@ In the same file (app.component.ts) add to the **template** Highcharts-angular c
 
   [(update)]="updateFlag"
   [oneToOne]="oneToOneFlag"
-  [runOutsideAngular]="runOutsideAngularFlag"
+  [runOutsideAngular]="runOutsideAngular"
 
   style="width: 100%; height: 400px; display: block;"
 ></highcharts-chart>
