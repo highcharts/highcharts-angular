@@ -342,7 +342,8 @@ export class AppComponent {
 
 ## Demo app
 
-Download (or clone) the contents of the **[highcharts-angular](https://github.com/highcharts/highcharts-angular)** GitHub repository.
+Download (or clone) the contents of the **[highcharts-angular](https://github.com/highcharts/highcharts-angular)** GitHub repository.  
+The demo app is not using external dependencies but the build of the `highcharts-angular` package thus here it is required to run `npm start` to generate this package.
 
 In system console, in main repo folder run:
 
