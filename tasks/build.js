@@ -13,7 +13,7 @@ const rootDir = path.normalize( __dirname + '/..' ),
 
 
 // Build the package
-child_process.spawnSync( 'node', [ ngLocation, 'build', 'highcharts-angular' ], { cwd: rootDir, stdio: 'inherit' } );
+child_process.spawnSync( 'node', [ ngLocation, 'build', 'highcharts-angular', '--configuration=production' ], { cwd: rootDir, stdio: 'inherit' } );
 
 // Copy License and Readme to package
 console.log( 'Copying ./LICENSE to dist/highcharts-angular/LICENSE' );
