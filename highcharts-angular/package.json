@@ -19,9 +19,9 @@
     "angular"
   ],
   "peerDependencies": {
-    "@angular/common": ">=9.0.0",
-    "@angular/core": ">=9.0.0",
-    "highcharts": ">=6.0.0"
+    "@angular/common": ">=11.0.0",
+    "@angular/core": ">=11.0.0",
+    "highcharts": ">=9.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
