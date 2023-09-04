@@ -64,6 +64,9 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
     if (this.chart) {  // #56
       this.chart.destroy();
       this.chart = null;
+
+      // emit chart instance on destroy
+      this.chartInstance.emit(this.chart);
     }
   }
 }
