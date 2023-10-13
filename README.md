@@ -31,11 +31,17 @@ Official minimal Highcharts wrapper for Angular
 
 Make sure you have **node**, **NPM** and **Angular** up to date.
 
-**The highcharts-angular version >=3.1.0 requires:**
-* **node >=14.13**
+**The highcharts-angular version >=3.2.0 requires:**
+* **node >=16.00**
 * **npm >=8.0.0**
-* **angular/cli >=15.0.0**
+* **angular/cli >=16.0.0**
 * **Highcharts >=10.3.3**
+
+highcharts-angular version 3.2.0 requires:
+* node 16.00+
+* npm >=8.0.0
+* angular/cli 16.0.0+
+
 
 highcharts-angular version 3.0.0 requires:
 * node 14.13
