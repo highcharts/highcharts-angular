@@ -39,7 +39,9 @@ export class LazyLoadingChartComponent {
   chartLazyLoading: Highcharts.Options = {
     chart: {
       type: 'candlestick',
-      zoomType: 'x',
+      zooming: {
+        type: 'x'
+      },
       events: {
         load: () => {
           const chart = this.chartRef;
