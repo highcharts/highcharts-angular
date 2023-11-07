@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [3.1.2](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v3.1.2) (2023-02-02)
+## [4.0.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v4.0.0) (2023-11-07)
+
+### Bug Fixes
+
+* Fix #365, the chat instance was not emitted on the `ngOnDestroy`.([344deb7](https://github.com/highcharts/highcharts-angular/pull/366/commits/344deb72b9dfbaefa6e14129bf5600920b582b3f))
+
+## [3.1.2](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v3.1.2) (2023-02-02)
 
 ## [3.1.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v3.1.0) (2023-02-02)
 
@@ -23,7 +29,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * fixed incorrect link ([c274d5e](https://github.com/highcharts/highcharts-angular/commit/c274d5edc5457f09f1e0631ea29c0f88a0145726))
 
-# [2.9.0](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.9.0) (2021-01-04)
+## [2.9.0](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.9.0) (2021-01-04)
 
 ### Features
 
@@ -39,7 +45,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * Changed peer dependencies. ([07e6209](https://github.com/highcharts/highcharts-angular/pull/228/commits/07e6209e594e6026faae394a7b9b3edd5fdcc4b5))
 
-# [2.8.0](https://github.com/highcharts/highcharts-angular/compare/v2.4.0...v2.8.0) (2020-08-31)
+## [2.8.0](https://github.com/highcharts/highcharts-angular/compare/v2.4.0...v2.8.0) (2020-08-31)
 
 ### Features
 
@@ -52,7 +58,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * Fixed lazy-loading demo. ([de88e2a](https://github.com/highcharts/highcharts-angular/pull/219/commits/de88e2a54b9060b87ee458048943b8dfb2db5956))
 
-# [2.7.0](https://github.com/highcharts/highcharts-angular/compare/v2.4.0...v2.7.0) (2020-07-24)
+## [2.7.0](https://github.com/highcharts/highcharts-angular/compare/v2.4.0...v2.7.0) (2020-07-24)
 
 ### Features
 
@@ -77,7 +83,7 @@ Due to problems with publishing the package, redundant versions have been releas
 
 __
 <a name="2.4.0"></a>
-# [2.4.0](https://github.com/highcharts/highcharts-angular/compare/v2.1.3...v2.4.0) (2018-12-27)
+## [2.4.0](https://github.com/highcharts/highcharts-angular/compare/v2.1.3...v2.4.0) (2018-12-27)
 
 
 ### Features
@@ -99,7 +105,7 @@ __
 
 
 <a name="2.3.0"></a>
-# [2.3.0](https://github.com/highcharts/highcharts-angular/compare/v2.2.0...v2.3.0) (2018-10-04)
+## [2.3.0](https://github.com/highcharts/highcharts-angular/compare/v2.2.0...v2.3.0) (2018-10-04)
 
 
 ### Features
@@ -109,7 +115,7 @@ __
 
 
 <a name="2.2.0"></a>
-# [2.2.0](https://github.com/highcharts/highcharts-angular/compare/v2.1.3...v2.2.0) (2018-09-28)
+## [2.2.0](https://github.com/highcharts/highcharts-angular/compare/v2.1.3...v2.2.0) (2018-09-28)
 
 
 ### Features
@@ -134,7 +140,7 @@ __
 
 
 <a name="2.1.0"></a>
-# [2.1.0](https://github.com/highcharts/highcharts-angular/compare/v2.0.3...v2.1.0) (2018-08-24)
+## [2.1.0](https://github.com/highcharts/highcharts-angular/compare/v2.0.3...v2.1.0) (2018-08-24)
 
 
 ### Features
