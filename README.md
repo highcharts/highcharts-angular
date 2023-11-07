@@ -31,22 +31,13 @@ Official minimal Highcharts wrapper for Angular
 
 Make sure you have **node**, **NPM** and **Angular** up to date.
 
-**The highcharts-angular version >=3.1.0 requires:**
-* **node >=14.13**
-* **npm >=8.0.0**
-* **angular/cli >=15.0.0**
-* **Highcharts >=10.3.3**
+| Version       | Node          | Angular       | Highcharts    |
+|---------------|---------------|---------------|---------------|
+| 4.0.0         | >=16.14       | >=16.0.0      | >=11.0.0      |
+| 3.1.2         | >=14.13       | >=15.0.0      | >=10.3.3      |
+| 3.0.0         | >=14.13       | >=9.0.0       | >=8.0.0       |
+| <2.10.0       | >=6.10.2      | >=6.0.0       | >=6.0.0       |
 
-highcharts-angular version 3.0.0 requires:
-* node 14.13
-* npm >=8.0.0
-* angular/cli 9.0.0+
-
-Previous versions were tested and required versions:
-
-* node 6.10.2+
-* npm 4.6.1+
-* angular/cli 6.0.0+
 
 ### Installing
 
@@ -83,7 +74,7 @@ import * as Highcharts from 'highcharts';
 In the same file (app.component.ts) add to the **template** Highcharts-angular component selector `highcharts-chart`:
 
 ```html
-<highcharts-chart 
+<highcharts-chart
   [Highcharts]="Highcharts"
 
   [constructorType]="chartConstructor"
