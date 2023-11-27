@@ -1,5 +1,5 @@
 # Highcharts Angular
-Official minimal Highcharts wrapper for Angular
+Official minimal Highcharts integration for Angular
 
 ## Table of Contents
 1. [Getting started](#getting-started)
