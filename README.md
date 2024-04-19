@@ -161,7 +161,7 @@ export class AppComponent {
 ></highcharts-chart>
 ```
 
-## Angular Elements and useHTML
+### Angular Elements and useHTML
 
 First, install angular elements:
 
