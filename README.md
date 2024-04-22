@@ -446,7 +446,7 @@ Contains the chart component that creates Highcharts chart.
 * [Applying a custom plugin/wrap](https://stackblitz.com/edit/highcharts-angular-a-custom-plugin)
 * [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
 * [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
-* [Angular Elements and useHTML](https://stackblitz.com/~/github.com/jonancastelo/highcharts-angular-elements)
+* [Angular Elements and useHTML](https://stackblitz.com/~/github.com/karolkolodziej/highcharts-angular-elements)
 
 ## Changing the Component
 
