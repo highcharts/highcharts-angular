@@ -173,14 +173,8 @@ Include in main.ts file your element tag inside allowedTags and [element propert
 
 ```ts
 if (Highcharts && Highcharts.AST) {
-  Highcharts.AST.allowedTags = [
-    ...Highcharts.AST.allowedTags,
-    'translation-element',
-  ];
-  Highcharts.AST.allowedAttributes = [
-    ...Highcharts.AST.allowedAttributes,
-    'translation-key',
-  ];
+  Highcharts.AST.allowedTags.push('translation-element');
+  Highcharts.AST.allowedAttributes.push('translation-key');
 }
 ```
 
