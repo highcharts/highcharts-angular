@@ -204,7 +204,7 @@ const translationEl: NgElement & WithProperties<TranslationComponent> =
       document.createElement(translationElementTag) as any;
 
 translationEl.setAttribute(
-  'translation-key,
+  'translation-key',
   'shared.title'
 );      
 
