@@ -195,7 +195,7 @@ Then, create the element, set properties and use it in the chart:
 
 ```ts
 const translationEl: NgElement & WithProperties<TranslationComponent> =
-      document.createElement(translationElementTag) as any;
+      document.createElement(translationElementTag);
 
 translationEl.setAttribute(
   'translation-key',
