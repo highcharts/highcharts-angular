@@ -7,6 +7,7 @@ Official minimal Highcharts integration for Angular
     2. [Installing](#installing)
     3. [Hello world demo](#hello-world-demo)
     4. [Angular Universal - SSR](#angular-universal--SSR)
+    5. [Angular Elements and useHTML](#angular-elements-and-usehtml)
 2. [Options details](#options-details)
 3. [Chart instance](#chart-instance)
 4. [Highcharts instance details](#highcharts-instance-details)
@@ -159,6 +160,58 @@ export class AppComponent {
   [options]="chartOptions"
 ></highcharts-chart>
 ```
+
+### Angular Elements and useHTML
+
+First, install angular elements:
+
+```cli
+npm install @angular/elements --save
+```
+
+Include in main.ts file your element tag inside allowedTags and [element properties](https://angular.io/guide/elements#mapping) inside allowedAttributes:
+
+```ts
+if (Highcharts && Highcharts.AST) {
+  Highcharts.AST.allowedTags.push('translation-element');
+  Highcharts.AST.allowedAttributes.push('translation-key');
+}
+```
+
+Define your element in the constructor of the component that will use it:
+
+```ts
+private defineTranslationElement() {
+  if (isNil(customElements.get('translation-element'))) {
+    const translationElement = createCustomElement(TranslationComponent, {
+      injector: this.injector,
+    });
+    customElements.define('translation-element', translationElement);
+  }
+}
+```
+
+Then, create the element, set properties and use it in the chart:
+
+```ts
+const translationEl: NgElement & WithProperties<TranslationComponent> =
+      document.createElement(translationElementTag);
+
+translationEl.setAttribute(
+  'translation-key',
+  'shared.title'
+);      
+
+const chartOptions: Highcharts.Options = {
+    title: {
+      text: translationEl.outerHTML,
+      useHTML: true,
+    },
+    xAxis: [
+      ...
+```
+
+For a more detailed view take a look at the [Online Examples - Angular Elements and useHTML](#online-examples)
 
 ## Options details
 
@@ -387,6 +440,7 @@ Contains the chart component that creates Highcharts chart.
 * [Applying a custom plugin/wrap](https://stackblitz.com/edit/highcharts-angular-a-custom-plugin)
 * [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
 * [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
+* [Angular Elements and useHTML](https://stackblitz.com/~/github.com/karolkolodziej/highcharts-angular-elements)
 
 ## Changing the Component
 
