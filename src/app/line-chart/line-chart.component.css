@@ -2,7 +2,7 @@ article {
   display: flex;
 }
 
-button:first-of-type {
+button{
   margin-right: 1rem;
 }
 
@@ -15,7 +15,7 @@ h2 {
   font-size: 1.25rem;
   margin: 0 0 1.5rem 0;
 }
-  
+
 highcharts-chart {
   flex-grow: 3;
 }

@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, NgZone, OnChanges, SimpleChanges } from '@angular/core';
+import type { OnChanges, OnDestroy } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, NgZone, SimpleChanges } from '@angular/core';
 import type * as Highcharts from 'highcharts';
 import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
@@ -16,9 +17,9 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
   @Input() update: boolean;
 
   @Output() updateChange = new EventEmitter<boolean>(true);
-  @Output() chartInstance = new EventEmitter<Highcharts.Chart>(); // #26
+  @Output() chartInstance = new EventEmitter<Highcharts.Chart | null>(); // #26
 
-  private chart: Highcharts.Chart;
+  private chart: Highcharts.Chart | null;
 
   constructor(
     private el: ElementRef,
@@ -26,7 +27,7 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    const update = changes.update && changes.update.currentValue;
+    const update = changes.update?.currentValue;
     if (changes.options || update) {
       this.wrappedUpdateOrCreateChart();
       if (update) {
@@ -46,10 +47,10 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
   }
 
   updateOrCreateChart() {
-    if (this.chart && this.chart.update) {
+    if (this.chart?.update) {
       this.chart.update(this.options, true, this.oneToOne || false);
     } else {
-      this.chart = (this.Highcharts as any)[this.constructorType || 'chart'](
+      this.chart = this.Highcharts[this.constructorType || 'chart'](
         this.el.nativeElement,
         this.options,
         this.callbackFunction || null
