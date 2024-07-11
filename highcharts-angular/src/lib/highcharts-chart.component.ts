@@ -13,7 +13,7 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
   @Input() callbackFunction: Highcharts.ChartCallbackFunction;
   @Input() oneToOne: boolean; // #20
   @Input() runOutsideAngular: boolean; // #75
-  @Input() options: Highcharts.Options;
+  @Input() options: Highcharts.Options | HighchartsESM.Options;
   @Input() update: boolean;
 
   @Output() updateChange = new EventEmitter<boolean>(true);
