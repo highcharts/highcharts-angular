@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v4.0.1) (2024-07-23)
+
+### Bug Fixes
+
+* Fixed #380, improved typing of the chartInstance emitter. ([b4751e5](https://github.com/highcharts/highcharts-angular/commit/b4751e5f915692f13a61f8b0fa8c4b428cdc9f30))
+* Fixed #385, error when importing ESM module. ([832ca80](https://github.com/highcharts/highcharts-angular/commit/832ca80cf20ed5f9c18a992b2ac8e12040fbd708))
+
+
 ## [4.0.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v4.0.0) (2023-11-07)
 
 ### Bug Fixes
