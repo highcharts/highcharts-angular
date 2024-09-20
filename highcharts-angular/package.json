@@ -2,7 +2,7 @@
   "name": "highcharts-angular",
   "description": "Highcharts component for Angular.",
   "version": "4.0.1",
-  "license": "SEE LICENSE IN <LICENSE>",
+  "license": "MIT",
   "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
   "bugs": {
     "url": "https://github.com/highcharts/highcharts-angular/issues"
