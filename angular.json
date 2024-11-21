@@ -19,7 +19,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "./tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["core-js/es/reflect", "zone.js"],
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -81,7 +81,7 @@
           "options": {
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["core-js/es/reflect", "zone.js"],
             "tsConfig": "./tsconfig.spec.json",
             "scripts": [],
             "styles": [],
@@ -131,7 +131,7 @@
           "options": {
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["core-js/es/reflect", "zone.js"],
             "tsConfig": "./tsconfig.spec.json",
             "scripts": [],
             "styles": []
