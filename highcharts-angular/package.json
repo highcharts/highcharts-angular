@@ -1,7 +1,7 @@
 {
   "name": "highcharts-angular",
   "description": "Highcharts component for Angular.",
-  "version": "5.0.0-alpha.1",
+  "version": "5.0.0-alpha.2",
   "license": "MIT",
   "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
   "bugs": {
@@ -19,8 +19,8 @@
     "angular"
   ],
   "peerDependencies": {
-    "@angular/common": ">=17.0.0",
-    "@angular/core": ">=17.0.0",
+    "@angular/common": ">=18.0.0",
+    "@angular/core": ">=18.0.0",
     "highcharts": ">=9.0.0"
   },
   "dependencies": {
