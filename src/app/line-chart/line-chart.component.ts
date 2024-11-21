@@ -14,7 +14,7 @@ export class LineChartComponent {
 	public showChart = true;
 	public toggleButtonTitle = "Destroy chart";
 
-	private optFromInputString = `
+  public optFromInputString = `
     {
       "title": { "text": "Highcharts chart" },
       "series": [{
@@ -29,7 +29,7 @@ export class LineChartComponent {
       }]
     }
   `;
-	private optFromInput: Highcharts.Options = JSON.parse(
+  public optFromInput: Highcharts.Options = JSON.parse(
 		this.optFromInputString,
 	);
 	private seriesTypes = {
