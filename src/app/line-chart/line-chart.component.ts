@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
-import * as Highcharts from "highcharts";
-import HC_customEvents from "highcharts-custom-events";
+import { Component } from '@angular/core';
+import * as Highcharts from 'highcharts';
+import HC_customEvents from 'highcharts-custom-events';
 HC_customEvents(Highcharts);
 
 @Component({
-	selector: "app-line-chart",
-	templateUrl: "./line-chart.component.html",
-	styleUrls: ["./line-chart.component.css"],
+  selector: 'app-line-chart',
+  templateUrl: './line-chart.component.html',
+  styleUrls: ['./line-chart.component.css'],
 })
 export class LineChartComponent {
-	public Highcharts: typeof Highcharts = Highcharts;
-	public updateFromInput = false;
-	public showChart = true;
-	public toggleButtonTitle = "Destroy chart";
+  public Highcharts: typeof Highcharts = Highcharts;
+  public updateFromInput = false;
+  public showChart = true;
+  public toggleButtonTitle = 'Destroy chart';
 
   public optFromInputString = `
     {
@@ -29,39 +29,36 @@ export class LineChartComponent {
       }]
     }
   `;
-  public optFromInput: Highcharts.Options = JSON.parse(
-		this.optFromInputString,
-	);
-	private seriesTypes = {
-		line: "column",
-		column: "scatter",
-		scatter: "spline",
-		spline: "line",
-	};
+  public optFromInput: Highcharts.Options = JSON.parse(this.optFromInputString);
+  private seriesTypes = {
+    line: 'column',
+    column: 'scatter',
+    scatter: 'spline',
+    spline: 'line',
+  };
 
-	// Demonstrate chart instance
-	public logChartInstance(chart: Highcharts.Chart) {
-		if (chart) {
-			console.log("Chart instance received:", chart);
-		} else {
-			console.log("Chart instance destroyed");
-		}
-	}
+  // Demonstrate chart instance
+  public logChartInstance(chart: Highcharts.Chart) {
+    if (chart) {
+      console.log('Chart instance received:', chart);
+    } else {
+      console.log('Chart instance destroyed');
+    }
+  }
 
-	public updateInputChart() {
-		this.optFromInput = JSON.parse(this.optFromInputString);
-	}
+  public updateInputChart() {
+    this.optFromInput = JSON.parse(this.optFromInputString);
+  }
 
-	public toggleSeriesType(index = 0) {
-		this.optFromInput.series[index].type = this.seriesTypes[
-			this.optFromInput.series[index].type || "line"
-		] as keyof typeof this.seriesTypes;
-		// nested change - must trigger update
-		this.updateFromInput = true;
-	}
+  public toggleSeriesType(index = 0) {
+    this.optFromInput.series[index].type = this.seriesTypes[
+      this.optFromInput.series[index].type || 'line'] as keyof typeof this.seriesTypes;
+    // nested change - must trigger update
+    this.updateFromInput = true;
+  }
 
-	public toggleChart() {
-		this.showChart = !this.showChart;
-		this.toggleButtonTitle = this.showChart ? "Destroy chart" : "Recreate chart";
-	}
+  public toggleChart() {
+    this.showChart = !this.showChart;
+    this.toggleButtonTitle = this.showChart ? 'Destroy chart' : 'Recreate chart';
+  }
 }
