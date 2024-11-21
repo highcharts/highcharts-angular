@@ -5,7 +5,8 @@ import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
 @Component({
   selector: 'highcharts-chart',
-  template: ''
+  template: '',
+  standalone: true
 })
 export class HighchartsChartComponent implements OnDestroy, OnChanges {
   @Input() Highcharts: typeof Highcharts | typeof HighchartsESM;
