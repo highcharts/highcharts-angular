@@ -7,6 +7,7 @@ HC_customEvents(Highcharts);
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css'],
+  standalone: false
 })
 export class LineChartComponent {
   public Highcharts: typeof Highcharts = Highcharts;

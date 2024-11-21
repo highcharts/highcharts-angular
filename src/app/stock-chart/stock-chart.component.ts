@@ -14,7 +14,8 @@ HC_customEvents(Highcharts);
 @Component({
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
-  styleUrls: ['./stock-chart.component.css']
+  styleUrls: ['./stock-chart.component.css'],
+  standalone: false
 })
 export class StockChartComponent {
 

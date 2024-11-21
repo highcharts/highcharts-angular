@@ -12,7 +12,8 @@ HC_map(Highcharts);
 @Component({
   selector: 'app-map-chart',
   templateUrl: './map-chart.component.html',
-  styleUrls: ['./map-chart.component.css']
+  styleUrls: ['./map-chart.component.css'],
+  standalone: false
 })
 
 export class MapChartComponent {
