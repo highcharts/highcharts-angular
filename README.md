@@ -32,12 +32,13 @@ Official minimal Highcharts integration for Angular
 
 Make sure you have **node**, **NPM** and **Angular** up to date.
 
-| Version       | Node          | Angular       | Highcharts    |
-|---------------|---------------|---------------|---------------|
-| 4.0.0         | >=16.14       | >=16.0.0      | >=11.0.0      |
-| 3.1.2         | >=14.13       | >=15.0.0      | >=10.3.3      |
-| 3.0.0         | >=14.13       | >=9.0.0       | >=8.0.0       |
-| <2.10.0       | >=6.10.2      | >=6.0.0       | >=6.0.0       |
+| Version | Node     | Angular  | Highcharts    |
+|---------|----------|----------|---------------|
+| 5.0.0   | >=18.14  | >=17.0.0 | >=11.0.0      |
+| 4.0.0   | >=16.14  | >=16.0.0 | >=11.0.0      |
+| 3.1.2   | >=14.13  | >=15.0.0 | >=10.3.3      |
+| 3.0.0   | >=14.13  | >=9.0.0  | >=8.0.0       |
+| <2.10.0 | >=6.10.2 | >=6.0.0  | >=6.0.0       |
 
 
 ### Installing
@@ -48,16 +49,16 @@ Get package from NPM in your Angular app:
 npm install highcharts-angular --save
 ```
 
-In your app.module.ts add the HighchartsChartModule:
+In your app.module.ts add the HighchartsChartComponent:
 
 ```ts
 ...
-import { HighchartsChartModule } from 'highcharts-angular';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 @NgModule({
   imports: [
     ...
-    HighchartsChartModule
+    HighchartsChartComponent,
 ```
 
 In a component that will be building your Highcharts charts you will need to [import Highcharts](https://www.highcharts.com/docs/getting-started/install-from-npm) first, so in system console, while in your Angular app:
