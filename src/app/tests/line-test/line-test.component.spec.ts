@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserModule } from '@angular/platform-browser';
 import { LineTestComponent } from './line-test.component';
 import { HighchartsChartModule } from '../../../../highcharts-angular/src/lib/highcharts-chart.module'
 
@@ -36,7 +35,7 @@ describe('LineTestComponent', () => {
 
   it('should be properly updated', () => {
     const chart = component.Highcharts.charts[component.Highcharts.charts.length - 1];
-    const series = chart.series[0] as unknown as Highcharts.SeriesLineOptions;
+    const series = chart.series[0] as unknown as Highcharts.Series;
     expect(series.color).toEqual('hotpink');
   });
 });
