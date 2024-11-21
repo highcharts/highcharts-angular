@@ -1,5 +1,5 @@
 import type { OnChanges } from '@angular/core';
-import { Component, ElementRef, OutputEmitterRef, Input, output, model, NgZone, SimpleChanges, DestroyRef, inject } from '@angular/core';
+import { Component, ElementRef, OutputEmitterRef, input, output, model, NgZone, SimpleChanges, DestroyRef, inject } from '@angular/core';
 import type * as Highcharts from 'highcharts';
 import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
@@ -9,12 +9,12 @@ import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
   standalone: true
 })
 export class HighchartsChartComponent implements OnChanges {
-  @Input() Highcharts: typeof Highcharts | typeof HighchartsESM;
-  @Input() constructorType: string;
-  @Input() callbackFunction: Highcharts.ChartCallbackFunction;
-  @Input() oneToOne: boolean; // #20
-  @Input() runOutsideAngular: boolean; // #75
-  @Input() options: Highcharts.Options | HighchartsESM.Options;
+  Highcharts = input<typeof Highcharts | typeof HighchartsESM>();
+  constructorType = input<string>();
+  callbackFunction = input<Highcharts.ChartCallbackFunction>();
+  oneToOne = input<boolean>(); // #20
+  runOutsideAngular = input<boolean>(); // #75
+  options = input<Highcharts.Options | HighchartsESM.Options>();
   update = model<boolean>();
 
   chartInstance: OutputEmitterRef<Highcharts.Chart | null> = output<Highcharts.Chart | null>();  // #26
@@ -49,7 +49,7 @@ export class HighchartsChartComponent implements OnChanges {
   }
 
   wrappedUpdateOrCreateChart() { // #75
-    if (this.runOutsideAngular) {
+    if (this.runOutsideAngular()) {
       this._zone.runOutsideAngular(() => {
         this.updateOrCreateChart()
       });
@@ -60,12 +60,12 @@ export class HighchartsChartComponent implements OnChanges {
 
   updateOrCreateChart() {
     if (this.chart?.update) {
-      this.chart.update(this.options, true, this.oneToOne || false);
+      this.chart.update(this.options(), true, this.oneToOne() || false);
     } else {
-      this.chart = this.Highcharts[this.constructorType || 'chart'](
+      this.chart = this.Highcharts()[this.constructorType() || 'chart'](
         this.el.nativeElement,
-        this.options,
-        this.callbackFunction || null
+        this.options(),
+        this.callbackFunction() || null
       );
 
       // emit chart instance on init
