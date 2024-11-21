@@ -8,12 +8,13 @@
       <button (click)="toggleChart()">{{ toggleButtonTitle }}</button>
     </div>
   </section>
-  <highcharts-chart
-    *ngIf="showChart"
-    [Highcharts]="Highcharts"
-    [options]="optFromInput"
-    [(update)]="updateFromInput"
-    [oneToOne]="true"
-    (chartInstance)="logChartInstance($event)"
-  ></highcharts-chart>
+  @if (showChart) {
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="optFromInput"
+      [(update)]="updateFromInput"
+      [oneToOne]="true"
+      (chartInstance)="logChartInstance($event)"
+    ></highcharts-chart>
+  }
 </article>
