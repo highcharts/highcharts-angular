@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LineTestComponent } from './line-test.component';
-import { HighchartsChartModule } from '../../../../highcharts-angular/src/lib/highcharts-chart.module'
+import { HighchartsChartComponent } from '../../../../highcharts-angular/src/lib/highcharts-chart.component'
 
 
 describe('LineTestComponent', () => {
@@ -9,7 +9,7 @@ describe('LineTestComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports:      [ HighchartsChartModule ],
+      imports:      [ HighchartsChartComponent ],
       declarations: [ LineTestComponent ]
     })
     .compileComponents();
