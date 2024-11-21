@@ -1,5 +1,5 @@
-import type { OnChanges, OnDestroy } from '@angular/core';
-import { Component, ElementRef, OutputEmitterRef, Input, output, model, NgZone, SimpleChanges } from '@angular/core';
+import type { OnChanges } from '@angular/core';
+import { Component, ElementRef, OutputEmitterRef, Input, output, model, NgZone, SimpleChanges, DestroyRef, inject } from '@angular/core';
 import type * as Highcharts from 'highcharts';
 import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
@@ -8,7 +8,7 @@ import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
   template: '',
   standalone: true
 })
-export class HighchartsChartComponent implements OnDestroy, OnChanges {
+export class HighchartsChartComponent implements OnChanges {
   @Input() Highcharts: typeof Highcharts | typeof HighchartsESM;
   @Input() constructorType: string;
   @Input() callbackFunction: Highcharts.ChartCallbackFunction;
@@ -21,10 +21,22 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
 
   private chart: Highcharts.Chart | null;
 
+  destroyRef = inject(DestroyRef);
+
   constructor(
     private el: ElementRef,
     private _zone: NgZone // #75
-  ) {}
+  ) {
+    this.destroyRef.onDestroy(() => { // #44
+      if (this.chart) {  // #56
+        this.chart.destroy();
+        this.chart = null;
+
+        // emit chart instance on destroy
+        this.chartInstance.emit(this.chart);
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const update = changes.update?.currentValue;
@@ -57,16 +69,6 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
       );
 
       // emit chart instance on init
-      this.chartInstance.emit(this.chart);
-    }
-  }
-
-  ngOnDestroy() { // #44
-    if (this.chart) {  // #56
-      this.chart.destroy();
-      this.chart = null;
-
-      // emit chart instance on destroy
       this.chartInstance.emit(this.chart);
     }
   }
