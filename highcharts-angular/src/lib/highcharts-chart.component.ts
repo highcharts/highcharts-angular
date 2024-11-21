@@ -1,5 +1,5 @@
 import type { OnChanges, OnDestroy } from '@angular/core';
-import { Component, ElementRef, EventEmitter, Input, Output, NgZone, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, output, NgZone, SimpleChanges } from '@angular/core';
 import type * as Highcharts from 'highcharts';
 import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
@@ -18,7 +18,7 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
   @Input() update: boolean;
 
   @Output() updateChange = new EventEmitter<boolean>(true);
-  @Output() chartInstance = new EventEmitter<Highcharts.Chart | null>(); // #26
+  chartInstance = output<Highcharts.Chart | null>();  // #26
 
   private chart: Highcharts.Chart | null;
 
