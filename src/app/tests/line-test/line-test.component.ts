@@ -8,7 +8,8 @@ interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickO
 @Component({
   selector: 'app-line-test',
   templateUrl: './line-test.component.html',
-  styleUrls: ['./line-test.component.css']
+  styleUrls: ['./line-test.component.css'],
+  standalone: false
 })
 export class LineTestComponent {
   Highcharts: typeof Highcharts = Highcharts;

@@ -7,7 +7,8 @@ HC_gantt(Highcharts);
 @Component({
   selector: 'app-gantt-chart',
   templateUrl: './gantt-chart.component.html',
-  styleUrls: ['./gantt-chart.component.css']
+  styleUrls: ['./gantt-chart.component.css'],
+  standalone: false
 })
 export class GanttChartComponent {
   Highcharts: typeof Highcharts = Highcharts;

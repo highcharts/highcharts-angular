@@ -14,7 +14,8 @@ interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGrou
 @Component({
   selector: 'app-lazy-loading-chart',
   templateUrl: './lazy-loading-chart.component.html',
-  styleUrls: ['./lazy-loading-chart.component.css']
+  styleUrls: ['./lazy-loading-chart.component.css'],
+  standalone: false
 })
 export class LazyLoadingChartComponent {
 
