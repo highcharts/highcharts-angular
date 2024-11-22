@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import Highcharts from 'highcharts';
 import HC_map from 'highcharts/modules/map';
 import worldMap from '@highcharts/map-collection/custom/world.geo.json';
+import { HighchartsChartComponent } from 'highcharts-angular';
 // import proj4 from 'proj4';
 
 HC_map(Highcharts);
@@ -13,14 +14,14 @@ HC_map(Highcharts);
   selector: 'app-map-chart',
   templateUrl: './map-chart.component.html',
   styleUrls: ['./map-chart.component.css'],
-  standalone: false
+  imports: [HighchartsChartComponent]
 })
 
 export class MapChartComponent {
 
   Highcharts: typeof Highcharts = Highcharts;
 
-   chartMap: Highcharts.Options = {
+  chartMap: Highcharts.Options = {
     chart: {
       map: worldMap as any,
       // proj4: proj4
