@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
+import Highcharts from 'highcharts';
 import HC_gantt from 'highcharts/modules/gantt';
 
 HC_gantt(Highcharts);
