@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import Highcharts from 'highcharts';
 import HC_customEvents from 'highcharts-custom-events';
+import { FormsModule } from '@angular/forms';
+import { HighchartsChartComponent } from 'highcharts-angular';
+
 HC_customEvents(Highcharts);
 
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css'],
-  standalone: false
+  imports: [FormsModule, HighchartsChartComponent]
 })
 export class LineChartComponent {
   public Highcharts: typeof Highcharts = Highcharts;
@@ -53,7 +56,7 @@ export class LineChartComponent {
 
   public toggleSeriesType(index = 0) {
     this.optFromInput.series[index].type = this.seriesTypes[
-      this.optFromInput.series[index].type || 'line'] as keyof typeof this.seriesTypes;
+    this.optFromInput.series[index].type || 'line'] as keyof typeof this.seriesTypes;
     // nested change - must trigger update
     this.updateFromInput = true;
   }

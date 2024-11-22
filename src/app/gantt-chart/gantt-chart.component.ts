@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import Highcharts from 'highcharts';
 import HC_gantt from 'highcharts/modules/gantt';
+import {HighchartsChartComponent} from 'highcharts-angular';
 
 HC_gantt(Highcharts);
 
@@ -8,7 +9,7 @@ HC_gantt(Highcharts);
   selector: 'app-gantt-chart',
   templateUrl: './gantt-chart.component.html',
   styleUrls: ['./gantt-chart.component.css'],
-  standalone: false
+  imports: [HighchartsChartComponent]
 })
 export class GanttChartComponent {
   Highcharts: typeof Highcharts = Highcharts;
@@ -39,8 +40,8 @@ export class GanttChartComponent {
         start: Date.UTC(2014, 10, 20),
         end: Date.UTC(2014, 10, 25),
         completed: {
-            amount: 0.12,
-            fill: '#fa0'
+          amount: 0.12,
+          fill: '#fa0'
         }
       }, {
         name: 'Run acceptance tests',

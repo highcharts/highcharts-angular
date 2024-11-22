@@ -4,10 +4,11 @@ import HC_stock from 'highcharts/modules/stock';
 import { AppleDataService } from '../apple-data.service'
 import $ from 'jquery';
 import { Observable } from 'rxjs';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 HC_stock(Highcharts);
 
-interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject{
+interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject {
   enabled: boolean
 }
 
@@ -15,7 +16,7 @@ interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGrou
   selector: 'app-lazy-loading-chart',
   templateUrl: './lazy-loading-chart.component.html',
   styleUrls: ['./lazy-loading-chart.component.css'],
-  standalone: false
+  imports: [HighchartsChartComponent]
 })
 export class LazyLoadingChartComponent {
 
@@ -46,7 +47,7 @@ export class LazyLoadingChartComponent {
       events: {
         load: () => {
           const chart = this.chartRef;
-          const data = this.fetchData()
+          this.fetchData()
             .subscribe((data: Array<[]>) => {
               // Add a null value for the end date
               const chartData = [...data, [Date.UTC(2011, 9, 14, 19, 59), null, null, null, null]];

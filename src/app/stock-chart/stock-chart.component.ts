@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
 import HC_customEvents from 'highcharts-custom-events';
+import { FormsModule } from '@angular/forms';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 HC_stock(Highcharts);
 HC_customEvents(Highcharts);
@@ -15,7 +17,7 @@ HC_customEvents(Highcharts);
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
   styleUrls: ['./stock-chart.component.css'],
-  standalone: false
+  imports: [FormsModule, HighchartsChartComponent]
 })
 export class StockChartComponent {
 
@@ -45,8 +47,8 @@ export class StockChartComponent {
       subtitle: { text: '1st data set' },
       plotOptions: {
         series: {
-           pointStart: Date.now(),
-           pointInterval: 86400000 // 1 day
+          pointStart: Date.now(),
+          pointInterval: 86400000 // 1 day
         }
       },
       series: [{

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import Highcharts from 'highcharts';
+import { HighchartsChartComponent } from 'highcharts-angular';
 
 interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickOptions {
   color: Highcharts.ColorType;
@@ -9,7 +10,7 @@ interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickO
   selector: 'app-line-test',
   templateUrl: './line-test.component.html',
   styleUrls: ['./line-test.component.css'],
-  standalone: false
+  imports: [HighchartsChartComponent]
 })
 export class LineTestComponent {
   Highcharts: typeof Highcharts = Highcharts;
