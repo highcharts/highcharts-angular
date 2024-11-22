@@ -1,75 +1,70 @@
-import type { OnChanges } from '@angular/core';
-import { Component, ElementRef, OutputEmitterRef, input, output, model, NgZone, SimpleChanges, DestroyRef, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  afterRenderEffect,
+  ElementRef,
+  inject,
+  input,
+  linkedSignal,
+  model,
+  output,
+  OutputEmitterRef,
+  untracked
+} from '@angular/core';
 import type * as Highcharts from 'highcharts';
 import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
 @Component({
   selector: 'highcharts-chart',
   template: '',
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HighchartsChartComponent implements OnChanges {
+export class HighchartsChartComponent {
   Highcharts = input<typeof Highcharts | typeof HighchartsESM>();
-  constructorType = input<string>();
-  callbackFunction = input<Highcharts.ChartCallbackFunction>();
+  constructorType = input<string>('chart');
+  callbackFunction = input<Highcharts.ChartCallbackFunction>(null);
   oneToOne = input<boolean>(); // #20
+  /** @deprecated */
   runOutsideAngular = input<boolean>(); // #75
   options = input<Highcharts.Options | HighchartsESM.Options>();
   update = model<boolean>();
 
   chartInstance: OutputEmitterRef<Highcharts.Chart | null> = output<Highcharts.Chart | null>();  // #26
 
-  private chart: Highcharts.Chart | null;
+  private chart = linkedSignal<{ options: Highcharts.Options | HighchartsESM.Options, update: boolean }, Highcharts.Chart | null>({
+    source: () => ({options: this.options(), update: this.update()}),
+    computation: (source, previous) => {
+      return untracked(() => {
+        if (previous && previous.value) {
+          previous.value.update(source.options, true, this.oneToOne() || false);
+          return previous.value;
+        }
+        return this.Highcharts()[this.constructorType()](this.el.nativeElement, source.options, this.callbackFunction());
+      })
+    }
+  });
 
-  destroyRef = inject(DestroyRef);
+  private destroyRef = inject(DestroyRef);
 
-  constructor(
-    private el: ElementRef,
-    private _zone: NgZone // #75
-  ) {
+  private el = inject(ElementRef);
+
+  constructor() {
     this.destroyRef.onDestroy(() => { // #44
-      if (this.chart) {  // #56
-        this.chart.destroy();
-        this.chart = null;
+      if (this.chart()) {  // #56
+        this.chart().destroy();
+        this.chart.set(null);
 
         // emit chart instance on destroy
-        this.chartInstance.emit(this.chart);
+        this.chartInstance.emit(this.chart());
       }
     });
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const update = changes.update?.currentValue;
-    if (changes.options || update) {
-      this.wrappedUpdateOrCreateChart();
-      if (update) {
+    afterRenderEffect(() => this.chartInstance.emit(this.chart()));
+    afterRenderEffect(() => {
+      if (this.update()) {
         this.update.set(false);  // clear the flag after update
       }
-    }
-  }
-
-  wrappedUpdateOrCreateChart() { // #75
-    if (this.runOutsideAngular()) {
-      this._zone.runOutsideAngular(() => {
-        this.updateOrCreateChart()
-      });
-    } else {
-      this.updateOrCreateChart();
-    }
-  }
-
-  updateOrCreateChart() {
-    if (this.chart?.update) {
-      this.chart.update(this.options(), true, this.oneToOne() || false);
-    } else {
-      this.chart = this.Highcharts()[this.constructorType() || 'chart'](
-        this.el.nativeElement,
-        this.options(),
-        this.callbackFunction() || null
-      );
-
-      // emit chart instance on init
-      this.chartInstance.emit(this.chart);
-    }
+    });
   }
 }
