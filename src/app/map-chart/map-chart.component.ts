@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HC_map from 'highcharts/modules/map';
 import worldMap from '@highcharts/map-collection/custom/world.geo.json';
-import proj4 from 'proj4';
+// import proj4 from 'proj4';
 
 HC_map(Highcharts);
 
@@ -23,7 +23,7 @@ export class MapChartComponent {
    chartMap: Highcharts.Options = {
     chart: {
       map: worldMap as any,
-      proj4: proj4
+      // proj4: proj4
     },
     title: {
       text: 'Highcharts Maps - basic demo'
