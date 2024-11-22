@@ -21,13 +21,40 @@ import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HighchartsChartComponent {
+  /**
+   * Highcharts library or Highcharts ESM module.
+   */
   Highcharts = input<typeof Highcharts | typeof HighchartsESM>();
+
+  /**
+   * Type of the chart constructor.
+   */
   constructorType = input<string>('chart');
+
+  /**
+   * Callback function for the chart.
+   */
   callbackFunction = input<Highcharts.ChartCallbackFunction>(null);
-  oneToOne = input<boolean>(); // #20
-  /** @deprecated */
-  runOutsideAngular = input<boolean>(); // #75
+
+  /**
+   * Whether to update the chart one-to-one.
+   */
+  oneToOne = input<boolean>();
+
+  /**
+   * Whether to run the chart outside Angular.
+   * @deprecated
+   */
+  runOutsideAngular = input<boolean>();
+
+  /**
+   * Options for the Highcharts chart.
+   */
   options = input<Highcharts.Options | HighchartsESM.Options>();
+
+  /**
+   * Whether to rerender the chart.
+   */
   update = model<boolean>();
 
   chartInstance: OutputEmitterRef<Highcharts.Chart | null> = output<Highcharts.Chart | null>();  // #26
