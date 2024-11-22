@@ -8,16 +8,16 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "aot": false,
             "allowedCommonJsDependencies": [
               "highcharts",
               "highcharts-custom-events"
             ],
-            "outputPath": "dist",
+            "outputPath": {"base": "dist"},
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "tsConfig": "./tsconfig.app.json",
             "polyfills": ["core-js/es/reflect", "zone.js"],
             "assets": [
@@ -26,9 +26,7 @@
             ],
             "styles": [],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
@@ -47,8 +45,6 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
