@@ -3,7 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "highcharts-angular": ["../dist/highcharts-angular"],
+      "highcharts-angular": ["../dist/highcharts-angular", "highcharts-angular/src/public_api.ts"],
       "highcharts-angular/*": ["../dist/highcharts-angular/*"]
     },
     "outDir": "./out-tsc/spec",
