@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Highcharts from 'highcharts';
 import HC_map from 'highcharts/modules/map';
 import worldMap from '@highcharts/map-collection/custom/world.geo.json';
@@ -14,7 +14,8 @@ HC_map(Highcharts);
   selector: 'app-map-chart',
   templateUrl: './map-chart.component.html',
   styleUrls: ['./map-chart.component.css'],
-  imports: [HighchartsChartComponent]
+  imports: [HighchartsChartComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class MapChartComponent {

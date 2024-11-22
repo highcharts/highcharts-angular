@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
 import HC_customEvents from 'highcharts-custom-events';
@@ -17,7 +17,8 @@ HC_customEvents(Highcharts);
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
   styleUrls: ['./stock-chart.component.css'],
-  imports: [FormsModule, HighchartsChartComponent]
+  imports: [FormsModule, HighchartsChartComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockChartComponent {
 

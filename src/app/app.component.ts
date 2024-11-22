@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import ExportingModule from 'highcharts/modules/exporting';
 import SunsetTheme from 'highcharts/themes/sunset.js';
 import * as Highcharts from 'highcharts';
@@ -27,7 +27,8 @@ Highcharts.setOptions({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [LineChartComponent, StockChartComponent, MapChartComponent, GanttChartComponent, LazyLoadingChartComponent]
+  imports: [LineChartComponent, StockChartComponent, MapChartComponent, GanttChartComponent, LazyLoadingChartComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class AppComponent {
