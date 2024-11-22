@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
+import Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
 import { AppleDataService } from '../apple-data.service'
 import $ from 'jquery';

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
+import Highcharts from 'highcharts';
 import HC_customEvents from 'highcharts-custom-events';
 HC_customEvents(Highcharts);
 

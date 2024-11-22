@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
+import Highcharts from 'highcharts';
 
 interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickOptions {
   color: Highcharts.ColorType;
