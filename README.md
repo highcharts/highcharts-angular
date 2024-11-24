@@ -91,6 +91,37 @@ In the same file (app.component.ts) add to the **template** Highcharts-angular c
 ></highcharts-chart>
 ```
 
+or you can use directive
+
+```ts
+...
+import { HighchartsChartDirective } from 'highcharts-angular';
+
+@Component({
+  imports: [
+    ...
+    HighchartsChartDirective,
+```
+
+In the component file add to the **template** Highcharts-angular directive selector `highcharts-chart`:
+
+```html
+<div
+  highcharts-chart
+  [Highcharts]="Highcharts"
+
+  [constructorType]="chartConstructor"
+  [options]="chartOptions"
+  [callbackFunction]="chartCallback"
+
+  [(update)]="updateFlag"
+  [oneToOne]="oneToOneFlag"
+  [runOutsideAngular]="runOutsideAngular"
+
+  style="width: 100%; height: 400px; display: block;"
+></div>
+```
+
 Right side names, in double quotes, are just names of variables you are going to set next, so you could name them whatever you like. Style at the bottom of the selector is optional, but browsers do not know how to display `<highcharts-chart>`, so you should set some styles.
 
 In the same file (app.component.ts) all variables should be set in `export class AppComponent {` like:
@@ -155,11 +186,13 @@ export class AppComponent {
 ```
 
 ```HTML
-<highcharts-chart
-  *ngIf="isHighcharts"
-  [Highcharts]="Highcharts"
-  [options]="chartOptions"
-></highcharts-chart>
+@if (isHighcharts) {
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="chartOptions"
+  ></highcharts-chart>
+}
+
 ```
 
 ### Angular Elements and useHTML
