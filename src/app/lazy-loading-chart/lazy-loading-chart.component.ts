@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import Highcharts from 'highcharts';
+import type Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
 import { AppleDataService } from '../apple-data.service'
-import $ from 'jquery';
 import { Observable } from 'rxjs';
-import { HighchartsChartComponent } from 'highcharts-angular';
+import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highcharts-angular';
 
-HC_stock(Highcharts);
 
 interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject {
   enabled: boolean
@@ -17,13 +15,12 @@ interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGrou
   templateUrl: './lazy-loading-chart.component.html',
   styleUrls: ['./lazy-loading-chart.component.css'],
   imports: [HighchartsChartComponent],
+  providers: [provideHighChartsModuleFactory(HC_stock)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyLoadingChartComponent {
 
   constructor(private appleDataService: AppleDataService) { }
-
-  Highcharts: typeof Highcharts = Highcharts;
 
   chartRef: Highcharts.Chart;
 

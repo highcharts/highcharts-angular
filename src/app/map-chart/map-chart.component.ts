@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import Highcharts from 'highcharts';
+import type Highcharts from 'highcharts';
 import HC_map from 'highcharts/modules/map';
 import worldMap from '@highcharts/map-collection/custom/world.geo.json';
-import { HighchartsChartComponent } from 'highcharts-angular';
+import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highcharts-angular';
 // import proj4 from 'proj4';
-
-HC_map(Highcharts);
 
 // Legacy way of map loading - see file at the path for more info.
 // require('../../js/worldmap')(Highcharts);
@@ -15,13 +13,11 @@ HC_map(Highcharts);
   templateUrl: './map-chart.component.html',
   styleUrls: ['./map-chart.component.css'],
   imports: [HighchartsChartComponent],
+  providers: [provideHighChartsModuleFactory(HC_map)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class MapChartComponent {
-
-  Highcharts: typeof Highcharts = Highcharts;
-
   chartMap: Highcharts.Options = {
     chart: {
       map: worldMap as any,

@@ -1,20 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import Highcharts from 'highcharts';
 import HC_customEvents from 'highcharts-custom-events';
 import { FormsModule } from '@angular/forms';
-import { HighchartsChartComponent } from 'highcharts-angular';
-
-HC_customEvents(Highcharts);
+import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highcharts-angular';
 
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css'],
   imports: [FormsModule, HighchartsChartComponent],
+  providers: [provideHighChartsModuleFactory(HC_customEvents)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent {
-  public Highcharts: typeof Highcharts = Highcharts;
   public updateFromInput = false;
   public showChart = true;
   public toggleButtonTitle = 'Destroy chart';
