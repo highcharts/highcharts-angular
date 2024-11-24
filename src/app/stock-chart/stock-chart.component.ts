@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import Highcharts from 'highcharts';
+import type Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
 import HC_customEvents from 'highcharts-custom-events';
 import { FormsModule } from '@angular/forms';
-import { HighchartsChartComponent } from 'highcharts-angular';
-
-HC_stock(Highcharts);
-HC_customEvents(Highcharts);
+import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highcharts-angular';
 
 
 // Alternative way of a plugin loading:
@@ -18,11 +15,10 @@ HC_customEvents(Highcharts);
   templateUrl: './stock-chart.component.html',
   styleUrls: ['./stock-chart.component.css'],
   imports: [FormsModule, HighchartsChartComponent],
+  providers: [provideHighChartsModuleFactory(HC_stock, HC_customEvents)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockChartComponent {
-
-  Highcharts: typeof Highcharts = Highcharts;
 
   // starting values
   updateDemo2: boolean = false;
@@ -73,7 +69,7 @@ export class StockChartComponent {
       }]
     } as Highcharts.Options,
     hcCallback: (chart: Highcharts.Chart) => {
-      console.log('some variables: ', Highcharts, chart, this.charts);
+      console.log('some variables: ', chart, this.charts);
     }
   }, {
     hcOptions: {

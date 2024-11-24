@@ -1,20 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import Highcharts from 'highcharts';
 import HC_gantt from 'highcharts/modules/gantt';
-import {HighchartsChartComponent} from 'highcharts-angular';
+import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highcharts-angular';
 
-HC_gantt(Highcharts);
 
 @Component({
   selector: 'app-gantt-chart',
   templateUrl: './gantt-chart.component.html',
   styleUrls: ['./gantt-chart.component.css'],
   imports: [HighchartsChartComponent],
+  providers: [provideHighChartsModuleFactory(HC_gantt)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttChartComponent {
-  Highcharts: typeof Highcharts = Highcharts;
-
   chartGantt: Highcharts.Options = {
     title: {
       text: 'Highcharts Gantt with Progress Indicators'
