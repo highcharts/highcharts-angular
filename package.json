@@ -7,7 +7,8 @@
   "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
   "scripts": {
     "ng": "ng",
-    "start": "node tasks/build.js && ng serve --open",
+    "serve": "ng serve --open",
+    "start": "node tasks/build.js && npm run serve",
     "build": "node tasks/build.js",
     "test": "ng test",
     "lint": "ng lint highcharts-angular",
