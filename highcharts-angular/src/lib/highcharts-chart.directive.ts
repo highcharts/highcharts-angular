@@ -9,19 +9,23 @@ import {
   model,
   output,
   OutputEmitterRef,
-  untracked
+  untracked,
+  Injector
 } from '@angular/core';
-import type * as Highcharts from 'highcharts';
-import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
+import { Chart } from './types';
+import { promiseToSignal } from './utils';
+import { loadHighcharts } from './highcharts-chart.token';
+
 
 @Directive({
-  selector: 'highcharts-chart',
+  selector: '[highcharts-chart]',
 })
 export class HighchartsChartDirective {
   /**
    * Highcharts library or Highcharts ESM module.
+   * @deprecated
    */
-  Highcharts = input<typeof Highcharts | typeof HighchartsESM>();
+  Highcharts = input<Chart['highcharts']>();
 
   /**
    * Type of the chart constructor.
@@ -47,7 +51,7 @@ export class HighchartsChartDirective {
   /**
    * Options for the Highcharts chart.
    */
-  options = input<Highcharts.Options | HighchartsESM.Options>();
+  options = input<Chart['options']>();
 
   /**
    * Whether to rerender the chart.
@@ -56,22 +60,31 @@ export class HighchartsChartDirective {
 
   chartInstance: OutputEmitterRef<Highcharts.Chart | null> = output<Highcharts.Chart | null>();  // #26
 
-  private chart = linkedSignal<{ options: Highcharts.Options | HighchartsESM.Options, update: boolean }, Highcharts.Chart | null>({
-    source: () => ({options: this.options(), update: this.update()}),
-    computation: (source, previous) => {
-      return untracked(() => {
-        if (previous && previous.value) {
-          previous.value.update(source.options, true, this.oneToOne() || false);
-          return previous.value;
-        }
-        return this.Highcharts()[this.constructorType()](this.el.nativeElement, source.options, this.callbackFunction());
-      })
-    }
-  });
-
   private destroyRef = inject(DestroyRef);
 
   private el = inject(ElementRef);
+
+  private injector = inject(Injector);
+
+  private highCharts = promiseToSignal(loadHighcharts(this.injector))
+
+  private chart = linkedSignal<Chart, Highcharts.Chart | null>({
+    source: () => ({options: this.options(), update: this.update(), highcharts: this.highCharts()}),
+    computation: (source, previous) => {
+      const highcharts = source.highcharts || this.Highcharts();
+      if (highcharts) {
+        return untracked(() => {
+          if (previous && previous.value) {
+            previous.value.update(source.options, true, this.oneToOne() || false);
+            return previous.value;
+          }
+          return highcharts[this.constructorType()](this.el.nativeElement, source.options, this.callbackFunction());
+        })
+      }
+      return undefined;
+    }
+  });
+
 
   constructor() {
     this.destroyRef.onDestroy(() => { // #44
