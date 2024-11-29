@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import Highcharts from 'highcharts';
+import type Highcharts from 'highcharts';
 import { HighchartsChartComponent } from 'highcharts-angular';
 
 interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickOptions {
@@ -14,7 +14,6 @@ interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickO
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineTestComponent {
-  Highcharts: typeof Highcharts = Highcharts;
   updateFlag = false;
 
   chartOptions: Highcharts.Options = {
