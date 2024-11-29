@@ -1,11 +1,7 @@
-import { InjectionToken, Injector } from '@angular/core';
-import { Chart } from './types'
+import {InjectionToken} from '@angular/core';
+import {Chart, moduleFactory} from './types'
 
-export const HIGHCHARTS_MODULE = new InjectionToken<Promise<Chart['highcharts']>>('HIGHCHARTS_MODULE');
-export const HIGHCHARTS_ES_MODULE = new InjectionToken<any>('HIGHCHARTS_ES_MODULE');
-
-export const loadHighcharts = (injector: Injector): Promise<Chart['highcharts']> => {
-  const defaultHighcharts = import('highcharts').then(m => m.default);
-  const Highcharts = injector.get<Promise<Chart['highcharts']>>(HIGHCHARTS_MODULE, defaultHighcharts);
-  return injector.get<Promise<Chart['highcharts']>>(HIGHCHARTS_ES_MODULE, Highcharts);
-}
+export const HIGHCHARTS_LOADER = new InjectionToken<Promise<Chart['highcharts']>>('HIGHCHARTS_MODULE');
+export const HIGHCHARTS_ROOT_MODULES = new InjectionToken<moduleFactory[]>('HIGHCHARTS_ROOT_MODULES');
+export const HIGHCHARTS_MODULES = new InjectionToken<moduleFactory[]>('HIGHCHARTS_MODULES');
+export const HIGHCHARTS_OPTIONS = new InjectionToken<Chart['options']>('HIGHCHARTS_OPTIONS', {providedIn: 'root', factory: () => ({})});

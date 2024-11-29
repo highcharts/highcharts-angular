@@ -8,3 +8,10 @@ export interface Chart {
 }
 
 export type moduleFactory = (highcharts: Chart['highcharts']) => void;
+
+
+export interface HighchartsConfig {
+  instance?: Promise<Chart['highcharts']>;
+  options?: Chart['options'];
+  modules?: moduleFactory[];
+}
