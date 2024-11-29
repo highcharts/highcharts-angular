@@ -9,12 +9,12 @@ import {
   model,
   output,
   OutputEmitterRef,
-  untracked,
-  Injector
+  untracked
 } from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
+import { HighchartsChartService } from './highcharts-chart.service';
+import { HIGHCHARTS_MODULES } from './highcharts-chart.token';
 import { Chart } from './types';
-import { promiseToSignal } from './utils';
-import { loadHighcharts } from './highcharts-chart.token';
 
 
 @Directive({
@@ -64,9 +64,11 @@ export class HighchartsChartDirective {
 
   private el = inject(ElementRef);
 
-  private injector = inject(Injector);
+  private modules = inject(HIGHCHARTS_MODULES, {optional: true});
 
-  private highCharts = promiseToSignal(loadHighcharts(this.injector))
+  private highchartsChartService = inject(HighchartsChartService);
+
+  private highCharts = toSignal(this.highchartsChartService.loaderChanges$);
 
   private chart = linkedSignal<Chart, Highcharts.Chart | null>({
     source: () => ({options: this.options(), update: this.update(), highcharts: this.highCharts()}),
@@ -87,6 +89,8 @@ export class HighchartsChartDirective {
 
 
   constructor() {
+    // make sure to load global config + modules on demand
+    this.highchartsChartService.load(this.modules);
     this.destroyRef.onDestroy(() => { // #44
       if (this.chart()) {  // #56
         this.chart().destroy();
