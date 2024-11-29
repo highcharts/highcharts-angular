@@ -1,7 +1,7 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import ExportingModule from 'highcharts/modules/exporting';
 import SunsetTheme from 'highcharts/themes/sunset.js';
-import { provideHighCharts } from '../highcharts-angular/src/public_api';
+import { provideHighCharts } from 'highcharts-angular';
 import { environment } from './environments/environment';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
