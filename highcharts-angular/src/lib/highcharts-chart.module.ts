@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {HighchartsChartComponent} from './highcharts-chart.component';
+import { NgModule } from '@angular/core';
+import { HighchartsChartComponent } from './highcharts-chart.component';
 
 /**
  * @deprecated Use `HighchartsChartComponent` directly instead.

@@ -1,5 +1,5 @@
-import {InjectionToken} from '@angular/core';
-import {Chart, moduleFactory} from './types'
+import { InjectionToken } from '@angular/core';
+import { Chart, moduleFactory } from './types'
 
 export const HIGHCHARTS_LOADER = new InjectionToken<Promise<Chart['highcharts']>>('HIGHCHARTS_LOADER');
 export const HIGHCHARTS_ROOT_MODULES = new InjectionToken<moduleFactory[]>('HIGHCHARTS_ROOT_MODULES');

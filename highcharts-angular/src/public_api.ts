@@ -7,3 +7,4 @@ export * from './lib/highcharts-chart.component';
 export * from './lib/highcharts-chart.directive';
 export * from './lib/highcharts-chart.token';
 export * from './lib/highcharts-chart.provider';
+export * from './lib/highcharts-chart.service';
