@@ -3,7 +3,7 @@ import type Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
 import HC_customEvents from 'highcharts-custom-events';
 import { FormsModule } from '@angular/forms';
-import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highcharts-angular';
+import { HighchartsChartComponent, provideHighChartModules } from 'highcharts-angular';
 
 
 // Alternative way of a plugin loading:
@@ -15,7 +15,7 @@ import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highch
   templateUrl: './stock-chart.component.html',
   styleUrls: ['./stock-chart.component.css'],
   imports: [FormsModule, HighchartsChartComponent],
-  providers: [provideHighChartsModuleFactory(HC_stock, HC_customEvents)],
+  providers: [provideHighChartModules(HC_stock, HC_customEvents)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockChartComponent {

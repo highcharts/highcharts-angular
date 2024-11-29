@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import HC_customEvents from 'highcharts-custom-events';
 import { FormsModule } from '@angular/forms';
-import { HighchartsChartComponent, provideHighChartsModuleFactory } from 'highcharts-angular';
+import { HighchartsChartComponent, provideHighChartModules } from 'highcharts-angular';
 
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css'],
   imports: [FormsModule, HighchartsChartComponent],
-  providers: [provideHighChartsModuleFactory(HC_customEvents)],
+  providers: [provideHighChartModules(HC_customEvents)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent {
