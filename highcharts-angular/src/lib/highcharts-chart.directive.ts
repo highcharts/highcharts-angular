@@ -11,7 +11,7 @@ import {
   OutputEmitterRef,
   untracked
 } from '@angular/core';
-import {toSignal} from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_MODULES } from './highcharts-chart.token';
 import { Chart } from './types';

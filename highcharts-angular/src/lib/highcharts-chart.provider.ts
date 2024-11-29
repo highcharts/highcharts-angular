@@ -22,7 +22,7 @@ export function provideHighChartModules(...modules: moduleFactory[]): Provider[]
 
 
 export function provideHighChartOptions(options: Chart['options']) {
-  return makeEnvironmentProviders([{provide: HIGHCHARTS_OPTIONS, useValue: options}]);
+  return makeEnvironmentProviders([{provide: HIGHCHARTS_OPTIONS, useValue: options || {}}]);
 }
 
 export function provideHighChartRootModules(...modules: moduleFactory[]) {
