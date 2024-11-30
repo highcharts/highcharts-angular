@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HighchartsChartService } from './highcharts-chart.service';
-import { HIGHCHARTS_MODULES } from './highcharts-chart.token';
+import { HIGHCHARTS_LOADER, HIGHCHARTS_MODULES } from './highcharts-chart.token';
 import { Chart } from './types';
 
 
@@ -64,6 +64,8 @@ export class HighchartsChartDirective {
 
   private el = inject(ElementRef);
 
+  private loader = inject(HIGHCHARTS_LOADER, {optional: true});
+
   private modules = inject(HIGHCHARTS_MODULES, {optional: true});
 
   private highchartsChartService = inject(HighchartsChartService);
@@ -90,7 +92,7 @@ export class HighchartsChartDirective {
 
   constructor() {
     // make sure to load global config + modules on demand
-    this.highchartsChartService.load(this.modules);
+    this.highchartsChartService.load(this.modules, this.loader);
     this.destroyRef.onDestroy(() => { // #44
       if (this.chart()) {  // #56
         this.chart().destroy();
