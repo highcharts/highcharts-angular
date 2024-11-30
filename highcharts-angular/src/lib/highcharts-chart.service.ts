@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
-import { Chart, moduleFactory } from './types';
+import { Chart, moduleFactory, PartialHighchartsConfig } from './types';
 
 @Injectable({providedIn: 'root'})
 export class HighchartsChartService {
@@ -12,16 +12,14 @@ export class HighchartsChartService {
   private globalOptions: Chart['options'] = inject(HIGHCHARTS_OPTIONS, { optional: true });
   private globalModules: moduleFactory[] = inject(HIGHCHARTS_ROOT_MODULES, { optional: true });
 
-  load(modules?: moduleFactory[], loader?: Promise<Chart['highcharts']>) {
-    (loader || this.source).then(source => {
-      if (!loader){
-        source.setOptions(this.globalOptions);
-      }
-      if (this.globalModules && !loader) {
+  load(partialConfig?: PartialHighchartsConfig) {
+    this.source.then(source => {
+      source.setOptions(this.globalOptions);
+      if (this.globalModules) {
         this.globalModules.forEach(module => module(source));
       }
-      if (modules) {
-        modules.forEach(module => module(source));
+      if (partialConfig?.modules) {
+        partialConfig.modules.forEach(module => module(source));
       }
       this.loader.next(source);
     });
