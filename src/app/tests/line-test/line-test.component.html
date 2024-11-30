@@ -1,2 +1,2 @@
-<highcharts-chart [options]="chartOptions" [(update)]="updateFlag"></highcharts-chart>
+<highcharts-chart [options]="chartOptions" [(update)]="updateFlag" (chartInstance)="chartInstance = $event"></highcharts-chart>
 <button (click)="updateSeriesColor()">Update</button>

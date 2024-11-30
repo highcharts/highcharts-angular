@@ -14,7 +14,9 @@ export class HighchartsChartService {
 
   load(partialConfig?: PartialHighchartsConfig) {
     this.source.then(source => {
-      source.setOptions(this.globalOptions);
+      if (this.globalOptions){
+        source.setOptions(this.globalOptions);
+      }
       if (this.globalModules) {
         this.globalModules.forEach(module => module(source));
       }

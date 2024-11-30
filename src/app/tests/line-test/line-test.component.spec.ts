@@ -29,22 +29,15 @@ describe('LineTestComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have data given from chartOptions', (done) => {
+  it('should have data given from chartOptions', () => {
     const chartOptions = component.chartOptions;
-    service.loaderChanges$.subscribe(loader => {
-      const chart = loader.charts[loader.charts.length - 1];
-      const series = chart.series[0];
-      expect((series as any).yData).toEqual((chartOptions.series[0] as any).data);
-      done();
-    });
+    const series = component.chartInstance.series[0];
+    expect((series as any).yData).toEqual((chartOptions.series[0] as any).data);
   });
 
-  it('should be properly updated', (done) => {
-    service.loaderChanges$.subscribe(loader => {
-      const chart = loader.charts[loader.charts.length - 1];
-      const series = chart.series[0] as unknown as Highcharts.Series;
-      expect(series.color).toEqual('hotpink');
-      done();
-    });
+  it('should be properly updated', () => {
+    const chart = component.chartInstance;
+    const series = chart.series[0] as unknown as Highcharts.Series;
+    expect(series.color).toEqual('hotpink');
   });
 });
