@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import type Highcharts from 'highcharts';
 import HC_map from 'highcharts/modules/map';
 import worldMap from '@highcharts/map-collection/custom/world.geo.json';
-import { HighchartsChartComponent, provideHighChartModules } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 // import proj4 from 'proj4';
 
 // Legacy way of map loading - see file at the path for more info.
@@ -13,7 +13,7 @@ import { HighchartsChartComponent, provideHighChartModules } from 'highcharts-an
   templateUrl: './map-chart.component.html',
   styleUrls: ['./map-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [provideHighChartModules(HC_map)],
+  providers: [providePartialHighChart({ modules: [HC_map] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
