@@ -9,11 +9,12 @@ import {
   model,
   output,
   OutputEmitterRef,
-  untracked
+  untracked,
+  computed
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HighchartsChartService } from './highcharts-chart.service';
-import { HIGHCHARTS_LOADER, HIGHCHARTS_MODULES } from './highcharts-chart.token';
+import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
 import { Chart } from './types';
 
 
@@ -64,25 +65,31 @@ export class HighchartsChartDirective {
 
   private el = inject(ElementRef);
 
-  private loader = inject(HIGHCHARTS_LOADER, {optional: true});
-
-  private modules = inject(HIGHCHARTS_MODULES, {optional: true});
+  private relativeConfig = inject(HIGHCHARTS_CONFIG, { optional: true });
 
   private highchartsChartService = inject(HighchartsChartService);
 
   private highCharts = toSignal(this.highchartsChartService.loaderChanges$);
 
+  private constructorChart = computed<Function>(() => {
+    const constructorType = untracked(this.constructorType);
+    const highCharts = this.highCharts() || this.Highcharts();
+    if (constructorType && highCharts) {
+      return highCharts[constructorType];
+    }
+    return undefined;
+  });
+
   private chart = linkedSignal<Chart, Highcharts.Chart | null>({
-    source: () => ({options: this.options(), update: this.update(), highcharts: this.highCharts()}),
+    source: () => ({options: this.options(), update: this.update(), constructorChart: this.constructorChart()}),
     computation: (source, previous) => {
-      const highcharts = source.highcharts || this.Highcharts();
-      if (highcharts) {
+      if (source.constructorChart) {
         return untracked(() => {
           if (previous && previous.value) {
             previous.value.update(source.options, true, this.oneToOne() || false);
             return previous.value;
           }
-          return highcharts[this.constructorType()](this.el.nativeElement, source.options, this.callbackFunction());
+          return source.constructorChart(this.el.nativeElement, source.options, this.callbackFunction());
         })
       }
       return undefined;
@@ -92,7 +99,7 @@ export class HighchartsChartDirective {
 
   constructor() {
     // make sure to load global config + modules on demand
-    this.highchartsChartService.load(this.modules, this.loader);
+    this.highchartsChartService.load(this.relativeConfig);
     this.destroyRef.onDestroy(() => { // #44
       if (this.chart()) {  // #56
         this.chart().destroy();
