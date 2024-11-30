@@ -12,10 +12,12 @@ export class HighchartsChartService {
   private globalOptions: Chart['options'] = inject(HIGHCHARTS_OPTIONS, { optional: true });
   private globalModules: moduleFactory[] = inject(HIGHCHARTS_ROOT_MODULES, { optional: true });
 
-  load(modules?: moduleFactory[]) {
-    this.source.then(source => {
-      source.setOptions(this.globalOptions);
-      if (this.globalModules) {
+  load(modules?: moduleFactory[], loader?: Promise<Chart['highcharts']>) {
+    (loader || this.source).then(source => {
+      if (!loader){
+        source.setOptions(this.globalOptions);
+      }
+      if (this.globalModules && !loader) {
         this.globalModules.forEach(module => module(source));
       }
       if (modules) {

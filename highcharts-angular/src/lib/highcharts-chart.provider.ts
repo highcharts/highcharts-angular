@@ -12,12 +12,20 @@ export function provideHighChartInstance(instance: Promise<Chart['highcharts']>)
   ]);
 }
 
-export function provideHighChartModules(...modules: moduleFactory[]): Provider[] {
-  return modules.map((module) => ({
-    provide: HIGHCHARTS_MODULES,
-    useValue: module,
-    multi: true,
-  }));
+export function providePartialHighChart(config: Pick<HighchartsConfig, 'instance' | 'modules'>): Provider[] {
+  const providers: Provider[] = [];
+  if (config.modules) {
+    const modules = config.modules.map((module) => ({
+      provide: HIGHCHARTS_MODULES,
+      useValue: module,
+      multi: true,
+    }))
+    providers.push(...modules);
+  }
+  if (config.instance) {
+    providers.push({provide: HIGHCHARTS_LOADER, useValue: config.instance});
+  }
+  return providers;
 }
 
 
