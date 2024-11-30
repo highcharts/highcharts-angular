@@ -3,7 +3,7 @@ import type Highcharts from 'highcharts';
 import HC_stock from 'highcharts/modules/stock';
 import { AppleDataService } from '../apple-data.service'
 import { Observable } from 'rxjs';
-import { HighchartsChartComponent, provideHighChartModules } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 
 
 interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject {
@@ -15,7 +15,7 @@ interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGrou
   templateUrl: './lazy-loading-chart.component.html',
   styleUrls: ['./lazy-loading-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [provideHighChartModules(HC_stock)],
+  providers: [providePartialHighChart({ modules: [HC_stock] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyLoadingChartComponent {
