@@ -83,33 +83,40 @@ export class HighchartsChartDirective {
   private chart = linkedSignal<Chart, Highcharts.Chart | null>({
     source: () => ({options: this.options(), update: this.update(), constructorChart: this.constructorChart()}),
     computation: (source, previous) => {
-      if (source.constructorChart) {
-        return untracked(() => {
-          if (previous && previous.value) {
-            previous.value.update(source.options, true, this.oneToOne() || false);
-            return previous.value;
-          }
-          return source.constructorChart(this.el.nativeElement, source.options, this.callbackFunction());
-        })
-      }
-      return undefined;
+      return untracked(() => this.createOrUpdateChart(source, previous?.value, this.oneToOne(), this.callbackFunction()));
     }
   });
+
+  private createOrUpdateChart(
+    source: Chart,
+    chart: Highcharts.Chart,
+    oneToOne: boolean,
+    callbackFunction: Highcharts.ChartCallbackFunction
+  ): Highcharts.Chart | null {
+    if (chart) {
+      chart.update(source.options, true, oneToOne || false);
+      return chart;
+    }
+    if (source.constructorChart) {
+      return source.constructorChart(this.el.nativeElement, source.options, callbackFunction);
+    }
+    return undefined;
+  }
+
+  private destroyChart() {
+    if (this.chart()) {  // #56
+      this.chart().destroy();
+      this.chart.set(null);
+      // emit chart instance on destroy
+      this.chartInstance.emit(this.chart());
+    }
+  }
 
 
   constructor() {
     // make sure to load global config + modules on demand
     this.highchartsChartService.load(this.relativeConfig);
-    this.destroyRef.onDestroy(() => { // #44
-      if (this.chart()) {  // #56
-        this.chart().destroy();
-        this.chart.set(null);
-
-        // emit chart instance on destroy
-        this.chartInstance.emit(this.chart());
-      }
-    });
-
+    this.destroyRef.onDestroy(() => this.destroyChart()); // #44
     afterRenderEffect(() => this.chartInstance.emit(this.chart()));
     afterRenderEffect(() => {
       if (this.update()) {

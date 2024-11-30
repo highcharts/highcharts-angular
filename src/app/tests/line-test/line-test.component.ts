@@ -15,6 +15,7 @@ interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickO
 })
 export class LineTestComponent {
   updateFlag = false;
+  chartInstance: Highcharts.Chart;
 
   chartOptions: Highcharts.Options = {
     series: [
