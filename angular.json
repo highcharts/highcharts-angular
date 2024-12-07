@@ -132,6 +132,100 @@
           }
         }
       }
+    },
+    "my-ssr-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/my-ssr-app",
+      "sourceRoot": "apps/my-ssr-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/my-ssr-app",
+            "index": "apps/my-ssr-app/src/index.html",
+            "browser": "apps/my-ssr-app/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "apps/my-ssr-app/tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/my-ssr-app/public"
+              }
+            ],
+            "styles": [
+              "apps/my-ssr-app/src/styles.css"
+            ],
+            "scripts": [],
+            "server": "apps/my-ssr-app/src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "apps/my-ssr-app/src/server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "my-ssr-app:build:production"
+            },
+            "development": {
+              "buildTarget": "my-ssr-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "apps/my-ssr-app/tsconfig.spec.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/my-ssr-app/public"
+              }
+            ],
+            "styles": [
+              "apps/my-ssr-app/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
   },
   "schematics": {
