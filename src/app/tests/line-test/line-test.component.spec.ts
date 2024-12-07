@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { provideHighCharts, HighchartsChartService } from '../../../../../../highcharts-angular/src/public_api';
+import { provideHighCharts, HighchartsChartService } from '../../../../highcharts-angular/src/public_api';
 import { LineTestComponent } from './line-test.component';
 
 
