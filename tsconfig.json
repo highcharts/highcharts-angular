@@ -19,7 +19,15 @@
       "es2018",
       "dom"
     ],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths": {
+      "highcharts-angular": [
+        "./dist/highcharts-angular"
+      ],
+      "highcharts-angular/*": [
+        "./dist/highcharts-angular/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true

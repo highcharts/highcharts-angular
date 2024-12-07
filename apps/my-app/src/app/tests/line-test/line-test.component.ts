@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import type Highcharts from 'highcharts';
-import { HighchartsChartComponent } from '../../../../highcharts-angular/src/public_api';
+import { HighchartsChartComponent } from '../../../../../../highcharts-angular/src/public_api';
 
 interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickOptions {
   color: Highcharts.ColorType;
