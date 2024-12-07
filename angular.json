@@ -4,8 +4,8 @@
   "newProjectRoot": "apps",
   "projects": {
     "my-app": {
-      "root": "apps/my-app",
-      "sourceRoot": "apps/my-app/src",
+      "root": "",
+      "sourceRoot": "src",
       "projectType": "application",
       "schematics": {},
       "prefix": "app",
@@ -14,14 +14,14 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/my-app",
-            "index": "apps/my-app/src/index.html",
-            "browser": "apps/my-app/src/main.ts",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
             "polyfills": ["zone.js"],
-            "tsConfig": "apps/my-app/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "apps/my-app/public"
+                "input": "src/public"
               },
               {
                 "glob": "**/*",
@@ -29,7 +29,7 @@
                 "output": "/highcharts/"
               }
             ],
-            "styles": ["apps/my-app/src/styles.css"],
+            "styles": ["src/styles.css"],
             "scripts": [],
             "allowedCommonJsDependencies": ["*"]
           },
@@ -75,17 +75,17 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "apps/my-app/src/test.ts",
+            "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "polyfills": ["core-js/es/reflect", "zone.js", "zone.js/testing"],
-            "tsConfig": "apps/my-app/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "apps/my-app/public"
+                "input": "src/public"
               }
             ],
-            "styles": ["apps/my-app/src/styles.css"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }
@@ -142,24 +142,24 @@
     "my-ssr-app": {
       "projectType": "application",
       "schematics": {},
-      "root": "apps/my-ssr-app",
-      "sourceRoot": "apps/my-ssr-app/src",
+      "root": "",
+      "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/my-ssr-app",
-            "index": "apps/my-ssr-app/src/index.html",
-            "browser": "apps/my-ssr-app/src/main.ts",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "apps/my-ssr-app/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "apps/my-ssr-app/public"
+                "input": "src/public"
               },
               {
                 "glob": "**/*",
@@ -168,13 +168,13 @@
               }
             ],
             "styles": [
-              "apps/my-ssr-app/src/styles.css"
+              "src/styles.css"
             ],
             "scripts": [],
-            "server": "apps/my-ssr-app/src/main.server.ts",
+            "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
-              "entry": "apps/my-ssr-app/src/server.ts"
+              "entry": "src/server.ts"
             },
             "allowedCommonJsDependencies": ["*"]
           },
@@ -224,15 +224,15 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "apps/my-ssr-app/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "apps/my-ssr-app/public"
+                "input": "src/public"
               }
             ],
             "styles": [
-              "apps/my-ssr-app/src/styles.css"
+              "src/styles.css"
             ],
             "scripts": []
           }
