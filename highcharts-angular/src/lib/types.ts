@@ -3,7 +3,7 @@ import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
 export interface Chart {
   options: Highcharts.Options | HighchartsESM.Options,
-  update: boolean,
+  update?: boolean,
   highcharts?: typeof Highcharts | typeof HighchartsESM
   constructorChart?: Function;
 }
