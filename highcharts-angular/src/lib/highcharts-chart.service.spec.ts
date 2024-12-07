@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS, HIGHCHARTS_ROOT_MODULES } from './highcharts-chart.token';
-import { Chart, moduleFactory } from './types';
+import { Chart, ModuleFactory } from './types';
 
 describe('HighchartsChartService', () => {
   let service: HighchartsChartService;
   let mockLoader: Promise<Chart['highcharts']>;
   let mockGlobalOptions: Chart['options'];
-  let mockGlobalModules: moduleFactory[];
+  let mockGlobalModules: ModuleFactory[];
 
   beforeEach(() => {
     mockLoader = Promise.resolve({
@@ -59,7 +59,7 @@ describe('HighchartsChartService', () => {
   });
 
   it('should load partialConfig modules if provided', async () => {
-    const mockPartialModules: moduleFactory[] = [
+    const mockPartialModules: ModuleFactory[] = [
       jasmine.createSpy('partialModule1'),
       jasmine.createSpy('partialModule2'),
     ];
@@ -76,7 +76,7 @@ describe('HighchartsChartService', () => {
 describe('With not provided Value', () => {
   let service: HighchartsChartService;
   let mockLoader: Promise<Chart['highcharts']>;
-  let mockGlobalModules: moduleFactory[];
+  let mockGlobalModules: ModuleFactory[];
 
   beforeEach(() => {
     mockLoader = Promise.resolve({

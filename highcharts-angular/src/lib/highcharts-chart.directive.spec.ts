@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Component, ComponentRef, DebugElement } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { HighchartsChartDirective } from './highcharts-chart.directive';

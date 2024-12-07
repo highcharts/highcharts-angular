@@ -1,6 +1,10 @@
 import type Highcharts from 'highcharts';
 import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 
+export type ChartConstructorType = 'chart' | 'ganttChart' | 'stockChart' | 'mapChart';
+
+export type ModuleFactory = (highcharts: Chart['highcharts']) => void;
+
 export interface Chart {
   options: Highcharts.Options | HighchartsESM.Options,
   update?: boolean,
@@ -8,15 +12,12 @@ export interface Chart {
   constructorChart?: Function;
 }
 
-export type ChartConstructorType = 'chart' | 'ganttChart' | 'stockChart' | 'mapChart';
-export type moduleFactory = (highcharts: Chart['highcharts']) => void;
-
 export interface PartialHighchartsConfig {
-  modules?: moduleFactory[];
+  modules?: ModuleFactory[];
 }
 
 export interface HighchartsConfig {
   instance?: Promise<Chart['highcharts']>;
   options?: Chart['options'];
-  modules?: moduleFactory[];
+  modules?: ModuleFactory[];
 }
