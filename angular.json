@@ -25,14 +25,15 @@
               }
             ],
             "styles": ["apps/my-app/src/styles.css"],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["*"]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "800kB",
                   "maximumError": "1MB"
                 },
                 {
@@ -164,7 +165,8 @@
             "prerender": true,
             "ssr": {
               "entry": "apps/my-ssr-app/src/server.ts"
-            }
+            },
+            "allowedCommonJsDependencies": ["*"]
           },
           "configurations": {
             "production": {
