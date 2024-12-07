@@ -10,8 +10,10 @@ import {
   output,
   OutputEmitterRef,
   untracked,
-  computed
+  computed,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
@@ -69,6 +71,8 @@ export class HighchartsChartDirective {
 
   private el = inject(ElementRef);
 
+  private platformId = inject(PLATFORM_ID);
+
   private relativeConfig = inject(HIGHCHARTS_CONFIG, { optional: true });
 
   private highchartsChartService = inject(HighchartsChartService);
@@ -118,6 +122,9 @@ export class HighchartsChartDirective {
 
 
   constructor() {
+    if (this.platformId && isPlatformServer(this.platformId)) {
+      return;
+    }
     // make sure to load global config + modules on demand
     this.highchartsChartService.load(this.relativeConfig);
     this.destroyRef.onDestroy(() => this.destroyChart()); // #44
