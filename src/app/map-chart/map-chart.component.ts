@@ -20,11 +20,11 @@ import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-an
 
 export class MapChartComponent {
   private http = inject(HttpClient);
-  worldMap = toSignal(this.http.get<Highcharts.Options>('/highcharts/world.geo.json'));
-  chartMap = computed(() => {
+  worldMap = toSignal(this.http.get<any>('/highcharts/world.geo.json'));
+  chartMap = computed<Highcharts.Options>(() => {
     return {
       chart: {
-        map: this.worldMap() as any,
+        map: this.worldMap(),
         // proj4: proj4
       },
       title: {
