@@ -7,10 +7,10 @@
   "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
   "scripts": {
     "ng": "ng",
-    "serve": "ng serve --open",
+    "serve": "ng serve my-app --open",
     "start": "node tasks/build.js && npm run serve",
     "build": "node tasks/build.js",
-    "test": "ng test",
+    "test": "ng test my-app",
     "lint": "ng lint highcharts-angular",
     "release": "cd ./highcharts-angular && standard-version && cd ../ && node tasks/build.js && node tasks/release.js",
     "release-minor": "cd ./highcharts-angular && standard-version --release-as minor  && cd ../ && node tasks/build.js && node tasks/release.js",
