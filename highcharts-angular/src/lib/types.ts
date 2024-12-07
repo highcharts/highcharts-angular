@@ -8,7 +8,7 @@ export interface Chart {
   constructorChart?: Function;
 }
 
-export type ChartType = 'chart' | 'ganttChart' | 'stockChart' | 'mapChart';
+export type ChartConstructorType = 'chart' | 'ganttChart' | 'stockChart' | 'mapChart';
 export type moduleFactory = (highcharts: Chart['highcharts']) => void;
 
 export interface PartialHighchartsConfig {

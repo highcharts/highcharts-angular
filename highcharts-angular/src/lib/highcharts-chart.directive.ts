@@ -15,7 +15,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
-import type { Chart, ChartType } from './types';
+import type { Chart, ChartConstructorType } from './types';
 
 
 @Directive({
@@ -31,7 +31,7 @@ export class HighchartsChartDirective {
   /**
    * Type of the chart constructor.
    */
-  constructorType = input<ChartType>('chart');
+  constructorType = input<ChartConstructorType>('chart');
 
   /**
    * Callback function for the chart.
