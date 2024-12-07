@@ -1,6 +1,6 @@
 import { EnvironmentProviders, makeEnvironmentProviders, Provider } from '@angular/core';
 import { HIGHCHARTS_LOADER, HIGHCHARTS_CONFIG, HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
-import { Chart, moduleFactory, HighchartsConfig, PartialHighchartsConfig } from './types';
+import { Chart, ModuleFactory, HighchartsConfig, PartialHighchartsConfig } from './types';
 
 
 export function providePartialHighChart(config: PartialHighchartsConfig): Provider {
@@ -15,7 +15,7 @@ export function provideHighChartOptions(options: Chart['options']) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_OPTIONS, useValue: options } ]);
 }
 
-export function provideHighChartRootModules(...modules: moduleFactory[]) {
+export function provideHighChartRootModules(...modules: ModuleFactory[]) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_ROOT_MODULES, useValue: modules }]);
 }
 

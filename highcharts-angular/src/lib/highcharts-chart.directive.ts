@@ -122,6 +122,7 @@ export class HighchartsChartDirective {
 
 
   constructor() {
+    // should stop loading on the server side for SSR
     if (this.platformId && isPlatformServer(this.platformId)) {
       return;
     }
