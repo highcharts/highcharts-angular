@@ -22,6 +22,11 @@
               {
                 "glob": "**/*",
                 "input": "apps/my-app/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@highcharts/map-collection/custom/",
+                "output": "/highcharts/"
               }
             ],
             "styles": ["apps/my-app/src/styles.css"],
@@ -155,6 +160,11 @@
               {
                 "glob": "**/*",
                 "input": "apps/my-ssr-app/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@highcharts/map-collection/custom/",
+                "output": "/highcharts/"
               }
             ],
             "styles": [
