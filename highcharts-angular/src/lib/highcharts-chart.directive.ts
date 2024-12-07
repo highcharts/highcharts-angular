@@ -39,7 +39,9 @@ export class HighchartsChartDirective {
   callbackFunction = input<Highcharts.ChartCallbackFunction>(null);
 
   /**
-   * Whether to update the chart one-to-one.
+   * When enabled, Updates `series`, `xAxis`, `yAxis`, and `annotations` to match new options.
+   * Items are added/removed as needed. Series with `id`s are matched by `id`;
+   * unmatched items are removed. Omitted `series` leaves existing ones unchanged.
    */
   oneToOne = input<boolean>();
 
@@ -55,7 +57,9 @@ export class HighchartsChartDirective {
   options = input<Chart['options']>();
 
   /**
-   * Whether to rerender the chart.
+   * Whether to redraw the chart.
+   * Check how update works in Highcharts
+   * API doc here: https://api.highcharts.com/class-reference/Highcharts.Chart#update
    */
   update = model<boolean>();
 
