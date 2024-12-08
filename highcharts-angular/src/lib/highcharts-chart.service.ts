@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
-import { Chart, ModuleFactoryFunction, PartialHighchartsConfig } from './types';
+import { Chart, ModuleFactoryFunction, PartialHighchartsConfig, ModuleFactory } from './types';
 
 @Injectable({providedIn: 'root'})
 export class HighchartsChartService {
@@ -15,7 +15,7 @@ export class HighchartsChartService {
   private async loadHighchartsWithModules(partialConfig?: PartialHighchartsConfig): Promise<Chart['highcharts']> {
     const Highcharts: Chart['highcharts'] = await this.source; // Ensure Highcharts core is loaded
     const version: number = Number(Highcharts['version'].split('.').map((v: string) => v.padStart(2, '0')).join(''));
-    const results = await Promise.all(
+    const results: ModuleFactory[] = await Promise.all(
       partialConfig?.modules ? [...this.globalModules(), ...partialConfig.modules()] : this.globalModules()
     );
     if (version < 120000) {
