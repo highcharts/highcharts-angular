@@ -2,7 +2,6 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject, computed} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import type Highcharts from 'highcharts';
-import HC_map from 'highcharts/modules/map';
 import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 // import proj4 from 'proj4';
 
@@ -14,7 +13,7 @@ import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-an
   templateUrl: './map-chart.component.html',
   styleUrls: ['./map-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [providePartialHighChart({ modules: [HC_map] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/map')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

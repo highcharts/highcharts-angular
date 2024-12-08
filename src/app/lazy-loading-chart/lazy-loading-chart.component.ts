@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import type Highcharts from 'highcharts';
-import HC_stock from 'highcharts/modules/stock';
 import { AppleDataService } from '../apple-data.service'
 import { Observable } from 'rxjs';
 import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
@@ -15,7 +14,7 @@ interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGrou
   templateUrl: './lazy-loading-chart.component.html',
   styleUrls: ['./lazy-loading-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [providePartialHighChart({ modules: [HC_stock] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/stock')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyLoadingChartComponent {
