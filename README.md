@@ -53,8 +53,6 @@ Then, configure the Highcharts provider in your app.config.ts file:
 
 ```ts
 import { provideHighCharts } from 'highcharts-angular';
-import ExportingModule from 'highcharts/modules/exporting';
-import SunsetTheme from 'highcharts/themes/sunset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
