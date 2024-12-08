@@ -76,7 +76,13 @@ export const appConfig: ApplicationConfig = {
       },
 
       // Modules for additional functionality
-      modules: [ExportingModule, SunsetTheme]
+      modules: () => {
+        return [
+          import('highcharts/modules/accessibility'),
+          import('highcharts/modules/exporting'),
+          import('highcharts/themes/sunset')
+        ]
+      }
     })
   ]
 };
@@ -90,14 +96,14 @@ Here is the configuration interface for reference:
 export interface HighchartsConfig {
   instance?: Promise<typeof Highcharts>;
   options?: Highcharts.Options;
-  modules?: ModuleFactory[];
+  modules?: ModuleFactoryFunction;
 }
 ```
 
 ### Key Notes:
 - The `instance` property allows you to specify the Highcharts instance dynamically.
 - The `options` property is used to define global chart configurations applied across all charts.
-- The `modules` array enables you to include Highcharts modules (e.g., exporting, accessibility) or custom themes.
+- The `modules` a callback with an array enables you to include Highcharts modules (e.g., exporting, accessibility) or custom themes.
 
 ### Usage
 
@@ -299,12 +305,6 @@ If a lack of TypeScript definitions `d.ts` is showing as an error - see [Solving
 ```ts
 import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
-// Load core 
-import HC_gantt from 'highcharts/modules/gantt';
-// Load core module
-import HC_exporting from 'highcharts/modules/exporting';
-// Load plugins
-import * as HC_customEvents from 'highcharts-custom-events';
 
 @Component({
   template: `
@@ -312,7 +312,20 @@ import * as HC_customEvents from 'highcharts-custom-events';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: [HC_gantt, HC_exporting, HC_customEvents] })],
+  providers: [
+    providePartialHighChart({ 
+      modules: () => {
+        return [
+          // Load Gantt Chart 
+          import('highcharts/modules/gantt'),
+          // Load core module
+          import('highcharts/modules/exporting'),
+          // Load plugins
+          import('highcharts-custom-events'),
+        ]
+      }
+    })
+  ],
 })
 export class GanttComponent {
   chartOptions: Highcharts.Options = {
@@ -331,7 +344,6 @@ Official map collection is published and [here](https://www.npmjs.com/package/@h
 ```ts
 import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
-import HC_map from 'highcharts/modules/map';
 
 @Component({
   template: `
@@ -339,7 +351,7 @@ import HC_map from 'highcharts/modules/map';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: [HC_map] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/map')] })],
 })
 export class MapComponent {
   chartOptions: Highcharts.Options = {
@@ -356,7 +368,6 @@ export class MapComponent {
 ```ts
 import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
-import HC_stock from 'highcharts/modules/stock';
 
 @Component({
   template: `
@@ -364,7 +375,7 @@ import HC_stock from 'highcharts/modules/stock';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: [HC_stock] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/stock')] })],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {
@@ -411,7 +422,6 @@ The wrapper is now ready to be imported into your app. Use `require` instead of 
 ```ts
 import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
-const customWrapper = require('./relative-path-to-the-wrapper-file/wrapper-file-name');
 
 
 @Component({
@@ -420,7 +430,7 @@ const customWrapper = require('./relative-path-to-the-wrapper-file/wrapper-file-
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: [customWrapper] })],
+  providers: [providePartialHighChart({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] })],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {
