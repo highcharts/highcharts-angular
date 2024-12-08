@@ -2,8 +2,6 @@ import {provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/com
 import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import { provideHighCharts } from 'highcharts-angular';
-import ExportingModule from 'highcharts/modules/exporting';
-import SunsetTheme from 'highcharts/themes/sunset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,7 +21,13 @@ export const appConfig: ApplicationConfig = {
         }
       },
       // The modules will work for all charts.
-      modules: [ExportingModule, SunsetTheme]
+      modules: () => {
+        return [
+          import('highcharts/modules/accessibility'),
+          import('highcharts/modules/exporting'),
+          import('highcharts/themes/sunset')
+        ]
+      }
     })
   ]
 };

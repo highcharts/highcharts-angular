@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import HC_gantt from 'highcharts/modules/gantt';
 import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 
 
@@ -8,7 +7,7 @@ import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-an
   templateUrl: './gantt-chart.component.html',
   styleUrls: ['./gantt-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [providePartialHighChart({ modules: [HC_gantt] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/gantt')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttChartComponent {
