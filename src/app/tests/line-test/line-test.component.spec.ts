@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync, fakeAsync, tick} from '@angular/core/testing';
 import { provideHighCharts, HighchartsChartService } from '../../../../highcharts-angular/src/public_api';
 import { LineTestComponent } from './line-test.component';
 
@@ -16,14 +16,15 @@ describe('LineTestComponent', () => {
     .compileComponents();
   }));
 
-  beforeEach(async () => {
+  beforeEach(fakeAsync(() => {
     fixture = TestBed.createComponent(LineTestComponent);
     service = TestBed.inject(HighchartsChartService);
     service.load();
+    tick(100);
     component = fixture.componentInstance;
     component.updateSeriesColor();
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
