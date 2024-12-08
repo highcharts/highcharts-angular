@@ -8,10 +8,12 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve my-app --open",
-    "serve:ssr": "node dist/my-ssr-app/server/server.mjs",
+    "serve:ssr": "ng serve my-ssr-app --open",
     "start": "node tasks/build.js && npm run serve",
+    "start:ssr": "node tasks/build.js && npm run serve:ssr",
     "build": "node tasks/build.js",
     "build:ssr": "ng build my-ssr-app",
+    "run:ssr": "node dist/my-ssr-app/server/server.mjs",
     "test": "ng test my-app",
     "lint": "ng lint highcharts-angular",
     "release": "cd ./highcharts-angular && standard-version && cd ../ && node tasks/build.js && node tasks/release.js",
