@@ -280,7 +280,7 @@ A Highcharts instance is optionally initialized with **[modules](#to-load-a-modu
 
 **Note:** The Highcharts instance is shared across components in an Angular app, meaning that loaded modules will affect all charts.
 
-With this v5, you can set provide extra modules or plugins on demand to your chart at the component level:
+With this v5, you can provide extra modules or plugins on demand to your chart at the component level:
 
 ## Example
 
@@ -409,8 +409,27 @@ Next, you will be loading a local `.js` file, so add `allowJs: true` to the `tsc
 The wrapper is now ready to be imported into your app. Use `require` instead of `import` to prevent TS5055 errors:
 
 ```ts
-import * as Highcharts from 'highcharts';
-require('./relative-path-to-the-wrapper-file/wrapper-file-name')(Highcharts);
+import { Component } from '@angular/core';
+import { HighchartsChartDirective } from 'highcharts-angular';
+const customWrapper = require('./relative-path-to-the-wrapper-file/wrapper-file-name');
+
+
+@Component({
+  template: `
+    <div highcharts-chart [options]="chartOptions" class="chart"></div>
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartDirective],
+  providers: [providePartialHighChart({ modules: [customWrapper] })],
+})
+export class StockComponent {
+  chartOptions: Highcharts.Options = {
+    series: [{
+      data: [1, 2, 3],
+      type: 'line'
+    }]
+  };
+}
 ```
 
 Where `relative-path-to-the-wrapper-file` is the relative path (from the module importing the wrapper) to the wrapper file, and `wrapper-file-name` is the name of the wrapper file.
