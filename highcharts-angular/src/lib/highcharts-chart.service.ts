@@ -32,7 +32,7 @@ export class HighchartsChartService {
         source.setOptions(this.globalOptions);
       }
       // add timeout to make sure the loader has attached all modules
-      setTimeout(() => this.loader.next(source), 500);
+      setTimeout(() => this.loader.next(source), 100);
     });
   }
 }
