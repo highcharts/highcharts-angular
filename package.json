@@ -35,7 +35,7 @@
     "@highcharts/map-collection": "^2.3.0",
     "core-js": "^3.19.2",
     "express": "^4.18.2",
-    "highcharts": "^11.2.0",
+    "highcharts": "^12.0.2",
     "highcharts-custom-events": "^3.0.10",
     "jquery": "^3.6.0",
     "proj4": "^2.15.0",
