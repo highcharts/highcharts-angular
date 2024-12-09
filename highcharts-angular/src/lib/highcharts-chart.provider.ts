@@ -1,15 +1,16 @@
 import { EnvironmentProviders, makeEnvironmentProviders, Provider } from '@angular/core';
 import { HIGHCHARTS_LOADER, HIGHCHARTS_CONFIG, HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
-import { Chart, ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig } from './types';
+import { Chart, ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig, InstanceFactoryFunction } from './types';
 
 const emptyModuleFactoryFunction: ModuleFactoryFunction = () => [];
+const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => import('highcharts').then(m => m.default);
 
 export function providePartialHighChart(config: PartialHighchartsConfig): Provider {
   return { provide: HIGHCHARTS_CONFIG, useValue: config };
 }
 
-export function provideHighChartInstance(instance: Promise<Chart['highcharts']>) {
-  return makeEnvironmentProviders([{ provide: HIGHCHARTS_LOADER, useValue: instance || import('highcharts').then(m => m.default) }]);
+export function provideHighChartInstance(instance: InstanceFactoryFunction) {
+  return makeEnvironmentProviders([{ provide: HIGHCHARTS_LOADER, useValue: instance || defaultInstanceFactoryFunction }]);
 }
 
 export function provideHighChartOptions(options: Chart['options']) {
