@@ -7,7 +7,7 @@ import { HighchartsChartDirective } from './highcharts-chart.directive';
   hostDirectives: [
     {
       directive: HighchartsChartDirective,
-      inputs: ['Highcharts', 'constructorType', 'callbackFunction', 'oneToOne', 'runOutsideAngular', 'options', 'update'],
+      inputs: ['constructorType', 'callbackFunction', 'oneToOne', 'options', 'update'],
       outputs: ['chartInstance', 'updateChange']
     }
   ],
