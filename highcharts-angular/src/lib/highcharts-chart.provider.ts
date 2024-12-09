@@ -3,7 +3,9 @@ import { HIGHCHARTS_LOADER, HIGHCHARTS_CONFIG, HIGHCHARTS_ROOT_MODULES, HIGHCHAR
 import { Chart, ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig, InstanceFactoryFunction } from './types';
 
 const emptyModuleFactoryFunction: ModuleFactoryFunction = () => [];
-const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => import('highcharts').then(m => m.default);
+const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => {
+  return import('highcharts/es-modules/masters/highcharts.src').then(m => m.default);
+};
 
 function provideHighChartInstance(instance: InstanceFactoryFunction) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_LOADER, useValue: instance || defaultInstanceFactoryFunction }]);
