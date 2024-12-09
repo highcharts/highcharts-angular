@@ -25,12 +25,6 @@ import type { Chart, ChartConstructorType } from './types';
 })
 export class HighchartsChartDirective {
   /**
-   * Highcharts library or Highcharts ESM module.
-   * @deprecated
-   */
-  Highcharts = input<Chart['highcharts']>();
-
-  /**
    * Type of the chart constructor.
    */
   constructorType = input<ChartConstructorType>('chart');
@@ -45,18 +39,12 @@ export class HighchartsChartDirective {
    * Items are added/removed as needed. Series with `id`s are matched by `id`;
    * unmatched items are removed. Omitted `series` leaves existing ones unchanged.
    */
-  oneToOne = input<boolean>();
-
-  /**
-   * Whether to run the chart outside Angular.
-   * @deprecated
-   */
-  runOutsideAngular = input<boolean>();
+  oneToOne = input<boolean>(false);
 
   /**
    * Options for the Highcharts chart.
    */
-  options = input<Chart['options']>();
+  options = input.required<Chart['options']>();
 
   /**
    * Whether to redraw the chart.
@@ -81,7 +69,7 @@ export class HighchartsChartDirective {
 
   private constructorChart = computed<Function>(() => {
     const constructorType = untracked(this.constructorType);
-    const highCharts = this.highCharts() || this.Highcharts();
+    const highCharts = this.highCharts();
     if (constructorType && highCharts) {
       return highCharts[constructorType];
     }
@@ -102,7 +90,7 @@ export class HighchartsChartDirective {
     callbackFunction: Highcharts.ChartCallbackFunction
   ): Highcharts.Chart | null {
     if (chart) {
-      chart.update(source.options, true, oneToOne || false);
+      chart.update(source.options, true, oneToOne);
       return chart;
     }
     if (source.constructorChart) {

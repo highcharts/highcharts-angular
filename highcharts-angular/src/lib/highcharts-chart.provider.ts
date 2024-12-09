@@ -5,20 +5,20 @@ import { Chart, ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig
 const emptyModuleFactoryFunction: ModuleFactoryFunction = () => [];
 const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => import('highcharts').then(m => m.default);
 
-export function providePartialHighChart(config: PartialHighchartsConfig): Provider {
-  return { provide: HIGHCHARTS_CONFIG, useValue: config };
-}
-
-export function provideHighChartInstance(instance: InstanceFactoryFunction) {
+function provideHighChartInstance(instance: InstanceFactoryFunction) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_LOADER, useValue: instance || defaultInstanceFactoryFunction }]);
 }
 
-export function provideHighChartOptions(options: Chart['options']) {
+function provideHighChartOptions(options: Chart['options']) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_OPTIONS, useValue: options } ]);
 }
 
-export function provideHighChartRootModules(modules: ModuleFactoryFunction) {
+function provideHighChartRootModules(modules: ModuleFactoryFunction) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_ROOT_MODULES, useValue: modules }]);
+}
+
+export function providePartialHighChart(config: PartialHighchartsConfig): Provider {
+  return { provide: HIGHCHARTS_CONFIG, useValue: config };
 }
 
 export function provideHighCharts(config: HighchartsConfig) {
