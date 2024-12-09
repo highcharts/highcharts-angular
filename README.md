@@ -60,7 +60,7 @@ export const appConfig: ApplicationConfig = {
     // Other providers
     provideHighCharts({
       // Optional: Define the Highcharts instance
-      // instance: import('highcharts'),
+      // instance: () => import('highcharts'),
 
       // Global options for all charts
       options: {
