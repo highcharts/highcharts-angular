@@ -1,7 +1,7 @@
 import { TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS, HIGHCHARTS_ROOT_MODULES } from './highcharts-chart.token';
-import { Chart, ModuleFactoryFunction } from './types';
+import { Chart, ModuleFactoryFunction, InstanceFactoryFunction } from './types';
 
 describe('HighchartsChartService', () => {
   let service: HighchartsChartService;
@@ -20,11 +20,12 @@ describe('HighchartsChartService', () => {
       Promise.resolve({ default: jasmine.createSpy() }),
       Promise.resolve({ default: jasmine.createSpy() }),
     ]);
+    const instance = () => Promise.resolve(mockLoader);
 
     TestBed.configureTestingModule({
       providers: [
         HighchartsChartService,
-        { provide: HIGHCHARTS_LOADER, useValue: Promise.resolve(mockLoader) },
+        { provide: HIGHCHARTS_LOADER, useValue: instance },
         { provide: HIGHCHARTS_OPTIONS, useValue: mockGlobalOptions },
         { provide: HIGHCHARTS_ROOT_MODULES, useValue: mockGlobalModules },
       ],
@@ -88,19 +89,22 @@ describe('HighchartsChartService', () => {
 
 describe('With not provided Value', () => {
   let service: HighchartsChartService;
-  let mockLoader: Promise<Chart['highcharts']>;
+  let mockLoader: Chart['highcharts'];
+  let mockLoaderInstance: InstanceFactoryFunction;
 
   beforeEach(() => {
-    mockLoader = Promise.resolve({
+    mockLoader = {
       version: '11.0.0',
       setOptions: jasmine.createSpy('setOptions'),
-    } as unknown as Chart['highcharts']);
+    } as unknown as Chart['highcharts']
+
+    mockLoaderInstance = () => Promise.resolve(mockLoader);
 
 
     TestBed.configureTestingModule({
       providers: [
         HighchartsChartService,
-        { provide: HIGHCHARTS_LOADER, useValue: mockLoader },
+        { provide: HIGHCHARTS_LOADER, useValue: mockLoaderInstance },
         { provide: HIGHCHARTS_OPTIONS, useValue: undefined },
         { provide: HIGHCHARTS_ROOT_MODULES, useValue: undefined },
       ],
@@ -111,7 +115,7 @@ describe('With not provided Value', () => {
 
   it('should not call setOptions if global options are not provided', async () => {
     service.load();
-    const highcharts = await mockLoader;
+    const highcharts = await mockLoaderInstance();
 
     expect(highcharts.setOptions).not.toHaveBeenCalled();
   });
@@ -133,11 +137,13 @@ describe('With Version 12', () => {
       Promise.resolve({ default: jasmine.createSpy() }),
     ]);
 
+    const instance = () => Promise.resolve(mockLoader);
+
 
     TestBed.configureTestingModule({
       providers: [
         HighchartsChartService,
-        { provide: HIGHCHARTS_LOADER, useValue: Promise.resolve(mockLoader) },
+        { provide: HIGHCHARTS_LOADER, useValue: instance },
         { provide: HIGHCHARTS_OPTIONS, useValue: undefined },
         { provide: HIGHCHARTS_ROOT_MODULES, useValue: mockGlobalModules },
       ],

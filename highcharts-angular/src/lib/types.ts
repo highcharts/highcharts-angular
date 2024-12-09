@@ -4,6 +4,7 @@ import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
 export type ChartConstructorType = 'chart' | 'ganttChart' | 'stockChart' | 'mapChart';
 
 export type ModuleFactoryFunction = () => Promise<ModuleFactory>[];
+export type InstanceFactoryFunction = () => Promise<Chart['highcharts']>;
 
 export interface ModuleFactory {
   Highcharts?: Chart['highcharts'],
@@ -22,7 +23,7 @@ export interface PartialHighchartsConfig {
 }
 
 export interface HighchartsConfig {
-  instance?: Promise<Chart['highcharts']>;
+  instance?: InstanceFactoryFunction;
   options?: Chart['options'];
   modules?: ModuleFactoryFunction;
 }

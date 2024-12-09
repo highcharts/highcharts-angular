@@ -10,6 +10,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(BrowserModule),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
     provideHighCharts({
+      instance: () => import('highcharts').then(m => m.default),
       options: {
         title: {
           style: {
