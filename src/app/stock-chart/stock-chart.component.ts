@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
-import HC_stock from 'highcharts/modules/stock';
-import HC_customEvents from 'highcharts-custom-events';
-
-HC_stock(Highcharts);
-HC_customEvents(Highcharts);
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import type Highcharts from 'highcharts';
+import { FormsModule } from '@angular/forms';
+import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 
 
 // Alternative way of a plugin loading:
@@ -14,11 +11,12 @@ HC_customEvents(Highcharts);
 @Component({
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
-  styleUrls: ['./stock-chart.component.css']
+  styleUrls: ['./stock-chart.component.css'],
+  imports: [FormsModule, HighchartsChartComponent],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/stock'), import('highcharts-custom-events')] })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockChartComponent {
-
-  Highcharts: typeof Highcharts = Highcharts;
 
   // starting values
   updateDemo2: boolean = false;
@@ -44,8 +42,8 @@ export class StockChartComponent {
       subtitle: { text: '1st data set' },
       plotOptions: {
         series: {
-           pointStart: Date.now(),
-           pointInterval: 86400000 // 1 day
+          pointStart: Date.now(),
+          pointInterval: 86400000 // 1 day
         }
       },
       series: [{
@@ -69,7 +67,7 @@ export class StockChartComponent {
       }]
     } as Highcharts.Options,
     hcCallback: (chart: Highcharts.Chart) => {
-      console.log('some variables: ', Highcharts, chart, this.charts);
+      console.log('some variables: ', chart, this.charts);
     }
   }, {
     hcOptions: {

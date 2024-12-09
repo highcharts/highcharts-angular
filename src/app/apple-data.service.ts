@@ -22,7 +22,7 @@ export class AppleDataService {
   }
 
   errorHandler(error: HttpErrorResponse) {
-    return throwError(error.message || "server error.");
+    return throwError(error.message || 'server error.');
   }
 
 }

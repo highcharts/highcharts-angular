@@ -1,26 +1,25 @@
-import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
-import HC_stock from 'highcharts/modules/stock';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import type Highcharts from 'highcharts';
 import { AppleDataService } from '../apple-data.service'
-import $ from 'jquery';
 import { Observable } from 'rxjs';
+import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 
-HC_stock(Highcharts);
 
-interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject{
+interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject {
   enabled: boolean
 }
 
 @Component({
   selector: 'app-lazy-loading-chart',
   templateUrl: './lazy-loading-chart.component.html',
-  styleUrls: ['./lazy-loading-chart.component.css']
+  styleUrls: ['./lazy-loading-chart.component.css'],
+  imports: [HighchartsChartComponent],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/stock')] })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyLoadingChartComponent {
 
   constructor(private appleDataService: AppleDataService) { }
-
-  Highcharts: typeof Highcharts = Highcharts;
 
   chartRef: Highcharts.Chart;
 
@@ -45,7 +44,7 @@ export class LazyLoadingChartComponent {
       events: {
         load: () => {
           const chart = this.chartRef;
-          const data = this.fetchData()
+          this.fetchData()
             .subscribe((data: Array<[]>) => {
               // Add a null value for the end date
               const chartData = [...data, [Date.UTC(2011, 9, 14, 19, 59), null, null, null, null]];

@@ -1,17 +1,16 @@
-import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
-import HC_gantt from 'highcharts/modules/gantt';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 
-HC_gantt(Highcharts);
 
 @Component({
   selector: 'app-gantt-chart',
   templateUrl: './gantt-chart.component.html',
-  styleUrls: ['./gantt-chart.component.css']
+  styleUrls: ['./gantt-chart.component.css'],
+  imports: [HighchartsChartComponent],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/gantt')] })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttChartComponent {
-  Highcharts: typeof Highcharts = Highcharts;
-
   chartGantt: Highcharts.Options = {
     title: {
       text: 'Highcharts Gantt with Progress Indicators'
@@ -38,8 +37,8 @@ export class GanttChartComponent {
         start: Date.UTC(2014, 10, 20),
         end: Date.UTC(2014, 10, 25),
         completed: {
-            amount: 0.12,
-            fill: '#fa0'
+          amount: 0.12,
+          fill: '#fa0'
         }
       }, {
         name: 'Run acceptance tests',
