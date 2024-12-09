@@ -6,9 +6,10 @@ Official minimal Highcharts integration for Angular.
 1. [Getting Started](#getting-started)
    1. [General Prerequisites](#general-prerequisites)
    2. [Installing](#installing)
-   3. [Usage](#usage)
-   4. [SSR Support](#ssr-support)
-   5. [Angular Elements and `useHTML`](#angular-elements-and-usehtml)
+   3. [Upgrade to v5](#upgrade-to-v5)
+   4. [Usage](#usage)
+   5. [SSR Support](#ssr-support)
+   6. [Angular Elements and `useHTML`](#angular-elements-and-usehtml)
 2. [Options Details](#options-details)
 3. [Chart Instance](#chart-instance)
 4. [Highcharts Partial Loading on the Component Level](#highcharts-partial-loading-on-the-component-level)
@@ -102,6 +103,16 @@ export interface HighchartsConfig {
 - The `instance` property allows you to specify the Highcharts instance dynamically.
 - The `options` property is used to define global chart configurations applied across all charts.
 - The `modules` a callback with an array enables you to include Highcharts modules (e.g., exporting, accessibility) or custom themes.
+
+### Upgrade to v5
+
+Version 5 introduces significant improvements and changes to align with modern Angular practices. **Please review the following breaking changes before upgrading:**
+
+#### Breaking Changes
+
+1. **Dropped Support for `HighchartsChartModule`:**
+  - In v5, the package no longer requires `HighchartsChartModule`. This change leverages Angular's standalone component model for a more streamlined development experience.
+  - **Action Required:** Migrate your components to standalone by importing necessary dependencies directly into the component or directive.
 
 ### Usage
 
