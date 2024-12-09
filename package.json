@@ -12,6 +12,7 @@
     "start": "node tasks/build.js && npm run serve",
     "start:ssr": "node tasks/build.js && npm run serve:ssr",
     "build": "node tasks/build.js",
+    "build:app": "ng build my-app",
     "build:ssr": "ng build my-ssr-app",
     "run:ssr": "node dist/my-ssr-app/server/server.mjs",
     "test": "ng test my-app",
