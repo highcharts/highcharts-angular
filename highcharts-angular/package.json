@@ -21,7 +21,7 @@
   "peerDependencies": {
     "@angular/common": ">=19.0.0",
     "@angular/core": ">=19.0.0",
-    "highcharts": ">=9.0.0"
+    "highcharts": ">=12.2.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"

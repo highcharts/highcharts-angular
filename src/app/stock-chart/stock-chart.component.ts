@@ -1,19 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import type Highcharts from 'highcharts';
+import type Highcharts from 'highcharts/esm/highcharts';
 import { FormsModule } from '@angular/forms';
 import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
 
-
-// Alternative way of a plugin loading:
-// const HC_ce = require('highcharts-custom-events');
-// HC_ce(Highcharts);
 
 @Component({
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
   styleUrls: ['./stock-chart.component.css'],
   imports: [FormsModule, HighchartsChartComponent],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/stock'), import('highcharts-custom-events')] })],
+  providers: [
+    providePartialHighChart({
+      modules: () => [
+        import('highcharts/esm/modules/stock'),
+      ]
+    })
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockChartComponent {
@@ -51,11 +53,6 @@ export class StockChartComponent {
         data: [11, 2, 3],
         threshold: 5,
         negativeColor: 'red',
-        events: {
-          dblclick: function () {
-            console.log('dblclick - thanks to the Custom Events plugin');
-          }
-        }
       }, {
         type: 'candlestick',
 

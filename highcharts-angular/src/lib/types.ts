@@ -1,4 +1,4 @@
-import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
+import type Highcharts from 'highcharts/esm/highcharts';
 
 export type ChartConstructorType = 'chart' | 'ganttChart' | 'stockChart' | 'mapChart';
 
@@ -7,13 +7,13 @@ export type InstanceFactoryFunction = () => Promise<Chart['highcharts']>;
 
 export interface ModuleFactory {
   Highcharts?: Chart['highcharts'],
-  default?: (highcharts: Chart['highcharts']) => void
+  default?: unknown,
 }
 
 export interface Chart {
-  options: Highcharts.Options | HighchartsESM.Options,
+  options: Highcharts.Options,
   update?: boolean,
-  highcharts?: typeof HighchartsESM
+  highcharts?: typeof Highcharts
   constructorChart?: Function;
 }
 

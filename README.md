@@ -13,7 +13,7 @@ Official minimal Highcharts integration for Angular.
 2. [Options Details](#options-details)
 3. [Chart Instance](#chart-instance)
 4. [Highcharts Partial Loading on the Component Level](#highcharts-partial-loading-on-the-component-level)
-   1. [Loading a Module & Plugin](#to-load-a-module--plugins)
+   1. [Loading a Module](#to-load-a-module)
    2. [Loading a Map for Highcharts Maps](#to-load-a-map-for-highcharts-maps)
    3. [Loading a Map for Highcharts Stock](#to-load-a-stock-for-highcharts)
    4. [Loading a Wrapper](#to-load-a-wrapper)
@@ -77,9 +77,9 @@ export const appConfig: ApplicationConfig = {
       // Modules for additional functionality
       modules: () => {
         return [
-          import('highcharts/modules/accessibility'),
-          import('highcharts/modules/exporting'),
-          import('highcharts/themes/sunset')
+          import('highcharts/esm/modules/accessibility'),
+          import('highcharts/esm/modules/exporting'),
+          import('highcharts/esm/themes/sunset')
         ]
       }
     })
@@ -291,23 +291,19 @@ A chart instance can be obtained using the following methods:
 
 # Highcharts Partial Loading on the Component Level
 
-A Highcharts instance is optionally initialized with **[modules](#to-load-a-module)**, **[plugins](#to-load-a-plugin)**, **[maps](#to-load-a-map-for-Highcharts-Maps)**, **[wrappers](#to-load-a-wrapper)**, and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
+A Highcharts instance is optionally initialized with **[modules](#to-load-a-module)**, **[maps](#to-load-a-map-for-Highcharts-Maps)**, **[wrappers](#to-load-a-wrapper)**, and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
 
 **Note:** The Highcharts instance is shared across components in an Angular app, meaning that loaded modules will affect all charts.
 
-With this v5, you can provide extra modules or plugins on demand to your chart at the component level:
+With this v5, you can provide extra modules on demand to your chart at the component level:
 
 ## Example
 
-### To load a module + plugins
+### To load a module
 
 A module is a Highcharts official addon - including Highcharts Stock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)).
 
 After importing Highcharts, Highcharts Stock, or Highcharts Maps, use `providePartialHighChart` and initialize modules with an array of Highcharts factory functions.
-
-A plugin is a third-party/community-made Highcharts addon (plugins are listed in the [Highcharts plugin registry](https://www.highcharts.com/blog/add-ons/)). First, make sure that a plugin supports loading over NPM and load the required files. For example, [Custom-Events](https://www.npmjs.com/package/highcharts-custom-events) supports NPM loading, so after installing the package you can initialize it like:
-
-If a plugin doesn't support loading through NPM, treat it as a wrapper - see instructions below.
 
 If a lack of TypeScript definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of Highcharts documentation for TypeScript usage.
 
@@ -326,11 +322,9 @@ import { HighchartsChartDirective } from 'highcharts-angular';
       modules: () => {
         return [
           // Load Gantt Chart 
-          import('highcharts/modules/gantt'),
+          import('highcharts/esm/modules/gantt'),
           // Load core module
-          import('highcharts/modules/exporting'),
-          // Load plugins
-          import('highcharts-custom-events'),
+          import('highcharts/esm/modules/exporting'),
         ]
       }
     })
@@ -360,7 +354,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/map')] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/esm/modules/map')] })],
 })
 export class MapComponent {
   chartOptions: Highcharts.Options = {
@@ -384,7 +378,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/stock')] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/esm/modules/stock')] })],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {
@@ -507,7 +501,6 @@ This file contains the main Angular component, which utilizes different componen
 * [Map + mapppoints with proj4](https://stackblitz.com/edit/highcharts-angular-map-with-proj4)
 * [Optimal way to update](https://stackblitz.com/edit/highcharts-angular-update-optimal-way)
 * [Data from the service](https://stackblitz.com/edit/highcharts-angular-data-from-a-service)
-* [Applying a custom plugin/wrap](https://stackblitz.com/edit/highcharts-angular-a-custom-plugin)
 * [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
 * [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
 * [Angular Elements and useHTML](https://stackblitz.com/~/github.com/karolkolodziej/highcharts-angular-elements)

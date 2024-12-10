@@ -4,7 +4,7 @@ import { Chart, ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig
 
 const emptyModuleFactoryFunction: ModuleFactoryFunction = () => [];
 // tslint:disable-next-line:max-line-length
-const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => import('highcharts/es-modules/masters/highcharts.src').then(m => m.default);
+const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => import('highcharts/esm/highcharts').then(m => m.default);
 
 function provideHighChartInstance(instance: InstanceFactoryFunction) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_LOADER, useValue: instance || defaultInstanceFactoryFunction }]);

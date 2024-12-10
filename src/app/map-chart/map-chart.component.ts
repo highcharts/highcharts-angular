@@ -1,19 +1,15 @@
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject, computed} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import type Highcharts from 'highcharts';
+import type Highcharts from 'highcharts/esm/highcharts';
 import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
-// import proj4 from 'proj4';
-
-// Legacy way of map loading - see file at the path for more info.
-// require('../../js/worldmap')(Highcharts);
 
 @Component({
   selector: 'app-map-chart',
   templateUrl: './map-chart.component.html',
   styleUrls: ['./map-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/modules/map')] })],
+  providers: [providePartialHighChart({ modules: () => [import('highcharts/esm/modules/map')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
