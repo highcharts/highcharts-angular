@@ -258,23 +258,11 @@ import * as Highcharts from 'highcharts';
 ```ts
 import * as Highcharts from 'highcharts/highstock';
 ```
-or as Highcharts with **stock** module:
-```ts
-import * as Highcharts from 'highcharts';
-import HC_stock from 'highcharts/modules/stock';
-HC_stock(Highcharts);
-```
 
 * For **Highcharts Maps**:
 
 ```ts
 import * as Highcharts from 'highcharts/highmaps';
-```
-or as Highcharts with **map** module:
-```ts
-import * as Highcharts from 'highcharts';
-import HC_map from 'highcharts/modules/map';
-HC_map(Highcharts);
 ```
 
 * For **Highcharts Gantt**:
@@ -282,16 +270,14 @@ HC_map(Highcharts);
 ```ts
 import * as Highcharts from 'highcharts/highcharts-gantt';
 ```
-or as Highcharts with **gantt** module:
-```ts
-import * as Highcharts from 'highcharts';
-import HC_gantt from 'highcharts/modules/gantt';
-HC_gantt(Highcharts);
-```
 
 ### To load a module
 
-A module is a Highcharts official addon - including Highcharts Stock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)). After Highcharts is imported using Highcharts, Highcharts Stock or Highcharts Maps use `import` and initialize each module on the Highcharts variable.
+A module is a Highcharts official addon - including Highcharts Stock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)).
+
+#### In version 7.x.x - 11.x.x
+
+After Highcharts is imported using Highcharts, Highcharts Stock or Highcharts Maps use `import` and initialize each module on the Highcharts variable.
 
 ```ts
 import * as Highcharts from 'highcharts';
@@ -304,6 +290,15 @@ Alternatively, this could be done with `require`, but usually (depends on your a
 ```ts
 import * as Highcharts from 'highcharts';
 require('highcharts/modules/exporting')(Highcharts);
+```
+
+#### In version 12.x.x +
+Since version 12, the module no longer returns a factory function. When importing Highcharts as a JavaScript module, additional modules no longer require initialization.
+Import it as follows:
+
+```ts
+import * as Highcharts from 'highcharts';
+import 'highcharts/modules/exporting';
 ```
 
 ### To load a plugin
