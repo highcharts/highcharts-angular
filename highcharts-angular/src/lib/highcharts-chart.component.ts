@@ -1,7 +1,8 @@
 import type { OnChanges, OnDestroy } from '@angular/core';
-import { Component, ElementRef, EventEmitter, Input, Output, NgZone, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, NgZone, SimpleChanges, PLATFORM_ID, Inject } from '@angular/core';
 import type * as Highcharts from 'highcharts';
 import type HighchartsESM from 'highcharts/es-modules/masters/highcharts.src';
+import { isplatFormServer } from '@angular/common';
 
 @Component({
   selector: 'highcharts-chart',
@@ -23,10 +24,18 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
 
   constructor(
     private el: ElementRef,
-    private _zone: NgZone // #75
+    private _zone: NgZone, // #75
+    private @Inject(PLATFORM_ID) platformId: Object,
   ) {}
 
+  ssrCompatible() {
+    if(this.platformId && isplatFormServer(this.platformId)) {
+      return;
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    this.ssrCompatible();
     const update = changes.update?.currentValue;
     if (changes.options || update) {
       this.wrappedUpdateOrCreateChart();
@@ -62,6 +71,7 @@ export class HighchartsChartComponent implements OnDestroy, OnChanges {
   }
 
   ngOnDestroy() { // #44
+    this.ssrCompatible();
     if (this.chart) {  // #56
       this.chart.destroy();
       this.chart = null;
