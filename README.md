@@ -293,8 +293,8 @@ require('highcharts/modules/exporting')(Highcharts);
 ```
 
 #### In version 12.x.x +
-Since v12, the module will not return a factory function so when importing Highcharts as a node module, additional modules no longer require initialization.  
-Import it like this:
+Since version 12, the module no longer returns a factory function. When importing Highcharts as a JavaScript module, additional modules no longer require initialization.
+Import it as follows:
 
 ```ts
 import * as Highcharts from 'highcharts';
