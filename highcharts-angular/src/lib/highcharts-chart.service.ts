@@ -5,7 +5,7 @@ import { Chart, PartialHighchartsConfig } from './types';
 
 @Injectable({providedIn: 'root'})
 export class HighchartsChartService {
-  private readonly loader: BehaviorSubject<Chart['highcharts'] | undefined> = new BehaviorSubject(undefined);
+  private readonly loader = new BehaviorSubject<Chart['highcharts'] | undefined>(undefined);
   public readonly loaderChanges$ = this.loader.asObservable();
 
   private readonly source = inject(HIGHCHARTS_LOADER);
