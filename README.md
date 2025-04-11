@@ -119,7 +119,6 @@ import { HighchartsChartComponent, ChartConstructorType } from 'highcharts-angul
     <highcharts-chart
       [constructorType]="chartConstructor"
       [options]="chartOptions"
-      [callbackFunction]="chartCallback"
       [(update)]="updateFlag"
       [oneToOne]="oneToOneFlag"
       class="chart"
@@ -131,7 +130,6 @@ import { HighchartsChartComponent, ChartConstructorType } from 'highcharts-angul
 export class AppComponent {
   chartOptions: Highcharts.Options = { ... }; // Required
   chartConstructor: ChartConstructorType = 'chart'; // Optional, defaults to 'chart'
-  chartCallback: Highcharts.ChartCallbackFunction = function (chart) { ... }; // Optional, defaults to null
   updateFlag: boolean = false; // Optional
   oneToOneFlag: boolean = true; // Optional, defaults to false
 }
@@ -152,7 +150,6 @@ import { HighchartsChartDirective, ChartConstructorType } from 'highcharts-angul
       highcharts-chart
       [constructorType]="chartConstructor"
       [options]="chartOptions"
-      [callbackFunction]="chartCallback"
       [(update)]="updateFlag"
       [oneToOne]="oneToOneFlag"
       class="chart"
@@ -164,7 +161,6 @@ import { HighchartsChartDirective, ChartConstructorType } from 'highcharts-angul
 export class AppComponent {
   chartOptions: Highcharts.Options = { ... }; // Required
   chartConstructor: ChartConstructorType = 'chart'; // Optional, defaults to 'chart'
-  chartCallback: Highcharts.ChartCallbackFunction = function (chart) { ... }; // Optional, defaults to null
   updateFlag: boolean = false; // Optional
   oneToOneFlag: boolean = true; // Optional, defaults to false
 }
@@ -261,7 +257,8 @@ Version 5 introduces significant improvements and changes to align with modern A
 
 #### Breaking Changes
 
-- Dropped support `HighchartsChartModule`. Replace your usage of `HighchartsChartModule` with the new `provideHighcharts()` and the standalone `HighchartsChartComponent` or `HighchartsChartDirective`.
+- Dropped `HighchartsChartModule`. Replace your usage of `HighchartsChartModule` with the new `provideHighcharts()` and the standalone `HighchartsChartComponent` or `HighchartsChartDirective`.
+- Dropped `callbackFunction`. Replace your usage of `[callbackFunction]="myFunction"` with `(chartInstance)="myFunction($event)"`.
 
 ## Options details
 
@@ -271,17 +268,15 @@ Version 5 introduces significant improvements and changes to align with modern A
 | `[options]`            | `Object`              | Yes      | `-`       | The chart options as described in the [Highcharts API reference](http://api.highcharts.com/highcharts). A minimal working object for basic testing is `{ series:[{ data:[1, 2] }] }`.                                                                                                                                               |
 | `[(update)]`           | `Boolean`             | No       | `-`       | A boolean to trigger a chart update. Angular does not detect nested changes in objects passed to a component. Set the corresponding variable (`updateFlag` in the example) to `true`, and after the update is done, it will asynchronously change back to `false` by the Highcharts Angular component. |
 | `[oneToOne]`           | `Boolean`             | No       | `false`   | The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When `true`, the `series`, `xAxis`, and `yAxis` collections will be updated one to one, and items will be added or removed to match the updated options. For example, if a chart has **two** series, calling `chart.update` with a configuration containing **three** series will add **one**. Similarly, calling `chart.update` with **one** series will remove **one**. Setting an empty series array removes all series, while leaving out the `series` property leaves them untouched. If the series have `id`s, new series options will be matched by `id`, and the remaining ones will be removed. <br><br> This option is demonstrated in [the demo](#demo-app). Try setting new chart options with different numbers of series in the [textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see it in action. |
-| `[callbackFunction]`   | `Function`            | No       | `-`       | A callback function that is triggered when the chart is created. The first argument will be the created **chart**. The default `this` inside the function will refer to the **chart**.                                                                                                                                              |
 
 ## Chart instance
 
 A chart instance can be obtained using the following methods:
 
-* **Chart's callback function** - The `chart` is provided as the first argument (see [demo app](#demo-app) and the first `hcCallback` function).
-* **Chart's events** - The context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance.
 * **Component output `chartInstance`** - Emitted after the chart is created (see [demo app](#demo-app) and the `logChartInstance` function).
+* **Chart's events** - The context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance.
 
-**Note:** If you are obtaining the chart instance from the **[chart's load event](https://api.highcharts.com/highcharts/chart.events.load)** or **chart's callback function**, and you plan to support exporting, the function will run again when the chart is exported. This is because a separate chart is created for export. To distinguish between the main chart and the export chart, you can check `chart.renderer.forExport`. It will be set to `true` for the export chart and `undefined` for the main chart.
+**Note:** If you are obtaining the chart instance from the **[chart's load event](https://api.highcharts.com/highcharts/chart.events.load)**, and you plan to support exporting, the function will run again when the chart is exported. This is because a separate chart is created for export. To distinguish between the main chart and the export chart, you can check `chart.renderer.forExport`. It will be set to `true` for the export chart and `undefined` for the main chart.
 
 # Highcharts Partial Loading on the Component Level
 

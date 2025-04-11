@@ -31,11 +31,6 @@ export class HighchartsChartDirective {
   constructorType = input<ChartConstructorType>('chart');
 
   /**
-   * Callback function for the chart.
-   */
-  callbackFunction = input<Highcharts.ChartCallbackFunction>(null);
-
-  /**
    * When enabled, Updates `series`, `xAxis`, `yAxis`, and `annotations` to match new options.
    * Items are added/removed as needed. Series with `id`s are matched by `id`;
    * unmatched items are removed. Omitted `series` leaves existing ones unchanged.
@@ -80,7 +75,7 @@ export class HighchartsChartDirective {
   private chart = linkedSignal<Chart, Highcharts.Chart | null>({
     source: () => ({options: this.options(), update: this.update(), constructorChart: this.constructorChart()}),
     computation: (source, previous) => {
-      return untracked(() => this.createOrUpdateChart(source, previous?.value, this.oneToOne(), this.callbackFunction()));
+      return untracked(() => this.createOrUpdateChart(source, previous?.value, this.oneToOne()));
     }
   });
 
@@ -88,14 +83,13 @@ export class HighchartsChartDirective {
     source: Chart,
     chart: Highcharts.Chart,
     oneToOne: boolean,
-    callbackFunction: Highcharts.ChartCallbackFunction
   ): Highcharts.Chart | null {
     if (chart) {
       chart.update(source.options, true, oneToOne);
       return chart;
     }
     if (source.constructorChart) {
-      return source.constructorChart(this.el.nativeElement, source.options, callbackFunction);
+      return source.constructorChart(this.el.nativeElement, source.options);
     }
     return undefined;
   }

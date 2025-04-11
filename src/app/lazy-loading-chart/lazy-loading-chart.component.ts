@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import type Highcharts from 'highcharts/esm/highcharts';
-import { AppleDataService } from '../apple-data.service'
-import { Observable } from 'rxjs';
-import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
+import {AppleDataService} from '../apple-data.service'
+import {Observable} from 'rxjs';
+import {HighchartsChartComponent, providePartialHighcharts} from 'highcharts-angular';
 
 
 interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject {
@@ -14,16 +14,17 @@ interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGrou
   templateUrl: './lazy-loading-chart.component.html',
   styleUrls: ['./lazy-loading-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/stock')] })],
+  providers: [providePartialHighcharts({modules: () => [import('highcharts/esm/modules/stock')]})],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyLoadingChartComponent {
 
-  constructor(private appleDataService: AppleDataService) { }
+  constructor(private appleDataService: AppleDataService) {
+  }
 
   chartRef: Highcharts.Chart;
 
-  chartCallback: Highcharts.ChartCallbackFunction = (chart) => {
+  chartInstance(chart: Highcharts.Chart) {
     this.chartRef = chart;
   };
 
