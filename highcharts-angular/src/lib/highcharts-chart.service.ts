@@ -5,12 +5,12 @@ import { Chart, ModuleFactoryFunction, PartialHighchartsConfig, InstanceFactoryF
 
 @Injectable({providedIn: 'root'})
 export class HighchartsChartService {
-  private loader: BehaviorSubject<Chart['highcharts'] | undefined> = new BehaviorSubject(undefined);
-  loaderChanges$ = this.loader.asObservable();
+  private readonly loader: BehaviorSubject<Chart['highcharts'] | undefined> = new BehaviorSubject(undefined);
+  public readonly loaderChanges$ = this.loader.asObservable();
 
-  private source: InstanceFactoryFunction = inject(HIGHCHARTS_LOADER);
-  private globalOptions: Chart['options'] = inject(HIGHCHARTS_OPTIONS, { optional: true });
-  private globalModules: ModuleFactoryFunction = inject(HIGHCHARTS_ROOT_MODULES, { optional: true });
+  private readonly source = inject(HIGHCHARTS_LOADER);
+  private readonly globalOptions = inject(HIGHCHARTS_OPTIONS, { optional: true });
+  private readonly globalModules = inject(HIGHCHARTS_ROOT_MODULES, { optional: true });
 
   private async loadHighchartsWithModules(partialConfig?: PartialHighchartsConfig): Promise<Chart['highcharts']> {
     const Highcharts: Chart['highcharts'] = await this.source(); // Ensure Highcharts core is loaded
