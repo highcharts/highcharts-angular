@@ -6,13 +6,13 @@ import type Highcharts from 'highcharts/esm/highcharts';
 @Component({
   selector: 'app-gantt-chart',
   templateUrl: './gantt-chart.component.html',
-  styleUrls: ['./gantt-chart.component.css'],
+  styleUrl: './gantt-chart.component.css',
   imports: [HighchartsChartComponent],
   providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/gantt')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttChartComponent {
-  chartGantt: Highcharts.Options = {
+  public chartGantt: Highcharts.Options = {
     title: {
       text: 'Highcharts Gantt with Progress Indicators'
     },

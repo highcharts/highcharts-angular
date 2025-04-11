@@ -122,7 +122,7 @@ import { HighchartsChartComponent, ChartConstructorType } from 'highcharts-angul
       [(update)]="updateFlag"
       [oneToOne]="oneToOneFlag"
       class="chart"
-    ></highcharts-chart>
+    />
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartComponent]
@@ -147,7 +147,7 @@ import { HighchartsChartDirective, ChartConstructorType } from 'highcharts-angul
 @Component({
   template: `
     <div
-      highcharts-chart
+      highchartsChart
       [constructorType]="chartConstructor"
       [options]="chartOptions"
       [(update)]="updateFlag"
@@ -176,7 +176,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
   template: `
-    <div  highcharts-chart [options]="chartOptions" class="chart"></div>
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective]
@@ -302,7 +302,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
   template: `
-    <div highcharts-chart [options]="chartOptions" class="chart"></div>
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
@@ -339,7 +339,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
   template: `
-    <div highcharts-chart [options]="chartOptions" class="chart"></div>
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
@@ -363,7 +363,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
   template: `
-    <div highcharts-chart [options]="chartOptions" class="chart"></div>
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
@@ -418,7 +418,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
   template: `
-    <div highcharts-chart [options]="chartOptions" class="chart"></div>
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],

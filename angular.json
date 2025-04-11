@@ -87,6 +87,12 @@
             "styles": [],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
         }
       }
     },
@@ -134,6 +140,12 @@
             "tsConfig": "highcharts-angular/tsconfig.spec.json",
             "scripts": [],
             "styles": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["highcharts-angular/src/**/*.ts", "highcharts-angular/src/**/*.html"]
           }
         }
       }

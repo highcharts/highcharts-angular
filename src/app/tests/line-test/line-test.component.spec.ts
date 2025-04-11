@@ -23,9 +23,10 @@ describe('LineTestComponent', () => {
   });
 
   it('should have default chart options with a line series', () => {
-    expect(component.chartOptions.series).toBeDefined();
-    expect(component.chartOptions.series[0].type).toBe('line');
-    expect((component.chartOptions.series[0] as any).data).toEqual([1, 2, 3]);
+    const series = component.chartOptions.series as any;
+    expect(series).toBeDefined();
+    expect(series[0].type).toBe('line');
+    expect(series[0].data).toEqual([1, 2, 3]);
   });
 
   it('should have data given from chartOptions', () => {
@@ -37,13 +38,13 @@ describe('LineTestComponent', () => {
     } as unknown as Highcharts.Chart;
 
     const series = component.chartInstance.series[0];
-    expect((series as any).yData).toEqual((chartOptions.series[0] as any).data);
+    expect((series as any).yData).toEqual(((chartOptions.series as any)[0]).data);
   });
 
   it('should update series color and set updateFlag to true', () => {
     component.updateSeriesColor();
 
-    const updatedSeries = component.chartOptions.series[0] as any;
+    const updatedSeries = (component.chartOptions.series as any)[0] ;
     expect(updatedSeries.color).toBe('hotpink');
     expect(component.updateFlag).toBeTrue();
   });

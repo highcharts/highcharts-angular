@@ -3,9 +3,9 @@
   <section>
     <p>Chart title text: </p>
     <input
-      [(ngModel)]="charts[usedIndex].title.text"
-      (ngModelChange)="titleChange($event)"
       style="max-width: 50%"
+      [(ngModel)]="$any(charts[usedIndex].title).text"
+      (ngModelChange)="titleChange($event)"
     >
     <p>Data sets:</p>
     <div>
@@ -18,9 +18,9 @@
     </div>
   </section>
   <highcharts-chart
-    [constructorType]="'stockChart'"
+    constructorType="stockChart"
     [options]="charts[usedIndex]"
-    (chartInstance)="chartInstance($event)"
     [(update)]="updateDemo2"
-  ></highcharts-chart>
+    (chartInstance)="chartInstance($event)"
+  />
 </article>

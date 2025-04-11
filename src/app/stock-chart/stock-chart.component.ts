@@ -7,7 +7,7 @@ import {HighchartsChartComponent, providePartialHighcharts} from 'highcharts-ang
 @Component({
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
-  styleUrls: ['./stock-chart.component.css'],
+  styleUrl: './stock-chart.component.css',
   imports: [FormsModule, HighchartsChartComponent],
   providers: [
     providePartialHighcharts({
@@ -21,24 +21,24 @@ import {HighchartsChartComponent, providePartialHighcharts} from 'highcharts-ang
 export class StockChartComponent {
 
   // starting values
-  updateDemo2: boolean = false;
-  usedIndex: number = 0;
-  chartTitle: string = 'My chart'; // for init - change through titleChange
+  public updateDemo2 = false;
+  public usedIndex = 0;
+  public chartTitle = 'My chart'; // for init - change through titleChange
 
   // change in all places
-  titleChange(event: any) {
-    var v = event;
+  public titleChange(event: string): void {
+    const v = event;
     this.chartTitle = v;
 
     this.charts.forEach((el) => {
-      el.title.text = v;
+      el.title!.text = v;
     });
 
     // trigger ngOnChanges
     this.updateDemo2 = true;
   };
 
-  charts: Highcharts.Options[] = [{
+  public charts: Highcharts.Options[] = [{
     title: {text: this.chartTitle},
     subtitle: {text: '1st data set'},
     plotOptions: {
@@ -94,7 +94,7 @@ export class StockChartComponent {
     }]
   }];
 
-  chartInstance(chart: Highcharts.Chart) {
+  public chartInstance(chart: Highcharts.Chart | null): void {
     console.log('some variables: ', chart, this.charts);
   }
 

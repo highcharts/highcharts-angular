@@ -13,15 +13,14 @@ import {
   untracked,
 } from '@angular/core';
 import {isPlatformServer} from '@angular/common';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {HighchartsChartService} from './highcharts-chart.service';
 import {HIGHCHARTS_CONFIG} from './highcharts-chart.token';
-import type {Chart, ChartConstructorType} from './types';
+import {Chart, ChartConstructorType, ConstructorChart} from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
 
 @Directive({
-  selector: '[highcharts-chart]',
+  selector: '[highchartsChart]',
 })
 export class HighchartsChartDirective {
   /**
@@ -52,7 +51,7 @@ export class HighchartsChartDirective {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  private readonly el = inject(ElementRef);
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
 
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -60,13 +59,11 @@ export class HighchartsChartDirective {
 
   private readonly highchartsChartService = inject(HighchartsChartService);
 
-  private readonly highCharts = toSignal(this.highchartsChartService.loaderChanges$);
-
-  private readonly constructorChart = computed<Function>(() => {
+  private readonly constructorChart = computed<ConstructorChart | undefined>(() => {
     const constructorType = untracked(this.constructorType);
-    const highCharts = this.highCharts();
+    const highCharts = this.highchartsChartService.highcharts();
     if (constructorType && highCharts) {
-      return highCharts[constructorType];
+      return (highCharts as any)[constructorType ];
     }
     return undefined;
   });
@@ -80,7 +77,7 @@ export class HighchartsChartDirective {
 
   private createOrUpdateChart(
     source: Chart,
-    chart: Highcharts.Chart,
+    chart: Highcharts.Chart | null | undefined,
     oneToOne: boolean,
   ): Highcharts.Chart | null {
     if (chart) {
@@ -97,20 +94,22 @@ export class HighchartsChartDirective {
         createdChart => this.chartInstance.emit(createdChart),
       );
     }
-    return undefined;
+
+    return null;
   }
 
-  private destroyChart() {
-    if (this.chart()) {  // #56
-      this.chart().destroy();
+  private destroyChart(): void {
+    const chart = this.chart();
+    if (chart) {  // #56
+      chart.destroy();
       this.chart.set(null);
       // emit chart instance on destroy
-      this.chartInstance.emit(this.chart());
+      this.chartInstance.emit(null);
     }
   }
 
 
-  constructor() {
+  public constructor() {
     // should stop loading on the server side for SSR
     if (this.platformId && isPlatformServer(this.platformId)) {
       return;

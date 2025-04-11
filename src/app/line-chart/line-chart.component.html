@@ -11,9 +11,9 @@
   @if (showChart) {
     <highcharts-chart
       [options]="optFromInput"
-      [(update)]="updateFromInput"
       [oneToOne]="true"
+      [(update)]="updateFromInput"
       (chartInstance)="logChartInstance($event)"
-    ></highcharts-chart>
+    />
   }
 </article>

@@ -1,42 +1,40 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import type Highcharts from 'highcharts/esm/highcharts';
 import {AppleDataService} from '../apple-data.service'
 import {Observable} from 'rxjs';
 import {HighchartsChartComponent, providePartialHighcharts} from 'highcharts-angular';
 
 
-interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject {
+type ExtendedPlotCandlestickDataGroupingOptions = {
   enabled: boolean
-}
+} & Highcharts.DataGroupingOptionsObject
 
 @Component({
   selector: 'app-lazy-loading-chart',
   templateUrl: './lazy-loading-chart.component.html',
-  styleUrls: ['./lazy-loading-chart.component.css'],
+  styleUrl: './lazy-loading-chart.component.css',
   imports: [HighchartsChartComponent],
   providers: [providePartialHighcharts({modules: () => [import('highcharts/esm/modules/stock')]})],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyLoadingChartComponent {
+  private readonly appleDataService = inject(AppleDataService);
 
-  constructor(private appleDataService: AppleDataService) {
-  }
+  private chartRef: Highcharts.Chart | null = null;
 
-  chartRef: Highcharts.Chart;
-
-  chartInstance(chart: Highcharts.Chart) {
+  public chartInstance(chart: Highcharts.Chart | null): void {
     this.chartRef = chart;
   };
 
-  fetchData(): Observable<Object> {
+  private fetchData(): Observable<[][]> {
     return this.appleDataService.fetchData();
   }
 
-  fetchSqlData(min: number, max: number): Observable<Object> {
+  private fetchSqlData(min: number, max: number): Observable<[][]> {
     return this.appleDataService.fetchSqlData(min, max);
   }
 
-  chartLazyLoading: Highcharts.Options = {
+  public chartLazyLoading: Highcharts.Options = {
     chart: {
       type: 'candlestick',
       zooming: {
@@ -46,7 +44,11 @@ export class LazyLoadingChartComponent {
         load: () => {
           const chart = this.chartRef;
           this.fetchData()
-            .subscribe((data: Array<[]>) => {
+            .subscribe((data) => {
+              if (!chart) {
+                return
+              }
+
               // Add a null value for the end date
               const chartData = [...data, [Date.UTC(2011, 9, 14, 19, 59), null, null, null, null]];
 
@@ -115,11 +117,14 @@ export class LazyLoadingChartComponent {
       events: {
         afterSetExtremes: (event) => {
           const chart = this.chartRef;
+          if (!chart) {
+            return;
+          }
 
           chart.showLoading('Loading data from server...');
 
           // Load new data depending on the selected min and max
-          this.fetchSqlData(event.min, event.max).subscribe((data: Array<[]>) => {
+          this.fetchSqlData(event.min, event.max).subscribe((data) => {
             chart.series[0].setData(data);
             chart.hideLoading();
           })

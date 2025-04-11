@@ -8,8 +8,8 @@ import { LazyLoadingChartComponent } from './lazy-loading-chart/lazy-loading-cha
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['./app.component.css'],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
   imports: [LineChartComponent, StockChartComponent, MapChartComponent, GanttChartComponent, LazyLoadingChartComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -6,7 +6,7 @@ import type Highcharts from 'highcharts/esm/highcharts';
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css'],
+  styleUrl: './line-chart.component.css',
   imports: [FormsModule, HighchartsChartComponent],
   providers: [providePartialHighcharts({ modules: () => [] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,7 +40,7 @@ export class LineChartComponent {
   };
 
   // Demonstrate chart instance
-  public logChartInstance(chart: Highcharts.Chart) {
+  public logChartInstance(chart: Highcharts.Chart): void {
     if (chart) {
       console.log('Chart instance received:', chart);
     } else {
@@ -48,18 +48,18 @@ export class LineChartComponent {
     }
   }
 
-  public updateInputChart() {
+  public updateInputChart(): void {
     this.optFromInput = JSON.parse(this.optFromInputString);
   }
 
-  public toggleSeriesType(index = 0) {
-    this.optFromInput.series[index].type = this.seriesTypes[
-    this.optFromInput.series[index].type || 'line'] as keyof typeof this.seriesTypes;
+  public toggleSeriesType(index = 0): void {
+    const key: keyof typeof this.seriesTypes = (this.optFromInput.series as any)[index].type ?? 'line';
+    (this.optFromInput.series as any)[index].type = this.seriesTypes[key];
     // nested change - must trigger update
     this.updateFromInput = true;
   }
 
-  public toggleChart() {
+  public toggleChart(): void {
     this.showChart = !this.showChart;
     this.toggleButtonTitle = this.showChart ? 'Destroy chart' : 'Recreate chart';
   }

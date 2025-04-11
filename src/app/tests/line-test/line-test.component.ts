@@ -2,21 +2,21 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import type Highcharts from 'highcharts/esm/highcharts';
 import { HighchartsChartComponent } from '../../../../highcharts-angular/src/public_api';
 
-interface ExtendedSeriesCandlestickOptions extends Highcharts.SeriesCandlestickOptions {
+type ExtendedSeriesCandlestickOptions = {
   color: Highcharts.ColorType;
-}
+} & Highcharts.SeriesCandlestickOptions
 
 @Component({
   selector: 'app-line-test',
   templateUrl: './line-test.component.html',
-  styleUrls: ['./line-test.component.css'],
+  styleUrl: './line-test.component.css',
   imports: [HighchartsChartComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineTestComponent {
-  updateFlag = false;
-  chartInstance: Highcharts.Chart;
-  chartOptions: Highcharts.Options = {
+  public updateFlag = false;
+  public chartInstance: Highcharts.Chart | null = null;
+  public chartOptions: Highcharts.Options = {
     series: [
       {
         type: 'line',
@@ -25,8 +25,8 @@ export class LineTestComponent {
     ]
   };
 
-  updateSeriesColor() {
-    (this.chartOptions.series[0] as ExtendedSeriesCandlestickOptions).color = 'hotpink';
+  public updateSeriesColor(): void {
+    ((this.chartOptions.series as any)[0] as ExtendedSeriesCandlestickOptions).color = 'hotpink';
     this.updateFlag = true;
   }
 }

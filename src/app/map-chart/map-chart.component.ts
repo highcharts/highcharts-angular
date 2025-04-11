@@ -7,7 +7,7 @@ import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-a
 @Component({
   selector: 'app-map-chart',
   templateUrl: './map-chart.component.html',
-  styleUrls: ['./map-chart.component.css'],
+  styleUrl: './map-chart.component.css',
   imports: [HighchartsChartComponent],
   providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/map')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,

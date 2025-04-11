@@ -1,25 +1,30 @@
-import { TestBed } from '@angular/core/testing';
-import { Component, DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
-import { HighchartsChartDirective } from './highcharts-chart.directive';
-import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
-import { HighchartsChartService } from './highcharts-chart.service';
+import {TestBed} from '@angular/core/testing';
+import {ChangeDetectionStrategy, Component, DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
+import {HighchartsChartDirective} from './highcharts-chart.directive';
+import {HIGHCHARTS_CONFIG} from './highcharts-chart.token';
+import {HighchartsChartService} from './highcharts-chart.service';
 import type {Chart} from './types';
+import Spy = jasmine.Spy;
 
 @Component({
-  template: `<div highcharts-chart [options]="options"></div>`,
+  selector: 'highcharts-test-host',
+  template: `
+    <div highchartsChart [options]="options"></div>`,
   imports: [HighchartsChartDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestHostComponent {
-  options: Chart['options'] = {};
+  public options: Chart['options'] = {};
 }
 
 describe('HighchartsChartDirective', () => {
   let debugElement: DebugElement;
   let directive: HighchartsChartDirective;
+  let loadSpy: Spy;
 
   beforeEach(() => {
+    loadSpy = jasmine.createSpy('load');
     TestBed.configureTestingModule({
       imports: [TestHostComponent, HighchartsChartDirective],
       providers: [
@@ -30,8 +35,8 @@ describe('HighchartsChartDirective', () => {
         {
           provide: HighchartsChartService,
           useValue: {
-            loaderChanges$: of(null),
-            load: jasmine.createSpy('load'),
+            load: loadSpy,
+            highcharts: () => null,
           }
         }
       ]
@@ -52,7 +57,6 @@ describe('HighchartsChartDirective', () => {
   });
 
   it('should load global config on initialization', () => {
-    const highchartsChartService = TestBed.inject(HighchartsChartService);
-    expect(highchartsChartService.load).toHaveBeenCalledWith({});
+    expect(loadSpy).toHaveBeenCalledWith({});
   });
 });
