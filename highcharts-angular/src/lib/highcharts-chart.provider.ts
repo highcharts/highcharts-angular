@@ -22,7 +22,7 @@ export function providePartialHighChart(config: PartialHighchartsConfig): Provid
   return { provide: HIGHCHARTS_CONFIG, useValue: config };
 }
 
-export function provideHighCharts(config: HighchartsConfig) {
+export function provideHighCharts(config: HighchartsConfig = {}) {
   const providers: EnvironmentProviders[] = [
     provideHighChartInstance(config.instance),
     provideHighChartRootModules(config.modules || emptyModuleFactoryFunction)

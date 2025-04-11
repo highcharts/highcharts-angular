@@ -9,7 +9,7 @@ describe('LineTestComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [provideHighCharts({})],
+      providers: [provideHighCharts()],
       imports: [LineTestComponent],
     }).compileComponents();
 

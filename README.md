@@ -6,10 +6,10 @@ Official minimal Highcharts integration for Angular.
 1. [Getting Started](#getting-started)
    1. [General Prerequisites](#general-prerequisites)
    2. [Installing](#installing)
-   3. [Upgrade to v5](#upgrade-to-v5)
-   4. [Usage](#usage)
-   5. [SSR Support](#ssr-support)
-   6. [Angular Elements and `useHTML`](#angular-elements-and-usehtml)
+   3. [Usage](#usage)
+   4[SSR Support](#ssr-support)
+   5[Angular Elements and `useHTML`](#angular-elements-and-usehtml)
+   6[Upgrade to v5](#upgrade-to-v5)
 2. [Options Details](#options-details)
 3. [Chart Instance](#chart-instance)
 4. [Highcharts Partial Loading on the Component Level](#highcharts-partial-loading-on-the-component-level)
@@ -32,13 +32,13 @@ Official minimal Highcharts integration for Angular.
 
 Ensure that **Node.js**, **npm**, and **Angular** are installed and up to date. Refer to the compatibility table below for the required versions:
 
-| Highcharts Angular Version | Node.js   | Angular   | Highcharts   |
-|----------------------------|-----------|-----------|--------------|
-| 5.0.0                      | >=18.19   | >=19.0.0  | >=11.0.0     |
-| 4.0.0                      | >=16.14   | >=16.0.0  | >=11.0.0     |
-| 3.1.2                      | >=14.13   | >=15.0.0  | >=10.3.3     |
-| 3.0.0                      | >=14.13   | >=9.0.0   | >=8.0.0      |
-| <2.10.0                    | >=6.10.2  | >=6.0.0   | >=6.0.0      |
+| Highcharts Angular Version | Node.js   | Angular   | Highcharts |
+|----------------------------|-----------|-----------|------------|
+| 5.0.0                      | >=18.19   | >=19.0.0  | >=12.2.0   |
+| 4.0.0                      | >=16.14   | >=16.0.0  | >=11.0.0   |
+| 3.1.2                      | >=14.13   | >=15.0.0  | >=10.3.3   |
+| 3.0.0                      | >=14.13   | >=9.0.0   | >=8.0.0    |
+| <2.10.0                    | >=6.10.2  | >=6.0.0   | >=6.0.0    |
 
 ---
 
@@ -50,19 +50,31 @@ Install the `highcharts-angular` package along with the [highcharts](https://www
 npm install highcharts-angular highcharts --save
 ```
 
-Then, configure the Highcharts provider in your app.config.ts file:
+Then, provide Highcharts with minimal configuration in your `app.config.ts` file:
 
 ```ts
 import { provideHighCharts } from 'highcharts-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // Other providers
-    provideHighCharts({
-      // Optional: Define the Highcharts instance
-      // instance: () => import('highcharts'),
+    provideHighCharts(),
+    // Other providers here ...
+  ]
+};
+```
 
-      // Global options for all charts
+Or, alternatively, provide global configuration for all charts within your project:
+
+```ts
+import { provideHighCharts } from 'highcharts-angular';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHighCharts({
+      // Optional: Define the Highcharts instance dynamically
+      instance: () => import('highcharts'),
+
+      // Global chart options applied across all charts
       options: {
         title: {
           style: {
@@ -74,7 +86,7 @@ export const appConfig: ApplicationConfig = {
         }
       },
 
-      // Modules for additional functionality
+      // Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
       modules: () => {
         return [
           import('highcharts/esm/modules/accessibility'),
@@ -82,37 +94,11 @@ export const appConfig: ApplicationConfig = {
           import('highcharts/esm/themes/sunset')
         ]
       }
-    })
+    }),
+    // Other providers here ...
   ]
 };
 ```
-
-The `provideHighCharts` function allows you to define global settings for all charts within your project.
-
-Here is the configuration interface for reference:
-
-```ts
-export interface HighchartsConfig {
-  instance?: Promise<typeof Highcharts>;
-  options?: Highcharts.Options;
-  modules?: ModuleFactoryFunction;
-}
-```
-
-### Key Notes:
-- The `instance` property allows you to specify the Highcharts instance dynamically.
-- The `options` property is used to define global chart configurations applied across all charts.
-- The `modules` a callback with an array enables you to include Highcharts modules (e.g., exporting, accessibility) or custom themes.
-
-### Upgrade to v5
-
-Version 5 introduces significant improvements and changes to align with modern Angular practices. **Please review the following breaking changes before upgrading:**
-
-#### Breaking Changes
-
-1. **Dropped Support for `HighchartsChartModule`:**
-  - In v5, the package no longer requires `HighchartsChartModule`. This change leverages Angular's standalone component model for a more streamlined development experience.
-  - **Action Required:** Migrate your components to standalone by importing necessary dependencies directly into the component or directive.
 
 ### Usage
 
@@ -269,6 +255,14 @@ const chartOptions: Highcharts.Options = {
 
 For a more detailed view take a look at the [Online Examples - Angular Elements and useHTML](#online-examples)
 
+### Upgrade to v5
+
+Version 5 introduces significant improvements and changes to align with modern Angular practices. **Please review the following breaking changes before upgrading:**
+
+#### Breaking Changes
+
+- Dropped support `HighchartsChartModule`. Replace your usage of `HighchartsChartModule` with the new `provideHighCharts()` and the standalone `HighchartsChartComponent` or `HighchartsChartDirective`.
+
 ## Options details
 
 | Parameter             | Type                 | Required | Defaults  | Description                                                                                                                                                                                                                                                                             |
@@ -295,7 +289,7 @@ A Highcharts instance is optionally initialized with **[modules](#to-load-a-modu
 
 **Note:** The Highcharts instance is shared across components in an Angular app, meaning that loaded modules will affect all charts.
 
-With this v5, you can provide extra modules on demand to your chart at the component level:
+Since highcharts-angular 5.0.0, you can provide extra modules on demand to your chart at the component level:
 
 ## Example
 

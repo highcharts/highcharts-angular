@@ -18,11 +18,25 @@ export interface Chart {
 }
 
 export interface PartialHighchartsConfig {
+  /**
+   * Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
+   */
   modules?: ModuleFactoryFunction;
 }
 
 export interface HighchartsConfig {
+  /**
+   * Define the Highcharts instance dynamically
+   */
   instance?: InstanceFactoryFunction;
+
+  /**
+   * Global chart options applied across all charts
+   */
   options?: Chart['options'];
+
+  /**
+   * Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
+   */
   modules?: ModuleFactoryFunction;
 }
