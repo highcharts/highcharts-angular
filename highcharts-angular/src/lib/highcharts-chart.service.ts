@@ -13,7 +13,7 @@ export class HighchartsChartService {
   private readonly globalModules = inject(HIGHCHARTS_ROOT_MODULES, { optional: true });
 
   private async loadHighchartsWithModules(partialConfig?: PartialHighchartsConfig): Promise<Chart['highcharts']> {
-    const Highcharts: Chart['highcharts'] = await this.source(); // Ensure Highcharts core is loaded
+    const Highcharts = await this.source(); // Ensure Highcharts core is loaded
 
     await Promise.all([...this.globalModules(), ...(partialConfig?.modules?.() ?? [])]);
 
@@ -22,8 +22,8 @@ export class HighchartsChartService {
   }
 
 
-  load(partialConfig?: PartialHighchartsConfig) {
-    this.loadHighchartsWithModules(partialConfig).then((source: Chart['highcharts']) => {
+ public load(partialConfig?: PartialHighchartsConfig): void {
+    this.loadHighchartsWithModules(partialConfig).then(source => {
       if (this.globalOptions) {
         source.setOptions(this.globalOptions);
       }

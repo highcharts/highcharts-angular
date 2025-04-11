@@ -5,13 +5,14 @@ import { of } from 'rxjs';
 import { HighchartsChartDirective } from './highcharts-chart.directive';
 import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
 import { HighchartsChartService } from './highcharts-chart.service';
+import type {Chart} from './types';
 
 @Component({
   template: `<div highcharts-chart [options]="options"></div>`,
   imports: [HighchartsChartDirective],
 })
 class TestHostComponent {
-  options = {};
+  options: Chart['options'] = {};
 }
 
 describe('HighchartsChartDirective', () => {

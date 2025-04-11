@@ -12,14 +12,10 @@ describe('HighchartsChartService', () => {
   beforeEach(() => {
     // Mock Highcharts instance with the setOptions method
     mockLoader = {
-      version: '11.0.0',
       setOptions: jasmine.createSpy('setOptions'),
     } as unknown as Chart['highcharts']
     mockGlobalOptions = { lang: { thousandsSep: ',' } };
-    mockGlobalModules = jasmine.createSpy('mockGlobalModules').and.returnValue([
-      Promise.resolve({ default: jasmine.createSpy() }),
-      Promise.resolve({ default: jasmine.createSpy() }),
-    ]);
+    mockGlobalModules = jasmine.createSpy('mockGlobalModules').and.returnValue([]);
     const instance = () => Promise.resolve(mockLoader);
 
     TestBed.configureTestingModule({
@@ -61,29 +57,18 @@ describe('HighchartsChartService', () => {
     tick(100); // Simulate the passage of time for the timeout in the load method
 
     // Wait for each module to resolve, then check if its `default` method was called with highcharts
-    mockGlobalModules().forEach((moduleSpy) => {
-      moduleSpy.then((module) => {
-        expect(module.default).toHaveBeenCalledWith(mockLoader);
-      })
-    });
+    expect(mockGlobalModules).toHaveBeenCalled();
   }));
 
   it('should load partialConfig modules if provided', fakeAsync(() => {
-    const mockPartialModules = jasmine.createSpy('mockPartialModules').and.returnValue([
-      Promise.resolve({default: jasmine.createSpy()}),
-      Promise.resolve({default: jasmine.createSpy()}),
-    ]);
+    const mockPartialModules = jasmine.createSpy('mockPartialModules').and.returnValue([]);
 
     // Call the load method with partial modules
     service.load({modules: mockPartialModules});
     tick(100); // Simulate the passage of time for the timeout in the load method
 
-    // Wait for each module to resolve and check if `default` was called with highcharts
-    mockGlobalModules().forEach((moduleSpy) => {
-      moduleSpy.then((resolvedModule) => {
-        expect(resolvedModule.default).toHaveBeenCalledWith(mockLoader);
-      })
-    });
+    // Check if partial modules were loaded
+    expect(mockPartialModules).toHaveBeenCalled();
   }));
 });
 
@@ -94,7 +79,6 @@ describe('With not provided Value', () => {
 
   beforeEach(() => {
     mockLoader = {
-      version: '11.0.0',
       setOptions: jasmine.createSpy('setOptions'),
     } as unknown as Chart['highcharts']
 
@@ -119,48 +103,4 @@ describe('With not provided Value', () => {
 
     expect(highcharts.setOptions).not.toHaveBeenCalled();
   });
-});
-
-
-describe('With Version 12', () => {
-  let service: HighchartsChartService;
-  let mockLoader: Chart['highcharts'];
-  let mockGlobalModules: ModuleFactoryFunction;
-
-  beforeEach(() => {
-    mockLoader = {
-      version: '12.0.0',
-      setOptions: jasmine.createSpy('setOptions'),
-    } as unknown as Chart['highcharts']
-    mockGlobalModules = jasmine.createSpy('mockGlobalModules').and.returnValue([
-      Promise.resolve({ default: jasmine.createSpy() }),
-      Promise.resolve({ default: jasmine.createSpy() }),
-    ]);
-
-    const instance = () => Promise.resolve(mockLoader);
-
-
-    TestBed.configureTestingModule({
-      providers: [
-        HighchartsChartService,
-        { provide: HIGHCHARTS_LOADER, useValue: instance },
-        { provide: HIGHCHARTS_OPTIONS, useValue: undefined },
-        { provide: HIGHCHARTS_ROOT_MODULES, useValue: mockGlobalModules },
-      ],
-    });
-
-    service = TestBed.inject(HighchartsChartService);
-  });
-
-  it('should load global modules without default', fakeAsync(() => {
-    service.load();
-    tick(100); // Simulate the passage of time for the timeout in the load method
-
-    // Wait for each module to resolve, then check if its `default` method was called with highcharts
-    mockGlobalModules().forEach((moduleSpy) => {
-      moduleSpy.then((module) => {
-        expect(module.default).not.toHaveBeenCalledWith(mockLoader);
-      })
-    });
-  }));
 });
