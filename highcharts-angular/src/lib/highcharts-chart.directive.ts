@@ -88,7 +88,14 @@ export class HighchartsChartDirective {
       return chart;
     }
     if (source.constructorChart) {
-      return source.constructorChart(this.el.nativeElement, source.options);
+      return source.constructorChart(
+        this.el.nativeElement,
+        source.options,
+        // Use Highcharts callback to emit chart instance, so it is available as early
+        // as possible. So that Angular is already aware of the instance if Highcharts raise
+        // events during the initialization that happens before coming back to Angular
+        createdChart => this.chartInstance.emit(createdChart),
+      );
     }
     return undefined;
   }
