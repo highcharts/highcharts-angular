@@ -17,7 +17,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {HighchartsChartService} from './highcharts-chart.service';
 import {HIGHCHARTS_CONFIG} from './highcharts-chart.token';
 import type {Chart, ChartConstructorType} from './types';
-import Highcharts from 'highcharts/esm/highcharts';
+import type Highcharts from 'highcharts/esm/highcharts';
 
 
 @Directive({
