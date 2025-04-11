@@ -29,8 +29,7 @@
               }
             ],
             "styles": [],
-            "scripts": [],
-            "allowedCommonJsDependencies": ["*"]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -170,12 +169,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/public"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@highcharts/map-collection/custom/",
-                "output": "/highcharts/"
+                "input": "public"
               }
             ],
             "styles": [],
@@ -184,15 +178,14 @@
             "prerender": true,
             "ssr": {
               "entry": "src/server.ts"
-            },
-            "allowedCommonJsDependencies": ["*"]
+            }
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "800kB",
+                  "maximumWarning": "500kB",
                   "maximumError": "1MB"
                 },
                 {
