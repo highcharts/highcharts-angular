@@ -1,7 +1,7 @@
 import {provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import { provideHighCharts } from 'highcharts-angular';
+import { provideHighcharts } from 'highcharts-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
     // provideClientHydration(withEventReplay()),
     importProvidersFrom(BrowserModule),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
-    provideHighCharts({
+    provideHighcharts({
       instance: () => import('highcharts/esm/highcharts').then(m => m.default),
       options: {
         title: {

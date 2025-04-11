@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import type Highcharts from 'highcharts/esm/highcharts';
 import { AppleDataService } from '../apple-data.service'
 import { Observable } from 'rxjs';
-import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
 
 
 interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGroupingOptionsObject {
@@ -14,7 +14,7 @@ interface ExtendedPlotCandlestickDataGroupingOptions extends Highcharts.DataGrou
   templateUrl: './lazy-loading-chart.component.html',
   styleUrls: ['./lazy-loading-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/esm/modules/stock')] })],
+  providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/stock')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyLoadingChartComponent {

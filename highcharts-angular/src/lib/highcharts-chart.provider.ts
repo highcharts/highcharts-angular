@@ -6,29 +6,29 @@ const emptyModuleFactoryFunction: ModuleFactoryFunction = () => [];
 // tslint:disable-next-line:max-line-length
 const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => import('highcharts/esm/highcharts').then(m => m.default);
 
-function provideHighChartInstance(instance: InstanceFactoryFunction) {
+function provideHighchartsInstance(instance: InstanceFactoryFunction) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_LOADER, useValue: instance || defaultInstanceFactoryFunction }]);
 }
 
-function provideHighChartOptions(options: Chart['options']) {
+function provideHighchartsOptions(options: Chart['options']) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_OPTIONS, useValue: options } ]);
 }
 
-function provideHighChartRootModules(modules: ModuleFactoryFunction) {
+function provideHighchartsRootModules(modules: ModuleFactoryFunction) {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_ROOT_MODULES, useValue: modules }]);
 }
 
-export function providePartialHighChart(config: PartialHighchartsConfig): Provider {
+export function providePartialHighcharts(config: PartialHighchartsConfig): Provider {
   return { provide: HIGHCHARTS_CONFIG, useValue: config };
 }
 
-export function provideHighCharts(config: HighchartsConfig = {}) {
+export function provideHighcharts(config: HighchartsConfig = {}) {
   const providers: EnvironmentProviders[] = [
-    provideHighChartInstance(config.instance),
-    provideHighChartRootModules(config.modules || emptyModuleFactoryFunction)
+    provideHighchartsInstance(config.instance),
+    provideHighchartsRootModules(config.modules || emptyModuleFactoryFunction)
   ];
   if (config.options) {
-    providers.push(provideHighChartOptions(config.options));
+    providers.push(provideHighchartsOptions(config.options));
   }
   return providers;
 }

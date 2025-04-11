@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHighCharts } from '../../../../highcharts-angular/src/public_api';
+import { provideHighcharts } from '../../../../highcharts-angular/src/public_api';
 import { LineTestComponent } from './line-test.component';
 import type Highcharts from 'highcharts/esm/highcharts';
 
@@ -9,7 +9,7 @@ describe('LineTestComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [provideHighCharts()],
+      providers: [provideHighcharts()],
       imports: [LineTestComponent],
     }).compileComponents();
 

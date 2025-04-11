@@ -2,14 +2,14 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject, computed} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import type Highcharts from 'highcharts/esm/highcharts';
-import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
 
 @Component({
   selector: 'app-map-chart',
   templateUrl: './map-chart.component.html',
   styleUrls: ['./map-chart.component.css'],
   imports: [HighchartsChartComponent],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/esm/modules/map')] })],
+  providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/map')] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

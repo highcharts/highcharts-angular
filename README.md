@@ -53,11 +53,11 @@ npm install highcharts-angular highcharts --save
 Then, provide Highcharts with minimal configuration in your `app.config.ts` file:
 
 ```ts
-import { provideHighCharts } from 'highcharts-angular';
+import { provideHighcharts } from 'highcharts-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHighCharts(),
+    provideHighcharts(),
     // Other providers here ...
   ]
 };
@@ -66,11 +66,11 @@ export const appConfig: ApplicationConfig = {
 Or, alternatively, provide global configuration for all charts within your project:
 
 ```ts
-import { provideHighCharts } from 'highcharts-angular';
+import { provideHighcharts } from 'highcharts-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHighCharts({
+    provideHighcharts({
       // Optional: Define the Highcharts instance dynamically
       instance: () => import('highcharts'),
 
@@ -261,7 +261,7 @@ Version 5 introduces significant improvements and changes to align with modern A
 
 #### Breaking Changes
 
-- Dropped support `HighchartsChartModule`. Replace your usage of `HighchartsChartModule` with the new `provideHighCharts()` and the standalone `HighchartsChartComponent` or `HighchartsChartDirective`.
+- Dropped support `HighchartsChartModule`. Replace your usage of `HighchartsChartModule` with the new `provideHighcharts()` and the standalone `HighchartsChartComponent` or `HighchartsChartDirective`.
 
 ## Options details
 
@@ -297,7 +297,7 @@ Since highcharts-angular 5.0.0, you can provide extra modules on demand to your 
 
 A module is a Highcharts official addon - including Highcharts Stock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)).
 
-After importing Highcharts, Highcharts Stock, or Highcharts Maps, use `providePartialHighChart` and initialize modules with an array of Highcharts factory functions.
+After importing Highcharts, Highcharts Stock, or Highcharts Maps, use `providePartialHighcharts` and initialize modules with an array of Highcharts factory functions.
 
 If a lack of TypeScript definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of Highcharts documentation for TypeScript usage.
 
@@ -312,7 +312,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
   providers: [
-    providePartialHighChart({ 
+    providePartialHighcharts({ 
       modules: () => {
         return [
           // Load Gantt Chart 
@@ -348,7 +348,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/esm/modules/map')] })],
+  providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/map')] })],
 })
 export class MapComponent {
   chartOptions: Highcharts.Options = {
@@ -372,7 +372,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: () => [import('highcharts/esm/modules/stock')] })],
+  providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/stock')] })],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {
@@ -427,7 +427,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
   `,
   styles: [`.chart { width: 100%; height: 400px; display: block; }`],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighChart({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] })],
+  providers: [providePartialHighcharts({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] })],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {

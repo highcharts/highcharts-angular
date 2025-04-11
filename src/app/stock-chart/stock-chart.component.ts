@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import type Highcharts from 'highcharts/esm/highcharts';
 import { FormsModule } from '@angular/forms';
-import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { HighchartsChartComponent, providePartialHighChart } from 'highcharts-an
   styleUrls: ['./stock-chart.component.css'],
   imports: [FormsModule, HighchartsChartComponent],
   providers: [
-    providePartialHighChart({
+    providePartialHighcharts({
       modules: () => [
         import('highcharts/esm/modules/stock'),
       ]
