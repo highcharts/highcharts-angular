@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
-import { Chart, ModuleFactoryFunction, PartialHighchartsConfig, InstanceFactoryFunction } from './types';
+import { Chart, PartialHighchartsConfig } from './types';
 
 @Injectable({providedIn: 'root'})
 export class HighchartsChartService {
