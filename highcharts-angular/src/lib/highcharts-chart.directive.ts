@@ -15,7 +15,7 @@ import {
 import {isPlatformServer} from '@angular/common';
 import {HighchartsChartService} from './highcharts-chart.service';
 import {HIGHCHARTS_CONFIG} from './highcharts-chart.token';
-import {Chart, ChartConstructorType, ConstructorChart} from './types';
+import {ChartConstructorType, ConstructorChart} from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
 
@@ -38,7 +38,7 @@ export class HighchartsChartDirective {
   /**
    * Options for the Highcharts chart.
    */
-  public readonly options = input.required<Chart['options']>();
+  public readonly options = input.required<Highcharts.Options>();
 
   /**
    * Whether to redraw the chart.

@@ -1,6 +1,7 @@
 import { EnvironmentProviders, makeEnvironmentProviders, Provider } from '@angular/core';
 import { HIGHCHARTS_LOADER, HIGHCHARTS_CONFIG, HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
-import { Chart, ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig, InstanceFactoryFunction } from './types';
+import { ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig, InstanceFactoryFunction } from './types';
+import type Highcharts from 'highcharts/esm/highcharts';
 
 const emptyModuleFactoryFunction: ModuleFactoryFunction = () => [];
 const defaultInstanceFactoryFunction: InstanceFactoryFunction = () => import('highcharts/esm/highcharts').then(m => m.default);
@@ -9,7 +10,7 @@ function provideHighchartsInstance(instance: InstanceFactoryFunction | undefined
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_LOADER, useValue: instance ?? defaultInstanceFactoryFunction }]);
 }
 
-function provideHighchartsOptions(options: Chart['options']): EnvironmentProviders {
+function provideHighchartsOptions(options: Highcharts.Options): EnvironmentProviders {
   return makeEnvironmentProviders([{ provide: HIGHCHARTS_OPTIONS, useValue: options } ]);
 }
 

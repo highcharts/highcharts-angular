@@ -5,18 +5,12 @@ export type ChartConstructorType = 'chart' | 'ganttChart' | 'stockChart' | 'mapC
 export type ModuleFactoryFunction = () => Promise<ModuleFactory>[];
 export type InstanceFactoryFunction = () => Promise<typeof Highcharts>;
 
-export type ModuleFactory = {
-  Highcharts?: Chart['highcharts'],
+type ModuleFactory = {
+  Highcharts?: typeof Highcharts,
   default?: unknown,
 }
 
 export type ConstructorChart = (element: HTMLElement, options: Highcharts.Options, callback: (chart: Highcharts.Chart) => void) => Highcharts.Chart;
-export type Chart = {
-  options: Highcharts.Options,
-  update?: boolean,
-  highcharts?: typeof Highcharts
-  constructorChart?: ConstructorChart;
-}
 
 export type PartialHighchartsConfig = {
   /**
@@ -34,10 +28,5 @@ export type HighchartsConfig = {
   /**
    * Global chart options applied across all charts
    */
-  options?: Chart['options'];
-
-  /**
-   * Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
-   */
-  modules?: ModuleFactoryFunction;
-}
+  options?: Highcharts.Options;
+} & PartialHighchartsConfig;

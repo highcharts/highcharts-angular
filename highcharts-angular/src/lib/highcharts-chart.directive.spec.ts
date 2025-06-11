@@ -4,8 +4,8 @@ import {By} from '@angular/platform-browser';
 import {HighchartsChartDirective} from './highcharts-chart.directive';
 import {HIGHCHARTS_CONFIG} from './highcharts-chart.token';
 import {HighchartsChartService} from './highcharts-chart.service';
-import type {Chart} from './types';
 import Spy = jasmine.Spy;
+import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({
   selector: 'highcharts-test-host',
@@ -15,7 +15,7 @@ import Spy = jasmine.Spy;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestHostComponent {
-  public options: Chart['options'] = {};
+  public options: Highcharts.Options = {};
 }
 
 describe('HighchartsChartDirective', () => {
