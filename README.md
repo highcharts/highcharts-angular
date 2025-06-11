@@ -259,6 +259,7 @@ Version 5 introduces significant improvements and changes to align with modern A
 
 - Dropped `HighchartsChartModule`. Replace your usage of `HighchartsChartModule` with the new `provideHighcharts()` and the standalone `HighchartsChartComponent` or `HighchartsChartDirective`.
 - Dropped `callbackFunction`. Replace your usage of `[callbackFunction]="myFunction"` with `(chartInstance)="myFunction($event)"`.
+- `chartInstance` will not emit at all during destruction anymore.
 
 ## Options details
 
@@ -273,7 +274,7 @@ Version 5 introduces significant improvements and changes to align with modern A
 
 A chart instance can be obtained using the following methods:
 
-* **Component output `chartInstance`** - Emitted after the chart is created (see [demo app](#demo-app) and the `logChartInstance` function), and after the chart is destroyed (as `null`).
+* **Component output `chartInstance`** - Emitted after the chart is created (see [demo app](#demo-app) and the `logChartInstance` function).
 * **Chart's events** - The context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance.
 
 **Note:** If you are obtaining the chart instance from the **[chart's load event](https://api.highcharts.com/highcharts/chart.events.load)**, and you plan to support exporting, the function will run again when the chart is exported. This is because a separate chart is created for export. To distinguish between the main chart and the export chart, you can check `chart.renderer.forExport`. It will be set to `true` for the export chart and `undefined` for the main chart.

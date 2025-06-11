@@ -47,7 +47,7 @@ export class HighchartsChartDirective {
    */
   public readonly update = model<boolean>();
 
-  public readonly chartInstance = output<Highcharts.Chart | null>();  // #26
+  public readonly chartInstance = output<Highcharts.Chart>();  // #26
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -63,7 +63,7 @@ export class HighchartsChartDirective {
     const constructorType = untracked(this.constructorType);
     const highCharts = this.highchartsChartService.highcharts();
     if (constructorType && highCharts) {
-      return (highCharts as any)[constructorType ];
+      return (highCharts as any)[constructorType];
     }
     return undefined;
   });
@@ -103,8 +103,6 @@ export class HighchartsChartDirective {
     if (chart) {  // #56
       chart.destroy();
       this.chart.set(null);
-      // emit chart instance on destroy
-      this.chartInstance.emit(null);
     }
   }
 

@@ -94,7 +94,7 @@ export class StockChartComponent {
     }]
   }];
 
-  public chartInstance(chart: Highcharts.Chart | null): void {
+  public chartInstance(chart: Highcharts.Chart): void {
     console.log('some variables: ', chart, this.charts);
   }
 

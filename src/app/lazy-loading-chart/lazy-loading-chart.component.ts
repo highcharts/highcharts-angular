@@ -22,7 +22,7 @@ export class LazyLoadingChartComponent {
 
   private chartRef: Highcharts.Chart | null = null;
 
-  public chartInstance(chart: Highcharts.Chart | null): void {
+  public chartInstance(chart: Highcharts.Chart): void {
     this.chartRef = chart;
   };
 
