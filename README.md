@@ -32,13 +32,13 @@ Official minimal Highcharts integration for Angular.
 
 Ensure that **Node.js**, **npm**, and **Angular** are installed and up to date. Refer to the compatibility table below for the required versions:
 
-| Highcharts Angular Version | Node.js   | Angular   | Highcharts |
-|----------------------------|-----------|-----------|------------|
-| 5.0.0                      | >=18.19   | >=19.0.0  | >=12.2.0   |
-| 4.0.0                      | >=16.14   | >=16.0.0  | >=11.0.0   |
-| 3.1.2                      | >=14.13   | >=15.0.0  | >=10.3.3   |
-| 3.0.0                      | >=14.13   | >=9.0.0   | >=8.0.0    |
-| <2.10.0                    | >=6.10.2  | >=6.0.0   | >=6.0.0    |
+| Highcharts Angular Version | Node.js   | Angular   | Highcharts | Documentation                                                                    |
+|----------------------------|-----------|-----------|------------|----------------------------------------------------------------------------------|
+| 5.0.0                      | >=18.19   | >=19.0.0  | >=12.2.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v5.0.0/README.md) |
+| 4.0.0                      | >=16.14   | >=16.0.0  | >=11.0.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v4.0.1/README.md) |
+| 3.1.2                      | >=14.13   | >=15.0.0  | >=10.3.3   | [README](https://github.com/highcharts/highcharts-angular/blob/v3.1.2/README.md) |
+| 3.0.0                      | >=14.13   | >=9.0.0   | >=8.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v3.0.0/README.md) |
+| <2.10.0                    | >=6.10.2  | >=6.0.0   | >=6.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v2.9.0/README.md) |
 
 ---
 
