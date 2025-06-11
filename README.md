@@ -312,7 +312,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
         return [
           // Load Gantt Chart 
           import('highcharts/esm/modules/gantt'),
-          // Load core module
+          // Load exporting module
           import('highcharts/esm/modules/exporting'),
         ]
       }
