@@ -170,6 +170,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@highcharts/map-collection/custom/",
+                "output": "/highcharts/"
               }
             ],
             "styles": [],

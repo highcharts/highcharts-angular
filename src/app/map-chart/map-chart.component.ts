@@ -1,6 +1,6 @@
-import {HttpClient} from '@angular/common/http';
-import {ChangeDetectionStrategy, Component, inject, computed} from '@angular/core';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {httpResource} from '@angular/common/http';
+import {ChangeDetectionStrategy, Component, computed} from '@angular/core';
+import type {GeoJSON} from 'highcharts';
 import type Highcharts from 'highcharts/esm/highcharts';
 import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
 
@@ -14,12 +14,11 @@ import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-a
 })
 
 export class MapChartComponent {
-  private readonly http = inject(HttpClient);
-  public readonly worldMap = toSignal(this.http.get<any>('/highcharts/world.geo.json'));
+  public readonly worldMap = httpResource<GeoJSON>('/highcharts/world.geo.json')
   public readonly chartMap = computed<Highcharts.Options>(() => {
     return {
       chart: {
-        map: this.worldMap(),
+        map: this.worldMap.value(),
         // proj4: proj4
       },
       title: {
