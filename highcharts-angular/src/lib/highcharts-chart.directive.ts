@@ -3,10 +3,10 @@ import {
   computed,
   DestroyRef,
   Directive,
+  effect,
   ElementRef,
   inject,
   input,
-  linkedSignal,
   model,
   output,
   PLATFORM_ID,
@@ -60,52 +60,38 @@ export class HighchartsChartDirective {
   private readonly highchartsChartService = inject(HighchartsChartService);
 
   private readonly constructorChart = computed<ConstructorChart | undefined>(() => {
-    const constructorType = untracked(this.constructorType);
     const highCharts = this.highchartsChartService.highcharts();
-    if (constructorType && highCharts) {
-      return (highCharts as any)[constructorType];
+    if (highCharts) {
+      return (highCharts as any)[this.constructorType()];
     }
     return undefined;
   });
 
-  private readonly chart = linkedSignal<Chart, Highcharts.Chart | null>({
-    source: () => ({options: this.options(), update: this.update(), constructorChart: this.constructorChart()}),
-    computation: (source, previous) => {
-      return untracked(() => this.createOrUpdateChart(source, previous?.value, this.oneToOne()));
-    }
-  });
+  // Create the chart as soon as we can
+  private readonly chart = computed(() => {
+    return this.constructorChart()?.(
+      this.el.nativeElement,
+      // Use untracked, so we don't re-create new chart everytime options change
+      untracked(() => this.options()),
+      // Use Highcharts callback to emit chart instance, so it is available as early
+      // as possible. So that Angular is already aware of the instance if Highcharts raise
+      // events during the initialization that happens before coming back to Angular
+      createdChart => this.chartInstance.emit(createdChart),)
+  })
 
-  private createOrUpdateChart(
-    source: Chart,
-    chart: Highcharts.Chart | null | undefined,
-    oneToOne: boolean,
-  ): Highcharts.Chart | null {
-    if (chart) {
-      chart.update(source.options, true, oneToOne);
-      return chart;
-    }
-    if (source.constructorChart) {
-      return source.constructorChart(
-        this.el.nativeElement,
-        source.options,
-        // Use Highcharts callback to emit chart instance, so it is available as early
-        // as possible. So that Angular is already aware of the instance if Highcharts raise
-        // events during the initialization that happens before coming back to Angular
-        createdChart => this.chartInstance.emit(createdChart),
-      );
-    }
-
-    return null;
+  private keepChartUpToDate(): void {
+    effect(() => {
+      this.update();
+      this.chart()?.update(this.options(), true, this.oneToOne())
+    })
   }
 
   private destroyChart(): void {
     const chart = this.chart();
     if (chart) {  // #56
       chart.destroy();
-      this.chart.set(null);
     }
   }
-
 
   public constructor() {
     // should stop loading on the server side for SSR
@@ -115,11 +101,13 @@ export class HighchartsChartDirective {
     // make sure to load global config + modules on demand
     this.highchartsChartService.load(this.relativeConfig);
     this.destroyRef.onDestroy(() => this.destroyChart()); // #44
-    afterRenderEffect(() => this.chartInstance.emit(this.chart()));
     afterRenderEffect(() => {
       if (this.update()) {
         this.update.set(false);  // clear the flag after update
       }
     });
+
+    // Keep the chart up to date whenever options change or the update special input is set to true
+    this.keepChartUpToDate();
   }
 }

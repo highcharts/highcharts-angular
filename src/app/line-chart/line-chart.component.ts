@@ -41,11 +41,7 @@ export class LineChartComponent {
 
   // Demonstrate chart instance
   public logChartInstance(chart: Highcharts.Chart): void {
-    if (chart) {
-      console.log('Chart instance received:', chart);
-    } else {
-      console.log('Chart instance destroyed');
-    }
+    console.log('Chart instance received:', chart);
   }
 
   public updateInputChart(): void {
