@@ -1,114 +1,101 @@
-import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
-import HC_stock from 'highcharts/modules/stock';
-import HC_customEvents from 'highcharts-custom-events';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import type Highcharts from 'highcharts/esm/highcharts';
+import {FormsModule} from '@angular/forms';
+import {HighchartsChartComponent, providePartialHighcharts} from 'highcharts-angular';
 
-HC_stock(Highcharts);
-HC_customEvents(Highcharts);
-
-
-// Alternative way of a plugin loading:
-// const HC_ce = require('highcharts-custom-events');
-// HC_ce(Highcharts);
 
 @Component({
   selector: 'app-stock-chart',
   templateUrl: './stock-chart.component.html',
-  styleUrls: ['./stock-chart.component.css']
+  styleUrl: './stock-chart.component.css',
+  imports: [FormsModule, HighchartsChartComponent],
+  providers: [
+    providePartialHighcharts({
+      modules: () => [
+        import('highcharts/esm/modules/stock'),
+      ]
+    })
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockChartComponent {
 
-  Highcharts: typeof Highcharts = Highcharts;
-
   // starting values
-  updateDemo2: boolean = false;
-  usedIndex: number = 0;
-  chartTitle: string = 'My chart'; // for init - change through titleChange
+  public updateDemo2 = false;
+  public usedIndex = 0;
+  public chartTitle = 'My chart'; // for init - change through titleChange
 
   // change in all places
-  titleChange(event: any) {
-    var v = event;
+  public titleChange(event: string): void {
+    const v = event;
     this.chartTitle = v;
 
     this.charts.forEach((el) => {
-      el.hcOptions.title.text = v;
+      el.title!.text = v;
     });
 
     // trigger ngOnChanges
     this.updateDemo2 = true;
   };
 
-  charts = [{
-    hcOptions: {
-      title: { text: this.chartTitle },
-      subtitle: { text: '1st data set' },
-      plotOptions: {
-        series: {
-           pointStart: Date.now(),
-           pointInterval: 86400000 // 1 day
-        }
-      },
-      series: [{
-        type: 'line',
-        data: [11, 2, 3],
-        threshold: 5,
-        negativeColor: 'red',
-        events: {
-          dblclick: function () {
-            console.log('dblclick - thanks to the Custom Events plugin');
-          }
-        }
-      }, {
-        type: 'candlestick',
+  public charts: Highcharts.Options[] = [{
+    title: {text: this.chartTitle},
+    subtitle: {text: '1st data set'},
+    plotOptions: {
+      series: {
+        pointStart: Date.now(),
+        pointInterval: 86400000 // 1 day
+      }
+    },
+    series: [{
+      type: 'line',
+      data: [11, 2, 3],
+      threshold: 5,
+      negativeColor: 'red',
+    }, {
+      type: 'candlestick',
 
-        data: [
-          [0, 15, -6, 7],
-          [7, 12, -1, 3],
-          [3, 10, -3, 3]
-        ]
-      }]
-    } as Highcharts.Options,
-    hcCallback: (chart: Highcharts.Chart) => {
-      console.log('some variables: ', Highcharts, chart, this.charts);
-    }
+      data: [
+        [0, 15, -6, 7],
+        [7, 12, -1, 3],
+        [3, 10, -3, 3]
+      ]
+    }]
   }, {
-    hcOptions: {
-      title: { text: this.chartTitle },
-      subtitle: { text: '2nd data set' },
-      series: [{
-        type: 'column',
-        data: [4, 3, -12],
-        threshold: -10
-      }, {
-        type: 'ohlc',
-        data: [
-          [0, 15, -6, 7],
-          [7, 12, -1, 3],
-          [3, 10, -3, 3]
-        ]
-      }]
-    } as Highcharts.Options,
-    hcCallback: () => {}
+    title: {text: this.chartTitle},
+    subtitle: {text: '2nd data set'},
+    series: [{
+      type: 'column',
+      data: [4, 3, -12],
+      threshold: -10
+    }, {
+      type: 'ohlc',
+      data: [
+        [0, 15, -6, 7],
+        [7, 12, -1, 3],
+        [3, 10, -3, 3]
+      ]
+    }]
   }, {
-    hcOptions: {
-      title: { text: this.chartTitle },
-      subtitle: { text: '3rd data set' },
-      series: [{
-        type: 'scatter',
-        data: [1, 2, 3, 4, 5]
-      }, {
-        type: 'areaspline',
-        data: [
-          5,
-          11,
-          3,
-          6,
-          0
-        ]
-      }]
-    } as Highcharts.Options,
-    hcCallback: () => {}
+    title: {text: this.chartTitle},
+    subtitle: {text: '3rd data set'},
+    series: [{
+      type: 'scatter',
+      data: [1, 2, 3, 4, 5]
+    }, {
+      type: 'areaspline',
+      data: [
+        5,
+        11,
+        3,
+        6,
+        0
+      ]
+    }]
   }];
 
+  public chartInstance(chart: Highcharts.Chart): void {
+    console.log('some variables: ', chart, this.charts);
+  }
 
 }

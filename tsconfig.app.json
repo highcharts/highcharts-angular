@@ -1,20 +1,17 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "baseUrl": "tsconfig.app",
-    "types": [],
-    "paths": {
-      "highcharts-angular": [
-        "../dist/highcharts-angular"
-      ],
-      "highcharts-angular/*": [
-        "../dist/highcharts-angular/*"
-      ]
-    }
+    "types": []
   },
   "files": [
     "src/main.ts",
-    "src/polyfills.ts"
+    "src/main.server.ts",
+    "src/server.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
   ]
 }

@@ -2,25 +2,25 @@
 <article>
   <section>
     <p>Chart title text: </p>
-    <input 
-      [(ngModel)]="charts[usedIndex].hcOptions.title.text"
-      (ngModelChange)="titleChange($event)"
+    <input
       style="max-width: 50%"
+      [(ngModel)]="$any(charts[usedIndex].title).text"
+      (ngModelChange)="titleChange($event)"
     >
     <p>Data sets:</p>
     <div>
-      <button *ngFor="let i of [0,1,2]"
-        (click)="usedIndex = i">
-        {{i+1}}
-      </button>
+      @for (i of [0,1,2]; track i) {
+        <button
+          (click)="usedIndex = i">
+          {{i+1}}
+        </button>
+      }
     </div>
   </section>
   <highcharts-chart
-    [Highcharts]="Highcharts"
-    [constructorType]="'stockChart'"
-    [options]="charts[usedIndex].hcOptions"
-    [callbackFunction]="charts[0].hcCallback"
+    constructorType="stockChart"
+    [options]="charts[usedIndex]"
     [(update)]="updateDemo2"
-  ></highcharts-chart>
+    (chartInstance)="chartInstance($event)"
+  />
 </article>
- 

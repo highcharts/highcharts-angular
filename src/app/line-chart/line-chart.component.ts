@@ -1,20 +1,22 @@
-import { Component } from "@angular/core";
-import * as Highcharts from "highcharts";
-import HC_customEvents from "highcharts-custom-events";
-HC_customEvents(Highcharts);
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
+import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({
-	selector: "app-line-chart",
-	templateUrl: "./line-chart.component.html",
-	styleUrls: ["./line-chart.component.css"],
+  selector: 'app-line-chart',
+  templateUrl: './line-chart.component.html',
+  styleUrl: './line-chart.component.css',
+  imports: [FormsModule, HighchartsChartComponent],
+  providers: [providePartialHighcharts({ modules: () => [] })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent {
-	public Highcharts: typeof Highcharts = Highcharts;
-	public updateFromInput = false;
-	public showChart = true;
-	public toggleButtonTitle = "Destroy chart";
+  public updateFromInput = false;
+  public showChart = true;
+  public toggleButtonTitle = 'Destroy chart';
 
-	private optFromInputString = `
+  public optFromInputString = `
     {
       "title": { "text": "Highcharts chart" },
       "series": [{
@@ -29,39 +31,32 @@ export class LineChartComponent {
       }]
     }
   `;
-	private optFromInput: Highcharts.Options = JSON.parse(
-		this.optFromInputString,
-	);
-	private seriesTypes = {
-		line: "column",
-		column: "scatter",
-		scatter: "spline",
-		spline: "line",
-	};
+  public optFromInput: Highcharts.Options = JSON.parse(this.optFromInputString);
+  private seriesTypes = {
+    line: 'column',
+    column: 'scatter',
+    scatter: 'spline',
+    spline: 'line',
+  };
 
-	// Demonstrate chart instance
-	public logChartInstance(chart: Highcharts.Chart) {
-		if (chart) {
-			console.log("Chart instance received:", chart);
-		} else {
-			console.log("Chart instance destroyed");
-		}
-	}
+  // Demonstrate chart instance
+  public logChartInstance(chart: Highcharts.Chart): void {
+    console.log('Chart instance received:', chart);
+  }
 
-	public updateInputChart() {
-		this.optFromInput = JSON.parse(this.optFromInputString);
-	}
+  public updateInputChart(): void {
+    this.optFromInput = JSON.parse(this.optFromInputString);
+  }
 
-	public toggleSeriesType(index = 0) {
-		this.optFromInput.series[index].type = this.seriesTypes[
-			this.optFromInput.series[index].type || "line"
-		] as keyof typeof this.seriesTypes;
-		// nested change - must trigger update
-		this.updateFromInput = true;
-	}
+  public toggleSeriesType(index = 0): void {
+    const key: keyof typeof this.seriesTypes = (this.optFromInput.series as any)[index].type ?? 'line';
+    (this.optFromInput.series as any)[index].type = this.seriesTypes[key];
+    // nested change - must trigger update
+    this.updateFromInput = true;
+  }
 
-	public toggleChart() {
-		this.showChart = !this.showChart;
-		this.toggleButtonTitle = this.showChart ? "Destroy chart" : "Recreate chart";
-	}
+  public toggleChart(): void {
+    this.showChart = !this.showChart;
+    this.toggleButtonTitle = this.showChart ? 'Destroy chart' : 'Recreate chart';
+  }
 }

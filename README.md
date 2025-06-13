@@ -1,164 +1,209 @@
 # Highcharts Angular
-Official minimal Highcharts integration for Angular
+
+Official minimal Highcharts integration for Angular.
 
 ## Table of Contents
-1. [Getting started](#getting-started)
-    1. [General prerequisites](#general-prerequisites)
-    2. [Installing](#installing)
-    3. [Hello world demo](#hello-world-demo)
-    4. [Angular Universal - SSR](#angular-universal--SSR)
-    5. [Angular Elements and useHTML](#angular-elements-and-usehtml)
-2. [Options details](#options-details)
-3. [Chart instance](#chart-instance)
-4. [Highcharts instance details](#highcharts-instance-details)
-    1. [Core](#core)
-    2. [To load a module](#to-load-a-module)
-    3. [To load a plugin](#to-load-a-plugin)
-    4. [To load a map for Highcharts Maps](#to-load-a-map-for-Highcharts-Maps)
-    5. [To load a wrapper](#to-load-a-wrapper)
-    6. [To use setOptions](#to-use-setoptions)
-5. [Demo app](#demo-app)
-    1. [Play with the app](#play-with-the-app)
-    2. [Files to play with](#files-to-play-with)
-6. [Online examples](#online-examples)
-7. [Changing the Component](#changing-the-component)
+1. [Getting Started](#getting-started)
+   1. [General Prerequisites](#general-prerequisites)
+   2. [Installing](#installing)
+   3. [Usage](#usage)
+   4. [SSR Support](#ssr-support)
+   5. [Angular Elements and `useHTML`](#angular-elements-and-usehtml)
+   6. [Upgrade to v5](#upgrade-to-v5)
+2. [Options Details](#options-details)
+3. [Chart Instance](#chart-instance)
+4. [Highcharts Partial Loading on the Component Level](#highcharts-partial-loading-on-the-component-level)
+   1. [Loading a Module](#to-load-a-module)
+   2. [Loading a Map for Highcharts Maps](#to-load-a-map-for-highcharts-maps)
+   3. [Loading a Map for Highcharts Stock](#to-load-a-stock-for-highcharts)
+   4. [Loading a Wrapper](#to-load-a-wrapper)
+5. [Demo App](#demo-app)
+   1. [Play with the App](#play-with-the-app)
+   2. [Files to Modify](#files-to-play-with)
+6. [Online Examples](#online-examples)
+7. [Release](#release)
 8. [Help and FAQ](#help-and-faq)
 
+---
 
+## Getting Started
 
-## Getting started
+### General Prerequisites
 
-### General prerequisites
+Ensure that **Node.js**, **npm**, and **Angular** are installed and up to date. Refer to the compatibility table below for the required versions:
 
-Make sure you have **node**, **NPM** and **Angular** up to date.
+| Highcharts Angular Version | Node.js   | Angular   | Highcharts | Documentation                                                                    |
+|----------------------------|-----------|-----------|------------|----------------------------------------------------------------------------------|
+| 5.0.0                      | >=18.19   | >=19.0.0  | >=12.2.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v5.0.0/README.md) |
+| 4.0.0                      | >=16.14   | >=16.0.0  | >=11.0.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v4.0.1/README.md) |
+| 3.1.2                      | >=14.13   | >=15.0.0  | >=10.3.3   | [README](https://github.com/highcharts/highcharts-angular/blob/v3.1.2/README.md) |
+| 3.0.0                      | >=14.13   | >=9.0.0   | >=8.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v3.0.0/README.md) |
+| <2.10.0                    | >=6.10.2  | >=6.0.0   | >=6.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v2.9.0/README.md) |
 
-| Version       | Node          | Angular       | Highcharts    |
-|---------------|---------------|---------------|---------------|
-| 4.0.0         | >=16.14       | >=16.0.0      | >=11.0.0      |
-| 3.1.2         | >=14.13       | >=15.0.0      | >=10.3.3      |
-| 3.0.0         | >=14.13       | >=9.0.0       | >=8.0.0       |
-| <2.10.0       | >=6.10.2      | >=6.0.0       | >=6.0.0       |
-
+---
 
 ### Installing
 
-Get package from NPM in your Angular app:
+Install the `highcharts-angular` package along with the [highcharts](https://www.highcharts.com/docs/getting-started/install-from-npm) dependency:
 
-```cli
-npm install highcharts-angular --save
+```bash
+npm install highcharts-angular highcharts --save
 ```
 
-In your app.module.ts add the HighchartsChartModule:
+Then, provide Highcharts with minimal configuration in your `app.config.ts` file:
 
 ```ts
-...
-import { HighchartsChartModule } from 'highcharts-angular';
+import { provideHighcharts } from 'highcharts-angular';
 
-@NgModule({
-  imports: [
-    ...
-    HighchartsChartModule
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHighcharts(),
+    // Other providers here ...
+  ]
+};
 ```
 
-In a component that will be building your Highcharts charts you will need to [import Highcharts](https://www.highcharts.com/docs/getting-started/install-from-npm) first, so in system console, while in your Angular app:
-
-```cli
-npm install highcharts --save
-```
-
-Next, in the app.component.ts, in top lines where other `import`s are add another one for Highcharts:
+Or, alternatively, provide global configuration for all charts within your project:
 
 ```ts
-import * as Highcharts from 'highcharts';
+import { provideHighcharts } from 'highcharts-angular';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHighcharts({
+      // Optional: Define the Highcharts instance dynamically
+      instance: () => import('highcharts'),
+
+      // Global chart options applied across all charts
+      options: {
+        title: {
+          style: {
+            color: 'tomato'
+          }
+        },
+        legend: {
+          enabled: false
+        }
+      },
+
+      // Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
+      modules: () => {
+        return [
+          import('highcharts/esm/modules/accessibility'),
+          import('highcharts/esm/modules/exporting'),
+          import('highcharts/esm/themes/sunset')
+        ]
+      }
+    }),
+    // Other providers here ...
+  ]
+};
 ```
 
-In the same file (app.component.ts) add to the **template** Highcharts-angular component selector `highcharts-chart`:
+### Usage
 
-```html
-<highcharts-chart
-  [Highcharts]="Highcharts"
+You can use Highcharts in your Angular application either as a **Component** or a **Directive**. Below are the usage examples for both approaches:
 
-  [constructorType]="chartConstructor"
-  [options]="chartOptions"
-  [callbackFunction]="chartCallback"
+---
 
-  [(update)]="updateFlag"
-  [oneToOne]="oneToOneFlag"
-  [runOutsideAngular]="runOutsideAngular"
+#### 1. Using the Component
 
-  style="width: 100%; height: 400px; display: block;"
-></highcharts-chart>
-```
-
-Right side names, in double quotes, are just names of variables you are going to set next, so you could name them whatever you like. Style at the bottom of the selector is optional, but browsers do not know how to display `<highcharts-chart>`, so you should set some styles.
-
-In the same file (app.component.ts) all variables should be set in `export class AppComponent {` like:
+In your `app.component.ts`, import the required `HighchartsChartComponent` and other relevant types at the top of the file:
 
 ```ts
+import { Component } from '@angular/core';
+import { HighchartsChartComponent, ChartConstructorType } from 'highcharts-angular';
+
+@Component({
+  template: `
+    <highcharts-chart
+      [constructorType]="chartConstructor"
+      [options]="chartOptions"
+      [(update)]="updateFlag"
+      [oneToOne]="oneToOneFlag"
+      class="chart"
+    />
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartComponent]
+})
 export class AppComponent {
-  Highcharts: typeof Highcharts = Highcharts; // required
-  chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
-  chartOptions: Highcharts.Options = { ... }; // required
-  chartCallback: Highcharts.ChartCallbackFunction = function (chart) { ... } // optional function, defaults to null
-  updateFlag: boolean = false; // optional boolean
-  oneToOneFlag: boolean = true; // optional boolean, defaults to false
-  runOutsideAngular: boolean = false; // optional boolean, defaults to false
-  ...
+  chartOptions: Highcharts.Options = { ... }; // Required
+  chartConstructor: ChartConstructorType = 'chart'; // Optional, defaults to 'chart'
+  updateFlag: boolean = false; // Optional
+  oneToOneFlag: boolean = true; // Optional, defaults to false
+}
 ```
 
-Used options are explained [below](#options-details).
+#### 2. Using the Directive
 
+In your `app.component.ts`, import the `HighchartsChartDirective` and other relevant types at the top of the file:
 
-### Hello world demo
-
-To create a simple demo start with [installing](#installing).
-
-Next for `app.component.ts`'s HTML template use:
-
-```html
-<highcharts-chart 
-  [Highcharts]="Highcharts"
-  [options]="chartOptions"
-
-  style="width: 100%; height: 400px; display: block;"
-></highcharts-chart>
-```
-
-and export variables:
 
 ```ts
+import {Component} from '@angular/core';
+import { HighchartsChartDirective, ChartConstructorType } from 'highcharts-angular';
+
+@Component({
+  template: `
+    <div
+      highchartsChart
+      [constructorType]="chartConstructor"
+      [options]="chartOptions"
+      [(update)]="updateFlag"
+      [oneToOne]="oneToOneFlag"
+      class="chart"
+    ></div>
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartDirective]
+})
 export class AppComponent {
-  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = { ... }; // Required
+  chartConstructor: ChartConstructorType = 'chart'; // Optional, defaults to 'chart'
+  updateFlag: boolean = false; // Optional
+  oneToOneFlag: boolean = true; // Optional, defaults to false
+}
+```
+
+#### 3. Example
+
+This is the minimum example you can start with:
+
+```ts
+import { Component } from '@angular/core';
+import { HighchartsChartDirective } from 'highcharts-angular';
+
+@Component({
+  template: `
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartDirective]
+})
+export class AppComponent {
   chartOptions: Highcharts.Options = {
     series: [{
       data: [1, 2, 3],
       type: 'line'
     }]
   };
-  ...
+}
 ```
 
 Build and run your Angular app to see a basic line chart.
 
-### Angular Universal - SSR
+Used options are explained [below](#options-details).
 
-The code running in the server-side rendering runs twice. The first run is done in an environment that lacks window (server-side) and causes Highcharts to be loaded, but not initialized. 
-Because Highcharts is strictly bound with the browser events we need to prevent it from running on the server-side. 
-To achieve that you can check if `typeof Highcharts` is equal to object (this condition won't be `true` on the server-side), and then use it under the `*ngIf` directive.
-```TypeScript
-export class AppComponent {
-  isHighcharts = typeof Highcharts === 'object';
-  Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {...};
-}
-```
+### SSR Support
 
-```HTML
-<highcharts-chart
-  *ngIf="isHighcharts"
-  [Highcharts]="Highcharts"
-  [options]="chartOptions"
-></highcharts-chart>
+Both the component and directive in this library are fully compatible with Angular Universal (SSR).
+
+In SSR, the code runs twice: once on the server (in an environment without a window object) and once in the browser. Since Highcharts is tightly integrated with browser events, it should not run on the server-side. But don’t worry—we’ve already handled this case for you! 😉
+
+Our showcase application includes an example of SSR integration. You can try it by running: 
+``` cli 
+ng serve my-ssr-app --open
 ```
 
 ### Angular Elements and useHTML
@@ -183,9 +228,7 @@ Define your element in the constructor of the component that will use it:
 ```ts
 private defineTranslationElement() {
   if (isNil(customElements.get('translation-element'))) {
-    const translationElement = createCustomElement(TranslationComponent, {
-      injector: this.injector,
-    });
+    const translationElement = createCustomElement(TranslationComponent, {injector: this.injector});
     customElements.define('translation-element', translationElement);
   }
 }
@@ -194,135 +237,152 @@ private defineTranslationElement() {
 Then, create the element, set properties and use it in the chart:
 
 ```ts
-const translationEl: NgElement & WithProperties<TranslationComponent> =
-      document.createElement(translationElementTag);
-
-translationEl.setAttribute(
-  'translation-key',
-  'shared.title'
-);      
+const translationEl: NgElement & WithProperties<TranslationComponent> = document.createElement(translationElementTag);
+translationEl.setAttribute('translation-key', 'shared.title');      
 
 const chartOptions: Highcharts.Options = {
-    title: {
-      text: translationEl.outerHTML,
-      useHTML: true,
-    },
-    xAxis: [
-      ...
+  title: {
+    text: translationEl.outerHTML,
+    useHTML: true,
+  },
+  ...
+}
 ```
 
 For a more detailed view take a look at the [Online Examples - Angular Elements and useHTML](#online-examples)
 
+### Upgrade to v5
+
+Version 5 introduces significant improvements and changes to align with modern Angular practices. **Please review the following breaking changes before upgrading:**
+
+#### Breaking Changes
+
+- Dropped `HighchartsChartModule`. Replace your usage of `HighchartsChartModule` with the new `provideHighcharts()` and the standalone `HighchartsChartComponent` or `HighchartsChartDirective`.
+- Dropped `callbackFunction`. Replace your usage of `[callbackFunction]="myFunction"` with `(chartInstance)="myFunction($event)"`.
+- `chartInstance` will not emit at all during destruction anymore.
+
 ## Options details
 
-| Parameter | Type | Required | Defaults | Description |
-| --------- | :----: | :--------: | :--------: | ----------- |
-| `[Highcharts]` | Object | yes | `-` | This is a Highcharts instance with **required core** and optional **modules**, **plugin**, **maps**, **wrappers**, and set global options using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. More detail for the option in [the next documentation section](#highcharts-instance-details). |
-| `[constructorType]` | String | no | `'chart'` | String for [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Official constructors: <br>- `'chart'` for Highcharts charts <br>- `'stockChart'` for Highcharts Stock <br>- `'mapChart'` for Highcharts Maps <br>- `'ganttChart'` for Highcharts Gantt<br><br> Keep in mind that `'stockChart'`, `'mapChart'`, `'ganttChart'` require loading the appropriate package or module. |
-| `[options]` | Object | yes | `-` | Possible chart options could be found in [Highcharts API reference](http://api.highcharts.com/highcharts).The minimal working object that could be set for basic testing is `{ series:[{ data:[1, 2] }] }`. |
-| `[(update)]` | Boolean | no | `-` | A boolean to trigger an update on a chart as Angular is not detecting nested changes in an object passed to a component. Set corresponding variable (`updateFlag` in the example) to `true` and after update on a chart is done it will be changed asynchronously to `false` by Highcharts-angular component.|
-| `[oneToOne]` | Boolean | no | `false` | The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When true, the `series`, `xAxis` and `yAxis` collections will be updated one to one, and items will be either added or removed to match the new updated options. For example, if the chart has **two** series and we call the `chart.update` (and this is called on each chart's data change or if `updateFlag` is set to true) with a configuration containing **three** series, **one** will be added. If we call the `chart.update` with **one** series, **one** will be removed. Setting an empty series array will remove all series, but leaving out the series property will leave all series untouched. If the series have id's, the new series options will be matched by id, and the remaining ones removed. <br> <br> The option presented in [the demo](#demo-app) in the first chart - try setting new chart options with different amounts of series in [the textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see this option in action.|
-| `[callbackFunction]` | Function | no | `-` | A callback function for the created chart. The first argument for the function will hold the created **chart**. Default `this` in the function points to the **chart**. |
-| `[runOutsideAngular]` | Boolean | no | `false` | When this option is set to `true` chart is created and updated outside of Angular's zone and Highcharts events do not trigger Angular change-detection. Details about `runOutsideAngular` are available in [Angular documentation](https://angular.io/api/core/NgZone#runoutsideangular). This option is more useful for bigger, more complex application (see [discussion](https://github.com/highcharts/highcharts-angular/pull/73)). <br> <br> The option is presented in [this demo](https://stackblitz.com/edit/highcharts-angular-runoutsideangular).|
+| Parameter             | Type                 | Required | Defaults  | Description                                                                                                                                                                                                                                                                             |
+| --------------------- | -------------------- | -------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `[constructorType]`    | `ChartConstructorType` | No       | `'chart'` | A string for the [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Official constructors include: <br>- `'chart'` for Highcharts charts <br>- `'stockChart'` for Highcharts Stock <br>- `'mapChart'` for Highcharts Maps <br>- `'ganttChart'` for Highcharts Gantt <br><br> Note that `'stockChart'`, `'mapChart'`, and `'ganttChart'` require loading the appropriate package or module. |
+| `[options]`            | `Object`              | Yes      | `-`       | The chart options as described in the [Highcharts API reference](http://api.highcharts.com/highcharts). A minimal working object for basic testing is `{ series:[{ data:[1, 2] }] }`.                                                                                                                                               |
+| `[(update)]`           | `Boolean`             | No       | `-`       | A boolean to trigger a chart update. Angular does not detect nested changes in objects passed to a component. Set the corresponding variable (`updateFlag` in the example) to `true`, and after the update is done, it will asynchronously change back to `false` by the Highcharts Angular component. |
+| `[oneToOne]`           | `Boolean`             | No       | `false`   | The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When `true`, the `series`, `xAxis`, and `yAxis` collections will be updated one to one, and items will be added or removed to match the updated options. For example, if a chart has **two** series, calling `chart.update` with a configuration containing **three** series will add **one**. Similarly, calling `chart.update` with **one** series will remove **one**. Setting an empty series array removes all series, while leaving out the `series` property leaves them untouched. If the series have `id`s, new series options will be matched by `id`, and the remaining ones will be removed. <br><br> This option is demonstrated in [the demo](#demo-app). Try setting new chart options with different numbers of series in the [textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see it in action. |
 
 ## Chart instance
 
-A chart instance could be obtained using:
+A chart instance can be obtained using the following methods:
 
-* **chart's callback function** - `chart` is provided as first argument (see [demo app](#demo-app) and first `hcCallback` function)
-* **chart's events** - context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance
-* **component output `chartInstance`** - emitted after chart is created (see [demo app](#demo-app) and `logChartInstance` function)
+* **Component output `chartInstance`** - Emitted after the chart is created (see [demo app](#demo-app) and the `logChartInstance` function).
+* **Chart's events** - The context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance.
 
-**Notice:** If you are getting chart instance from **[chart's load event](https://api.highcharts.com/highcharts/chart.events.load)** or **chart's callback funciton** and will be supporting exporting, then this function runs again when the chart is exported, because a chart for export is being created. To distinguish when the function is called for the chart and when it's called for the for-export chart you could check `chart.renderer.forExport`. If will be set to `true` for the for-export chart and `undefined` for the main chart.
+**Note:** If you are obtaining the chart instance from the **[chart's load event](https://api.highcharts.com/highcharts/chart.events.load)**, and you plan to support exporting, the function will run again when the chart is exported. This is because a separate chart is created for export. To distinguish between the main chart and the export chart, you can check `chart.renderer.forExport`. It will be set to `true` for the export chart and `undefined` for the main chart.
 
+# Highcharts Partial Loading on the Component Level
 
+A Highcharts instance is optionally initialized with **[modules](#to-load-a-module)**, **[maps](#to-load-a-map-for-Highcharts-Maps)**, **[wrappers](#to-load-a-wrapper)**, and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
 
-## Highcharts instance details
+**Note:** The Highcharts instance is shared across components in an Angular app, meaning that loaded modules will affect all charts.
 
-This is a Highcharts instance optionally with initialized **[modules](#to-load-a-module)**, **[plugins](#to-load-a-plugin)**, **[maps](#to-load-a-map-for-Highcharts-Maps)**, **[wrappers](#to-load-a-wrapper)** and set **[global options](#to-use-setoptions)** using **[`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)**. **The core is required.**
+Since highcharts-angular 5.0.0, you can provide extra modules on demand to your chart at the component level:
 
-_Notice:_ The Highcharts instance is shared through components in an Angular app, so loaded modules will affect all charts.
-
-### Core
-
-As core you could load **Highcharts**, **Highcharts Stock**, **Highcharts Maps** or **Highcharts Gantt** (v. 6.2.0+).
-
-* For **Highcharts**:
-
-```ts
-import * as Highcharts from 'highcharts';
-```
-
-* For **Highcharts Stock**:
-
-```ts
-import * as Highcharts from 'highcharts/highstock';
-```
-
-* For **Highcharts Maps**:
-
-```ts
-import * as Highcharts from 'highcharts/highmaps';
-```
-
-* For **Highcharts Gantt**:
-
-```ts
-import * as Highcharts from 'highcharts/highcharts-gantt';
-```
+## Example
 
 ### To load a module
 
 A module is a Highcharts official addon - including Highcharts Stock [Technical Indicators](https://www.highcharts.com/docs/stock/technical-indicator-series), style [themes](https://www.highcharts.com/docs/chart-design-and-style/themes), specialized series types (e.g. [Bullet](https://www.highcharts.com/docs/chart-and-series-types/bullet-chart), [Venn](https://www.highcharts.com/docs/chart-and-series-types/venn-series)).
 
-#### In version 7.x.x - 11.x.x
+After importing Highcharts, Highcharts Stock, or Highcharts Maps, use `providePartialHighcharts` and initialize modules with an array of Highcharts factory functions.
 
-After Highcharts is imported using Highcharts, Highcharts Stock or Highcharts Maps use `import` and initialize each module on the Highcharts variable.
-
-```ts
-import * as Highcharts from 'highcharts';
-import HC_exporting from 'highcharts/modules/exporting';
-HC_exporting(Highcharts);
-```
-
-Alternatively, this could be done with `require`, but usually (depends on your app configuration) additional declaration `declare var require: any;` is needed at the top of the TypeScript file in which the modules are loaded.
+If a lack of TypeScript definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of Highcharts documentation for TypeScript usage.
 
 ```ts
-import * as Highcharts from 'highcharts';
-require('highcharts/modules/exporting')(Highcharts);
+import { Component } from '@angular/core';
+import { HighchartsChartDirective } from 'highcharts-angular';
+
+@Component({
+  template: `
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartDirective],
+  providers: [
+    providePartialHighcharts({ 
+      modules: () => {
+        return [
+          // Load Gantt Chart 
+          import('highcharts/esm/modules/gantt'),
+          // Load exporting module
+          import('highcharts/esm/modules/exporting'),
+        ]
+      }
+    })
+  ],
+})
+export class GanttComponent {
+  chartOptions: Highcharts.Options = {
+    series: [{
+      data: [1, 2, 3],
+      type: 'line'
+    }]
+  };
+}
 ```
-
-#### In version 12.x.x +
-Since version 12, the module no longer returns a factory function. When importing Highcharts as a JavaScript module, additional modules no longer require initialization.
-Import it as follows:
-
-```ts
-import * as Highcharts from 'highcharts';
-import 'highcharts/modules/exporting';
-```
-
-### To load a plugin
-
-A plugin is a third party/community made Highcharts addon (plugins are listed in the [Highcharts plugin registry](https://www.highcharts.com/blog/add-ons/)). First, make sure that a plugin support loading over NPM and load the required files. In example [Custom-Events](https://www.npmjs.com/package/highcharts-custom-events) supports NPM loading, so after installing the package you could initialize it like:
-
-```ts
-import * as Highcharts from 'highcharts';
-import * as HC_customEvents from 'highcharts-custom-events';
-HC_customEvents(Highcharts);
-```
-
-If a plugin doesn't support loading through NPM you could treat it as a wrapper - see instructions below.
-
-If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of Highcharts documentation for Typescript usage.
 
 ### To load a map for Highcharts Maps
 
-Official map collection is published and [here](https://www.npmjs.com/package/@highcharts/map-collection#install-from-npm) are basic instructions for loading a map.
-An example can also be found in the [demo app](#demo-app).
+Official map collection is published and [here](https://www.npmjs.com/package/@highcharts/map-collection#install-from-npm) are basic instructions for loading a map. A full example can also be found in the [demo app](#demo-app).
+
+```ts
+import { Component } from '@angular/core';
+import { HighchartsChartDirective } from 'highcharts-angular';
+
+@Component({
+  template: `
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartDirective],
+  providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/map')] })],
+})
+export class MapComponent {
+  chartOptions: Highcharts.Options = {
+    series: [{
+      data: [1, 2, 3],
+      type: 'line'
+    }]
+  };
+}
+```
+
+### To load a stock for Highcharts
+
+```ts
+import { Component } from '@angular/core';
+import { HighchartsChartDirective } from 'highcharts-angular';
+
+@Component({
+  template: `
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartDirective],
+  providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/stock')] })],
+})
+export class StockComponent {
+  chartOptions: Highcharts.Options = {
+    series: [{
+      data: [1, 2, 3],
+      type: 'line'
+    }]
+  };
+}
+```
 
 ### To load a wrapper
 
-A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-highcharts/extending-highcharts) for Highcharts. To load a wrapper the same way as a module you could save it as a Javascript file and edit it by adding below code to beginning and end of a file:
+A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-highcharts/extending-highcharts) for Highcharts. To load a wrapper in the same way as a module, save it as a JavaScript file and add the following code to the beginning and end of the file:
 
 ```js
 (function (factory) {
@@ -340,66 +400,69 @@ A wrapper is a [custom extension](https://www.highcharts.com/docs/extending-high
 }));
 ```
 
-Next, you will be loading a local .js file, so you should add in `tsconfig.json` in your app `allowJs: true`:
+Next, you will be loading a local `.js` file, so add `allowJs: true` to the `tsconfig.json` in your app:
 
-```js
-...
-"compilerOptions": {
-    "allowJs": true,
-    ...
-```
-
-The wrapper is ready to be imported to your app. Use `require` instead of import to prevent TS5055 errors.
-
-```ts
-import * as Highcharts from 'highcharts';
-require('./relative-path-to-the-wrapper-file/wrapper-file-name')(Highcharts);
-```
-
-Where `relative-path-to-the-wrapper-file` should be relative (for the module importing the wrapper) path to the wrapper file and `wrapper-file-name` should be the name of the wrapper file.
-
-If a lack of TypeScirpt definitions `d.ts` is showing as an error - see [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of Highcharts documentation for Typescript usage.
-
-### To use [`setOptions`](https://www.highcharts.com/docs/getting-started/how-to-set-options#2)
-
-The best place to use `setOptions` is after your Highcharts instance is ready and before Highcharts variable is set in the main component. Example:
-
-```ts
-import * as Highcharts from 'highcharts/highstock';
-
-...
-
-Highcharts.setOptions({
-  title: {
-    style: {
-      color: 'orange'
-    }
+```json
+{
+  "compilerOptions": {
+    "allowJs": true
   }
-});
+}
+```
 
-...
+The wrapper is now ready to be imported into your app. Use `require` instead of `import` to prevent TS5055 errors:
 
-export class AppComponent {
-  Highcharts: typeof Highcharts = Highcharts;
-``` 
+```ts
+import { Component } from '@angular/core';
+import { HighchartsChartDirective } from 'highcharts-angular';
 
 
+@Component({
+  template: `
+    <div highchartsChart [options]="chartOptions" class="chart"></div>
+  `,
+  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  imports: [HighchartsChartDirective],
+  providers: [providePartialHighcharts({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] })],
+})
+export class StockComponent {
+  chartOptions: Highcharts.Options = {
+    series: [{
+      data: [1, 2, 3],
+      type: 'line'
+    }]
+  };
+}
+```
+
+Where `relative-path-to-the-wrapper-file` is the relative path (from the module importing the wrapper) to the wrapper file, and `wrapper-file-name` is the name of the wrapper file.
+
+If TypeScript definitions (`d.ts`) are missing and causing errors, see the [Solving problems](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations) section of the Highcharts documentation for TypeScript usage.
 
 ## Demo app
 
 Download (or clone) the contents of the **[highcharts-angular](https://github.com/highcharts/highcharts-angular)** GitHub repository.  
-The demo app is not using external dependencies but the build of the `highcharts-angular` package thus here it is required to run `npm start` to generate this package.
+The demo app does not rely on external dependencies but instead builds the `highcharts-angular` package, so it's necessary to run `npm start` to generate this package.
 
-In system console, in main repo folder run:
+In your system console, in the main repo folder, run:
 
 ```cli
 npm install
+```
+
+1. Start Default:
+```cli
 npm start
 ```
 
-This opens [http://localhost:4200/](http://localhost:4200/) in your default browser with the app.
+2. Start with SSR:
+```cli
+npm start:ssr
+```
 
-To open on a different port, for example `12345`, use:
+The command `npm start` will launch the default app, while `npm start:ssr` will start the server-side rendering (SSR) version. Both versions can be accessed at [http://localhost:4200/](http://localhost:4200/) in your default browser.
+
+To open the app on a different port (e.g., `12345`), use:
 
 ```cli
 npm start -- --port 12345
@@ -407,17 +470,13 @@ npm start -- --port 12345
 
 ### Play with the app
 
-Keep the console running and change some files - after a save the app will rebuild and refresh the localhost preview.
+Keep the console running, and modify files — after saving, the app will automatically rebuild and refresh in the localhost preview.
 
 ### Files to play with
 
-* **app.component.ts** (in `src\app`)
+* **app.component.ts** (located in `src\app`)
 
-Contains Angular main component that uses the *chart* component.
-
-* **chart.component.ts** (in `src\app\chart`)
-
-Contains the chart component that creates Highcharts chart.
+This file contains the main Angular component, which utilizes different components like *line-chart*, *gantt-chart*, *map-chart*, and *stock-chart*.
 
 
 ## Online examples
@@ -432,17 +491,15 @@ Contains the chart component that creates Highcharts chart.
 * [Map + mapppoints with proj4](https://stackblitz.com/edit/highcharts-angular-map-with-proj4)
 * [Optimal way to update](https://stackblitz.com/edit/highcharts-angular-update-optimal-way)
 * [Data from the service](https://stackblitz.com/edit/highcharts-angular-data-from-a-service)
-* [Applying a custom plugin/wrap](https://stackblitz.com/edit/highcharts-angular-a-custom-plugin)
 * [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
 * [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
 * [Angular Elements and useHTML](https://stackblitz.com/~/github.com/karolkolodziej/highcharts-angular-elements)
 
-## Changing the Component
+## Release
 
-Using Angular CLI v6, the library must be manually rebuilt on each change
-in order to reflect in the demo app.
+Using Angular CLI v19, the library must be manually rebuilt on each change in order to reflect in the demo app.
 
-Run the following command on each change to the `highcharts-chart.component.ts` file:
+Run the following command on each change to the `highcharts-chart.directive.ts` file:
 
 ```cli
 npm run build
@@ -452,12 +509,10 @@ If you are running the demo app in another terminal window when you rebuild the
 library, the changes should be reflected in your browser (note: you may need to
 refresh the browser a second time after the live reload in order to see the change).
 
-See [https://github.com/angular/angular-cli/wiki/stories-create-library](https://github.com/angular/angular-cli/wiki/stories-create-library)
-for details on library builds.
-
-For CHANGELOG.md update use `npm run release`.
-
-
+For CHANGELOG.md update use :
+```cli
+npm run release
+```
 
 ## Help and FAQ
 
