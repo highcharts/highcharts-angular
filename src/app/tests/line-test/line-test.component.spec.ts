@@ -34,17 +34,17 @@ describe('LineTestComponent', () => {
 
     // Simulate the chartInstance being assigned (this happens when the chart is rendered)
     component.chartInstance = {
-      series: [{yData: [1, 2, 3]}],
+      series: [{ yData: [1, 2, 3] }],
     } as unknown as Highcharts.Chart;
 
     const series = component.chartInstance.series[0];
-    expect((series as any).yData).toEqual(((chartOptions.series as any)[0]).data);
+    expect((series as any).yData).toEqual((chartOptions.series as any)[0].data);
   });
 
   it('should update series color and set updateFlag to true', () => {
     component.updateSeriesColor();
 
-    const updatedSeries = (component.chartOptions.series as any)[0] ;
+    const updatedSeries = (component.chartOptions.series as any)[0];
     expect(updatedSeries.color).toBe('hotpink');
     expect(component.updateFlag).toBeTrue();
   });

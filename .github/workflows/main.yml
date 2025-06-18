@@ -2,38 +2,38 @@ name: main
 on: [push, pull_request]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-            - run: npm install
-            - run: npm run build
-            - run: npm run build:app
-            - run: npm run build:ssr
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install
+      - run: npm run build
+      - run: npm run build:app
+      - run: npm run build:ssr
 
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-            - run: npm install
-            - run: npm run build
-            - run: ./node_modules/.bin/ng test highcharts-angular --watch=false --browsers ChromeHeadless
-            - run: ./node_modules/.bin/ng test my-app --watch=false --browsers ChromeHeadless
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install
+      - run: npm run build
+      - run: ./node_modules/.bin/ng test highcharts-angular --watch=false --browsers ChromeHeadless
+      - run: ./node_modules/.bin/ng test my-app --watch=false --browsers ChromeHeadless
 
-    lint:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-            - run: npm install
-            - run: npm run lint
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install
+      - run: npm run lint
 
-    prettier:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-            - run: npm install
-            - run: ./node_modules/.bin/prettier --check .
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install
+      - run: ./node_modules/.bin/prettier --check .

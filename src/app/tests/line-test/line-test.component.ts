@@ -4,7 +4,7 @@ import { HighchartsChartComponent } from '../../../../highcharts-angular/src/pub
 
 type ExtendedSeriesCandlestickOptions = {
   color: Highcharts.ColorType;
-} & Highcharts.SeriesCandlestickOptions
+} & Highcharts.SeriesCandlestickOptions;
 
 @Component({
   selector: 'app-line-test',
@@ -20,13 +20,15 @@ export class LineTestComponent {
     series: [
       {
         type: 'line',
-        data: [1, 2, 3]
-      }
-    ]
+        data: [1, 2, 3],
+      },
+    ],
   };
 
   public updateSeriesColor(): void {
-    ((this.chartOptions.series as any)[0] as ExtendedSeriesCandlestickOptions).color = 'hotpink';
+    (
+      (this.chartOptions.series as any)[0] as ExtendedSeriesCandlestickOptions
+    ).color = 'hotpink';
     this.updateFlag = true;
   }
 }

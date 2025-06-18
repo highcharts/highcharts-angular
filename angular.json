@@ -144,7 +144,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["highcharts-angular/src/**/*.ts", "highcharts-angular/src/**/*.html"]
+            "lintFilePatterns": [
+              "highcharts-angular/src/**/*.ts",
+              "highcharts-angular/src/**/*.html"
+            ]
           }
         }
       }
@@ -162,9 +165,7 @@
             "outputPath": "dist/my-ssr-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -227,10 +228,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
