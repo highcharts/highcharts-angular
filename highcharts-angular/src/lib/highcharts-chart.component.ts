@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HighchartsChartDirective } from './highcharts-chart.directive';
 
 @Component({
@@ -8,8 +8,8 @@ import { HighchartsChartDirective } from './highcharts-chart.directive';
     {
       directive: HighchartsChartDirective,
       inputs: ['constructorType', 'oneToOne', 'options', 'update'],
-      outputs: ['chartInstance', 'updateChange']
-    }
+      outputs: ['chartInstance', 'updateChange'],
+    },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

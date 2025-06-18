@@ -13,21 +13,12 @@
     "importHelpers": true,
     "resolveJsonModule": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,
     "paths": {
-      "highcharts-angular": [
-        "./dist/highcharts-angular"
-      ],
-      "highcharts-angular/*": [
-        "./dist/highcharts-angular/*"
-      ]
+      "highcharts-angular": ["./dist/highcharts-angular"],
+      "highcharts-angular/*": ["./dist/highcharts-angular/*"]
     }
   },
   "angularCompilerOptions": {

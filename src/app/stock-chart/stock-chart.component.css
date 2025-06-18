@@ -13,7 +13,8 @@ h2 {
 }
 
 highcharts-chart {
-  min-height: 350px; flex-grow: 3;
+  min-height: 350px;
+  flex-grow: 3;
 }
 
 section {

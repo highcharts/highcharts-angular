@@ -4,10 +4,10 @@
  */
 
 const fs = require('fs'),
-      path = require('path');
+  path = require('path');
 
 const rootDir = path.normalize(__dirname + '/..'),
-      codeDir = `${rootDir}/highcharts-angular`;
+  codeDir = `${rootDir}/highcharts-angular`;
 
 // Copy CHANGELOG.md to the main folder for GitHub
 console.log('Copying ./highcharts-angular/CHANGELOG.md to the main directory');

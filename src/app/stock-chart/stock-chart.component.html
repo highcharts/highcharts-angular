@@ -1,18 +1,17 @@
 <h2>Demo #2: Highcharts Stock with simple updates</h2>
 <article>
   <section>
-    <p>Chart title text: </p>
+    <p>Chart title text:</p>
     <input
       style="max-width: 50%"
       [(ngModel)]="$any(charts[usedIndex].title).text"
       (ngModelChange)="titleChange($event)"
-    >
+    />
     <p>Data sets:</p>
     <div>
-      @for (i of [0,1,2]; track i) {
-        <button
-          (click)="usedIndex = i">
-          {{i+1}}
+      @for (i of [0, 1, 2]; track i) {
+        <button (click)="usedIndex = i">
+          {{ i + 1 }}
         </button>
       }
     </div>
