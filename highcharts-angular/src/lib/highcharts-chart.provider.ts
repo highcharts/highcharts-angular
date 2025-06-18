@@ -22,7 +22,7 @@ export function providePartialHighcharts(config: PartialHighchartsConfig): Provi
   return { provide: HIGHCHARTS_CONFIG, useValue: config };
 }
 
-export function provideHighcharts(config: HighchartsConfig = {}): EnvironmentProviders[] {
+export function provideHighcharts(config: HighchartsConfig = {}): EnvironmentProviders {
   const providers: EnvironmentProviders[] = [
     provideHighchartsInstance(config.instance),
     provideHighchartsRootModules(config.modules ?? emptyModuleFactoryFunction)
@@ -30,5 +30,5 @@ export function provideHighcharts(config: HighchartsConfig = {}): EnvironmentPro
   if (config.options) {
     providers.push(provideHighchartsOptions(config.options));
   }
-  return providers;
+  return makeEnvironmentProviders(providers);
 }
