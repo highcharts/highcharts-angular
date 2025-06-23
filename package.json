@@ -4,7 +4,7 @@
   "description": "Project to develop the Highcharts component for Angular. See the ./highcharts-angular folder for published project.",
   "version": "0.0.0",
   "license": "MIT",
-  "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
+  "author": "Black Label <start@blacklabel.net> (http://blacklabel.net)",
   "scripts": {
     "ng": "ng",
     "serve": "ng serve my-app --open",
