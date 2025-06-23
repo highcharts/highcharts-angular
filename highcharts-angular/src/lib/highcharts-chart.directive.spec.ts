@@ -1,9 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DebugElement,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HighchartsChartDirective } from './highcharts-chart.directive';
 import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
@@ -47,9 +43,7 @@ describe('HighchartsChartDirective', () => {
 
     const fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
-    debugElement = fixture.debugElement.query(
-      By.directive(HighchartsChartDirective),
-    );
+    debugElement = fixture.debugElement.query(By.directive(HighchartsChartDirective));
     directive = debugElement.injector.get(HighchartsChartDirective);
   });
 

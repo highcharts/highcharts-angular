@@ -89,7 +89,11 @@ export const appConfig: ApplicationConfig = {
 
       // Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
       modules: () => {
-        return [import('highcharts/esm/modules/accessibility'), import('highcharts/esm/modules/exporting'), import('highcharts/esm/themes/sunset')];
+        return [
+          import('highcharts/esm/modules/accessibility'),
+          import('highcharts/esm/modules/exporting'),
+          import('highcharts/esm/themes/sunset'),
+        ];
       },
     }),
     // Other providers here ...
@@ -457,7 +461,9 @@ import { HighchartsChartDirective } from 'highcharts-angular';
     `,
   ],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighcharts({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] })],
+  providers: [
+    providePartialHighcharts({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] }),
+  ],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {

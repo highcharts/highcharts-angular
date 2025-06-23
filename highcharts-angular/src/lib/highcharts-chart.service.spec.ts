@@ -1,10 +1,6 @@
 import { TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { HighchartsChartService } from './highcharts-chart.service';
-import {
-  HIGHCHARTS_LOADER,
-  HIGHCHARTS_OPTIONS,
-  HIGHCHARTS_ROOT_MODULES,
-} from './highcharts-chart.token';
+import { HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS, HIGHCHARTS_ROOT_MODULES } from './highcharts-chart.token';
 import { ModuleFactoryFunction, InstanceFactoryFunction } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
@@ -20,11 +16,8 @@ describe('HighchartsChartService', () => {
       setOptions: jasmine.createSpy('setOptions'),
     } as unknown as typeof Highcharts;
     mockGlobalOptions = { lang: { thousandsSep: ',' } };
-    mockGlobalModules = jasmine
-      .createSpy('mockGlobalModules')
-      .and.returnValue([]);
-    const instance = (): Promise<typeof Highcharts> =>
-      Promise.resolve(mockLoader);
+    mockGlobalModules = jasmine.createSpy('mockGlobalModules').and.returnValue([]);
+    const instance = (): Promise<typeof Highcharts> => Promise.resolve(mockLoader);
 
     TestBed.configureTestingModule({
       providers: [
@@ -68,9 +61,7 @@ describe('HighchartsChartService', () => {
   }));
 
   it('should load partialConfig modules if provided', fakeAsync(() => {
-    const mockPartialModules = jasmine
-      .createSpy('mockPartialModules')
-      .and.returnValue([]);
+    const mockPartialModules = jasmine.createSpy('mockPartialModules').and.returnValue([]);
 
     // Call the load method with partial modules
     service.load({ modules: mockPartialModules });

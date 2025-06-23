@@ -1,10 +1,6 @@
 import type Highcharts from 'highcharts/esm/highcharts';
 
-export type ChartConstructorType =
-  | 'chart'
-  | 'ganttChart'
-  | 'stockChart'
-  | 'mapChart';
+export type ChartConstructorType = 'chart' | 'ganttChart' | 'stockChart' | 'mapChart';
 
 export type ModuleFactoryFunction = () => Promise<ModuleFactory>[];
 export type InstanceFactoryFunction = () => Promise<typeof Highcharts>;

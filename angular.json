@@ -144,10 +144,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "highcharts-angular/src/**/*.ts",
-              "highcharts-angular/src/**/*.html"
-            ]
+            "lintFilePatterns": ["highcharts-angular/src/**/*.ts", "highcharts-angular/src/**/*.html"]
           }
         }
       }

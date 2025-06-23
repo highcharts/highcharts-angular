@@ -60,15 +60,13 @@ export class HighchartsChartDirective {
 
   private readonly highchartsChartService = inject(HighchartsChartService);
 
-  private readonly constructorChart = computed<ConstructorChart | undefined>(
-    () => {
-      const highCharts = this.highchartsChartService.highcharts();
-      if (highCharts) {
-        return (highCharts as any)[this.constructorType()];
-      }
-      return undefined;
-    },
-  );
+  private readonly constructorChart = computed<ConstructorChart | undefined>(() => {
+    const highCharts = this.highchartsChartService.highcharts();
+    if (highCharts) {
+      return (highCharts as any)[this.constructorType()];
+    }
+    return undefined;
+  });
 
   // Create the chart as soon as we can
   private readonly chart = computed(() => {

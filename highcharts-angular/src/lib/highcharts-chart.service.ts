@@ -1,9 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import {
-  HIGHCHARTS_ROOT_MODULES,
-  HIGHCHARTS_LOADER,
-  HIGHCHARTS_OPTIONS,
-} from './highcharts-chart.token';
+import { HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
 import { PartialHighchartsConfig } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
@@ -20,15 +16,10 @@ export class HighchartsChartService {
     optional: true,
   });
 
-  private async loadHighchartsWithModules(
-    partialConfig: PartialHighchartsConfig | null,
-  ): Promise<typeof Highcharts> {
+  private async loadHighchartsWithModules(partialConfig: PartialHighchartsConfig | null): Promise<typeof Highcharts> {
     const highcharts = await this.loader(); // Ensure Highcharts core is loaded
 
-    await Promise.all([
-      ...(this.globalModules?.() ?? []),
-      ...(partialConfig?.modules?.() ?? []),
-    ]);
+    await Promise.all([...(this.globalModules?.() ?? []), ...(partialConfig?.modules?.() ?? [])]);
 
     // Return the Highcharts instance
     return highcharts;

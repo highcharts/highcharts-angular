@@ -3,12 +3,8 @@
   <section>
     <textarea rows="16" cols="50" [(ngModel)]="optFromInputString"></textarea>
     <div class="buttons-wrapper">
-      <button [disabled]="!showChart" (click)="updateInputChart()">
-        Update chart
-      </button>
-      <button [disabled]="!showChart" (click)="toggleSeriesType()">
-        1st series type toggle
-      </button>
+      <button [disabled]="!showChart" (click)="updateInputChart()">Update chart</button>
+      <button [disabled]="!showChart" (click)="toggleSeriesType()">1st series type toggle</button>
       <button (click)="toggleChart()">{{ toggleButtonTitle }}</button>
     </div>
   </section>

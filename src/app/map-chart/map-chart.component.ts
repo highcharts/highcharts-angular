@@ -2,10 +2,7 @@ import { httpResource } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import type { GeoJSON } from 'highcharts';
 import type Highcharts from 'highcharts/esm/highcharts';
-import {
-  HighchartsChartComponent,
-  providePartialHighcharts,
-} from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
 
 @Component({
   selector: 'app-map-chart',
@@ -20,9 +17,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapChartComponent {
-  public readonly worldMap = httpResource<GeoJSON>(
-    '/highcharts/world.geo.json',
-  );
+  public readonly worldMap = httpResource<GeoJSON>('/highcharts/world.geo.json');
   public readonly chartMap = computed<Highcharts.Options>(() => {
     return {
       chart: {

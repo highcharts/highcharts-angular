@@ -26,9 +26,7 @@ export class LineTestComponent {
   };
 
   public updateSeriesColor(): void {
-    (
-      (this.chartOptions.series as any)[0] as ExtendedSeriesCandlestickOptions
-    ).color = 'hotpink';
+    ((this.chartOptions.series as any)[0] as ExtendedSeriesCandlestickOptions).color = 'hotpink';
     this.updateFlag = true;
   }
 }

@@ -74,8 +74,7 @@ Here's the legacy documentation:
     title: 'World, Miller projection, medium resolution',
     version: '1.1.2',
     type: 'FeatureCollection',
-    copyright:
-      'Copyright (c) 2015 Highsoft AS, Based on data from Natural Earth',
+    copyright: 'Copyright (c) 2015 Highsoft AS, Based on data from Natural Earth',
     copyrightShort: 'Natural Earth',
     copyrightUrl: 'http://www.naturalearthdata.com',
     crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG:54003' } },

@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  HighchartsChartComponent,
-  providePartialHighcharts,
-} from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
 import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({
@@ -52,8 +49,7 @@ export class LineChartComponent {
   }
 
   public toggleSeriesType(index = 0): void {
-    const key: keyof typeof this.seriesTypes =
-      (this.optFromInput.series as any)[index].type ?? 'line';
+    const key: keyof typeof this.seriesTypes = (this.optFromInput.series as any)[index].type ?? 'line';
     (this.optFromInput.series as any)[index].type = this.seriesTypes[key];
     // nested change - must trigger update
     this.updateFromInput = true;
@@ -61,8 +57,6 @@ export class LineChartComponent {
 
   public toggleChart(): void {
     this.showChart = !this.showChart;
-    this.toggleButtonTitle = this.showChart
-      ? 'Destroy chart'
-      : 'Recreate chart';
+    this.toggleButtonTitle = this.showChart ? 'Destroy chart' : 'Recreate chart';
   }
 }

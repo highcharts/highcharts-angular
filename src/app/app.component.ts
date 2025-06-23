@@ -9,13 +9,7 @@ import { LazyLoadingChartComponent } from './lazy-loading-chart/lazy-loading-cha
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [
-    LineChartComponent,
-    StockChartComponent,
-    MapChartComponent,
-    GanttChartComponent,
-    LazyLoadingChartComponent,
-  ],
+  imports: [LineChartComponent, StockChartComponent, MapChartComponent, GanttChartComponent, LazyLoadingChartComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}
