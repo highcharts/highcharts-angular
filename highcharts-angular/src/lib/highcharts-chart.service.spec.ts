@@ -14,10 +14,10 @@ describe('HighchartsChartService', () => {
     // Mock Highcharts instance with the setOptions method
     mockLoader = {
       setOptions: jasmine.createSpy('setOptions'),
-    } as unknown as typeof Highcharts
+    } as unknown as typeof Highcharts;
     mockGlobalOptions = { lang: { thousandsSep: ',' } };
     mockGlobalModules = jasmine.createSpy('mockGlobalModules').and.returnValue([]);
-    const instance = ():Promise<typeof Highcharts> => Promise.resolve(mockLoader);
+    const instance = (): Promise<typeof Highcharts> => Promise.resolve(mockLoader);
 
     TestBed.configureTestingModule({
       providers: [
@@ -36,7 +36,7 @@ describe('HighchartsChartService', () => {
   });
 
   it('should emit the loaded Highcharts instance', fakeAsync(() => {
-    expect(service.highcharts()).toBeNull()
+    expect(service.highcharts()).toBeNull();
 
     service.load(null);
     tick(100); // Simulate the passage of time for the timeout in the load method
@@ -64,7 +64,7 @@ describe('HighchartsChartService', () => {
     const mockPartialModules = jasmine.createSpy('mockPartialModules').and.returnValue([]);
 
     // Call the load method with partial modules
-    service.load({modules: mockPartialModules});
+    service.load({ modules: mockPartialModules });
     tick(100); // Simulate the passage of time for the timeout in the load method
 
     // Check if partial modules were loaded
@@ -80,10 +80,9 @@ describe('With not provided Value', () => {
   beforeEach(() => {
     mockLoader = {
       setOptions: jasmine.createSpy('setOptions'),
-    } as unknown as typeof Highcharts
+    } as unknown as typeof Highcharts;
 
     mockLoaderInstance = () => Promise.resolve(mockLoader);
-
 
     TestBed.configureTestingModule({
       providers: [

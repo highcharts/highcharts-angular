@@ -12,12 +12,11 @@ import {
   PLATFORM_ID,
   untracked,
 } from '@angular/core';
-import {isPlatformServer} from '@angular/common';
-import {HighchartsChartService} from './highcharts-chart.service';
-import {HIGHCHARTS_CONFIG} from './highcharts-chart.token';
-import {ChartConstructorType, ConstructorChart} from './types';
+import { isPlatformServer } from '@angular/common';
+import { HighchartsChartService } from './highcharts-chart.service';
+import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
+import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
-
 
 @Directive({
   selector: '[highchartsChart]',
@@ -47,7 +46,7 @@ export class HighchartsChartDirective {
    */
   public readonly update = model<boolean>();
 
-  public readonly chartInstance = output<Highcharts.Chart>();  // #26
+  public readonly chartInstance = output<Highcharts.Chart>(); // #26
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -55,7 +54,9 @@ export class HighchartsChartDirective {
 
   private readonly platformId = inject(PLATFORM_ID);
 
-  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, {optional: true});
+  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, {
+    optional: true,
+  });
 
   private readonly highchartsChartService = inject(HighchartsChartService);
 
@@ -76,19 +77,21 @@ export class HighchartsChartDirective {
       // Use Highcharts callback to emit chart instance, so it is available as early
       // as possible. So that Angular is already aware of the instance if Highcharts raise
       // events during the initialization that happens before coming back to Angular
-      createdChart => this.chartInstance.emit(createdChart),)
-  })
+      createdChart => this.chartInstance.emit(createdChart),
+    );
+  });
 
   private keepChartUpToDate(): void {
     effect(() => {
       this.update();
-      this.chart()?.update(this.options(), true, this.oneToOne())
-    })
+      this.chart()?.update(this.options(), true, this.oneToOne());
+    });
   }
 
   private destroyChart(): void {
     const chart = this.chart();
-    if (chart) {  // #56
+    if (chart) {
+      // #56
       chart.destroy();
     }
   }
@@ -103,7 +106,7 @@ export class HighchartsChartDirective {
     this.destroyRef.onDestroy(() => this.destroyChart()); // #44
     afterRenderEffect(() => {
       if (this.update()) {
-        this.update.set(false);  // clear the flag after update
+        this.update.set(false); // clear the flag after update
       }
     });
 

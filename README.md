@@ -3,6 +3,7 @@
 Official minimal Highcharts integration for Angular.
 
 ## Table of Contents
+
 1. [Getting Started](#getting-started)
    1. [General Prerequisites](#general-prerequisites)
    2. [Installing](#installing)
@@ -32,13 +33,13 @@ Official minimal Highcharts integration for Angular.
 
 Ensure that **Node.js**, **npm**, and **Angular** are installed and up to date. Refer to the compatibility table below for the required versions:
 
-| Highcharts Angular Version | Node.js   | Angular   | Highcharts | Documentation                                                                    |
-|----------------------------|-----------|-----------|------------|----------------------------------------------------------------------------------|
-| 5.0.0                      | >=18.19   | >=19.0.0  | >=12.2.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v5.0.0/README.md) |
-| 4.0.0                      | >=16.14   | >=16.0.0  | >=11.0.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v4.0.1/README.md) |
-| 3.1.2                      | >=14.13   | >=15.0.0  | >=10.3.3   | [README](https://github.com/highcharts/highcharts-angular/blob/v3.1.2/README.md) |
-| 3.0.0                      | >=14.13   | >=9.0.0   | >=8.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v3.0.0/README.md) |
-| <2.10.0                    | >=6.10.2  | >=6.0.0   | >=6.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v2.9.0/README.md) |
+| Highcharts Angular Version | Node.js  | Angular  | Highcharts | Documentation                                                                    |
+| -------------------------- | -------- | -------- | ---------- | -------------------------------------------------------------------------------- |
+| 5.0.0                      | >=18.19  | >=19.0.0 | >=12.2.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v5.0.0/README.md) |
+| 4.0.0                      | >=16.14  | >=16.0.0 | >=11.0.0   | [README](https://github.com/highcharts/highcharts-angular/blob/v4.0.1/README.md) |
+| 3.1.2                      | >=14.13  | >=15.0.0 | >=10.3.3   | [README](https://github.com/highcharts/highcharts-angular/blob/v3.1.2/README.md) |
+| 3.0.0                      | >=14.13  | >=9.0.0  | >=8.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v3.0.0/README.md) |
+| <2.10.0                    | >=6.10.2 | >=6.0.0  | >=6.0.0    | [README](https://github.com/highcharts/highcharts-angular/blob/v2.9.0/README.md) |
 
 ---
 
@@ -59,7 +60,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideHighcharts(),
     // Other providers here ...
-  ]
+  ],
 };
 ```
 
@@ -78,12 +79,12 @@ export const appConfig: ApplicationConfig = {
       options: {
         title: {
           style: {
-            color: 'tomato'
-          }
+            color: 'tomato',
+          },
         },
         legend: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
 
       // Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
@@ -91,12 +92,12 @@ export const appConfig: ApplicationConfig = {
         return [
           import('highcharts/esm/modules/accessibility'),
           import('highcharts/esm/modules/exporting'),
-          import('highcharts/esm/themes/sunset')
-        ]
-      }
+          import('highcharts/esm/themes/sunset'),
+        ];
+      },
     }),
     // Other providers here ...
-  ]
+  ],
 };
 ```
 
@@ -139,7 +140,6 @@ export class AppComponent {
 
 In your `app.component.ts`, import the `HighchartsChartDirective` and other relevant types at the top of the file:
 
-
 ```ts
 import {Component} from '@angular/core';
 import { HighchartsChartDirective, ChartConstructorType } from 'highcharts-angular';
@@ -175,18 +175,26 @@ import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
-  template: `
-    <div highchartsChart [options]="chartOptions" class="chart"></div>
-  `,
-  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
-  imports: [HighchartsChartDirective]
+  template: ` <div highchartsChart [options]="chartOptions" class="chart"></div> `,
+  styles: [
+    `
+      .chart {
+        width: 100%;
+        height: 400px;
+        display: block;
+      }
+    `,
+  ],
+  imports: [HighchartsChartDirective],
 })
 export class AppComponent {
   chartOptions: Highcharts.Options = {
-    series: [{
-      data: [1, 2, 3],
-      type: 'line'
-    }]
+    series: [
+      {
+        data: [1, 2, 3],
+        type: 'line',
+      },
+    ],
   };
 }
 ```
@@ -201,8 +209,9 @@ Both the component and directive in this library are fully compatible with Angul
 
 In SSR, the code runs twice: once on the server (in an environment without a window object) and once in the browser. Since Highcharts is tightly integrated with browser events, it should not run on the server-side. But don’t worry—we’ve already handled this case for you! 😉
 
-Our showcase application includes an example of SSR integration. You can try it by running: 
-``` cli 
+Our showcase application includes an example of SSR integration. You can try it by running:
+
+```cli
 ng serve my-ssr-app --open
 ```
 
@@ -238,7 +247,7 @@ Then, create the element, set properties and use it in the chart:
 
 ```ts
 const translationEl: NgElement & WithProperties<TranslationComponent> = document.createElement(translationElementTag);
-translationEl.setAttribute('translation-key', 'shared.title');      
+translationEl.setAttribute('translation-key', 'shared.title');
 
 const chartOptions: Highcharts.Options = {
   title: {
@@ -263,19 +272,19 @@ Version 5 introduces significant improvements and changes to align with modern A
 
 ## Options details
 
-| Parameter             | Type                 | Required | Defaults  | Description                                                                                                                                                                                                                                                                             |
-| --------------------- | -------------------- | -------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `[constructorType]`    | `ChartConstructorType` | No       | `'chart'` | A string for the [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Official constructors include: <br>- `'chart'` for Highcharts charts <br>- `'stockChart'` for Highcharts Stock <br>- `'mapChart'` for Highcharts Maps <br>- `'ganttChart'` for Highcharts Gantt <br><br> Note that `'stockChart'`, `'mapChart'`, and `'ganttChart'` require loading the appropriate package or module. |
-| `[options]`            | `Object`              | Yes      | `-`       | The chart options as described in the [Highcharts API reference](http://api.highcharts.com/highcharts). A minimal working object for basic testing is `{ series:[{ data:[1, 2] }] }`.                                                                                                                                               |
-| `[(update)]`           | `Boolean`             | No       | `-`       | A boolean to trigger a chart update. Angular does not detect nested changes in objects passed to a component. Set the corresponding variable (`updateFlag` in the example) to `true`, and after the update is done, it will asynchronously change back to `false` by the Highcharts Angular component. |
-| `[oneToOne]`           | `Boolean`             | No       | `false`   | The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When `true`, the `series`, `xAxis`, and `yAxis` collections will be updated one to one, and items will be added or removed to match the updated options. For example, if a chart has **two** series, calling `chart.update` with a configuration containing **three** series will add **one**. Similarly, calling `chart.update` with **one** series will remove **one**. Setting an empty series array removes all series, while leaving out the `series` property leaves them untouched. If the series have `id`s, new series options will be matched by `id`, and the remaining ones will be removed. <br><br> This option is demonstrated in [the demo](#demo-app). Try setting new chart options with different numbers of series in the [textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see it in action. |
+| Parameter           | Type                   | Required | Defaults  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------------------- | ---------------------- | -------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `[constructorType]` | `ChartConstructorType` | No       | `'chart'` | A string for the [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Official constructors include: <br>- `'chart'` for Highcharts charts <br>- `'stockChart'` for Highcharts Stock <br>- `'mapChart'` for Highcharts Maps <br>- `'ganttChart'` for Highcharts Gantt <br><br> Note that `'stockChart'`, `'mapChart'`, and `'ganttChart'` require loading the appropriate package or module.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `[options]`         | `Object`               | Yes      | `-`       | The chart options as described in the [Highcharts API reference](http://api.highcharts.com/highcharts). A minimal working object for basic testing is `{ series:[{ data:[1, 2] }] }`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `[(update)]`        | `Boolean`              | No       | `-`       | A boolean to trigger a chart update. Angular does not detect nested changes in objects passed to a component. Set the corresponding variable (`updateFlag` in the example) to `true`, and after the update is done, it will asynchronously change back to `false` by the Highcharts Angular component.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `[oneToOne]`        | `Boolean`              | No       | `false`   | The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When `true`, the `series`, `xAxis`, and `yAxis` collections will be updated one to one, and items will be added or removed to match the updated options. For example, if a chart has **two** series, calling `chart.update` with a configuration containing **three** series will add **one**. Similarly, calling `chart.update` with **one** series will remove **one**. Setting an empty series array removes all series, while leaving out the `series` property leaves them untouched. If the series have `id`s, new series options will be matched by `id`, and the remaining ones will be removed. <br><br> This option is demonstrated in [the demo](#demo-app). Try setting new chart options with different numbers of series in the [textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see it in action. |
 
 ## Chart instance
 
 A chart instance can be obtained using the following methods:
 
-* **Component output `chartInstance`** - Emitted after the chart is created (see [demo app](#demo-app) and the `logChartInstance` function).
-* **Chart's events** - The context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance.
+- **Component output `chartInstance`** - Emitted after the chart is created (see [demo app](#demo-app) and the `logChartInstance` function).
+- **Chart's events** - The context of all [chart's events](https://api.highcharts.com/highcharts/chart.events) functions is the chart instance.
 
 **Note:** If you are obtaining the chart instance from the **[chart's load event](https://api.highcharts.com/highcharts/chart.events.load)**, and you plan to support exporting, the function will run again when the chart is exported. This is because a separate chart is created for export. To distinguish between the main chart and the export chart, you can check `chart.renderer.forExport`. It will be set to `true` for the export chart and `undefined` for the main chart.
 
@@ -302,30 +311,38 @@ import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
-  template: `
-    <div highchartsChart [options]="chartOptions" class="chart"></div>
-  `,
-  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  template: ` <div highchartsChart [options]="chartOptions" class="chart"></div> `,
+  styles: [
+    `
+      .chart {
+        width: 100%;
+        height: 400px;
+        display: block;
+      }
+    `,
+  ],
   imports: [HighchartsChartDirective],
   providers: [
-    providePartialHighcharts({ 
+    providePartialHighcharts({
       modules: () => {
         return [
-          // Load Gantt Chart 
+          // Load Gantt Chart
           import('highcharts/esm/modules/gantt'),
           // Load exporting module
           import('highcharts/esm/modules/exporting'),
-        ]
-      }
-    })
+        ];
+      },
+    }),
   ],
 })
 export class GanttComponent {
   chartOptions: Highcharts.Options = {
-    series: [{
-      data: [1, 2, 3],
-      type: 'line'
-    }]
+    series: [
+      {
+        data: [1, 2, 3],
+        type: 'line',
+      },
+    ],
   };
 }
 ```
@@ -339,19 +356,27 @@ import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
-  template: `
-    <div highchartsChart [options]="chartOptions" class="chart"></div>
-  `,
-  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  template: ` <div highchartsChart [options]="chartOptions" class="chart"></div> `,
+  styles: [
+    `
+      .chart {
+        width: 100%;
+        height: 400px;
+        display: block;
+      }
+    `,
+  ],
   imports: [HighchartsChartDirective],
   providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/map')] })],
 })
 export class MapComponent {
   chartOptions: Highcharts.Options = {
-    series: [{
-      data: [1, 2, 3],
-      type: 'line'
-    }]
+    series: [
+      {
+        data: [1, 2, 3],
+        type: 'line',
+      },
+    ],
   };
 }
 ```
@@ -363,19 +388,27 @@ import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
 
 @Component({
-  template: `
-    <div highchartsChart [options]="chartOptions" class="chart"></div>
-  `,
-  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  template: ` <div highchartsChart [options]="chartOptions" class="chart"></div> `,
+  styles: [
+    `
+      .chart {
+        width: 100%;
+        height: 400px;
+        display: block;
+      }
+    `,
+  ],
   imports: [HighchartsChartDirective],
   providers: [providePartialHighcharts({ modules: () => [import('highcharts/esm/modules/stock')] })],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {
-    series: [{
-      data: [1, 2, 3],
-      type: 'line'
-    }]
+    series: [
+      {
+        data: [1, 2, 3],
+        type: 'line',
+      },
+    ],
   };
 }
 ```
@@ -416,21 +449,30 @@ The wrapper is now ready to be imported into your app. Use `require` instead of 
 import { Component } from '@angular/core';
 import { HighchartsChartDirective } from 'highcharts-angular';
 
-
 @Component({
-  template: `
-    <div highchartsChart [options]="chartOptions" class="chart"></div>
-  `,
-  styles: [`.chart { width: 100%; height: 400px; display: block; }`],
+  template: ` <div highchartsChart [options]="chartOptions" class="chart"></div> `,
+  styles: [
+    `
+      .chart {
+        width: 100%;
+        height: 400px;
+        display: block;
+      }
+    `,
+  ],
   imports: [HighchartsChartDirective],
-  providers: [providePartialHighcharts({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] })],
+  providers: [
+    providePartialHighcharts({ modules: () => [import('./relative-path-to-the-wrapper-file/wrapper-file-name')] }),
+  ],
 })
 export class StockComponent {
   chartOptions: Highcharts.Options = {
-    series: [{
-      data: [1, 2, 3],
-      type: 'line'
-    }]
+    series: [
+      {
+        data: [1, 2, 3],
+        type: 'line',
+      },
+    ],
   };
 }
 ```
@@ -451,11 +493,13 @@ npm install
 ```
 
 1. Start Default:
+
 ```cli
 npm start
 ```
 
 2. Start with SSR:
+
 ```cli
 npm start:ssr
 ```
@@ -474,26 +518,25 @@ Keep the console running, and modify files — after saving, the app will automa
 
 ### Files to play with
 
-* **app.component.ts** (located in `src\app`)
+- **app.component.ts** (located in `src\app`)
 
-This file contains the main Angular component, which utilizes different components like *line-chart*, *gantt-chart*, *map-chart*, and *stock-chart*.
-
+This file contains the main Angular component, which utilizes different components like _line-chart_, _gantt-chart_, _map-chart_, and _stock-chart_.
 
 ## Online examples
 
-* [Basic line](https://stackblitz.com/edit/highcharts-angular-line)
-* [Stock](https://stackblitz.com/edit/highcharts-angular-stock-chart)
-* [Stock + indicators](https://stackblitz.com/edit/highcharts-angular-stock-with-indicators)
-* [Stock + GUI](https://stackblitz.com/edit/highcharts-angular-stock-tools-gui)
-* [Map](https://stackblitz.com/edit/highcharts-angular-world-map)
-* [Gantt](https://stackblitz.com/edit/highcharts-angular-gantt-chart)
-* [Map + mapppoints with lat/lon](https://stackblitz.com/edit/highcharts-angular-mappoint-lat-lon)
-* [Map + mapppoints with proj4](https://stackblitz.com/edit/highcharts-angular-map-with-proj4)
-* [Optimal way to update](https://stackblitz.com/edit/highcharts-angular-update-optimal-way)
-* [Data from the service](https://stackblitz.com/edit/highcharts-angular-data-from-a-service)
-* [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
-* [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
-* [Angular Elements and useHTML](https://stackblitz.com/~/github.com/karolkolodziej/highcharts-angular-elements)
+- [Basic line](https://stackblitz.com/edit/highcharts-angular-line)
+- [Stock](https://stackblitz.com/edit/highcharts-angular-stock-chart)
+- [Stock + indicators](https://stackblitz.com/edit/highcharts-angular-stock-with-indicators)
+- [Stock + GUI](https://stackblitz.com/edit/highcharts-angular-stock-tools-gui)
+- [Map](https://stackblitz.com/edit/highcharts-angular-world-map)
+- [Gantt](https://stackblitz.com/edit/highcharts-angular-gantt-chart)
+- [Map + mapppoints with lat/lon](https://stackblitz.com/edit/highcharts-angular-mappoint-lat-lon)
+- [Map + mapppoints with proj4](https://stackblitz.com/edit/highcharts-angular-map-with-proj4)
+- [Optimal way to update](https://stackblitz.com/edit/highcharts-angular-update-optimal-way)
+- [Data from the service](https://stackblitz.com/edit/highcharts-angular-data-from-a-service)
+- [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
+- [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
+- [Angular Elements and useHTML](https://stackblitz.com/~/github.com/karolkolodziej/highcharts-angular-elements)
 
 ## Release
 
@@ -510,6 +553,7 @@ library, the changes should be reflected in your browser (note: you may need to
 refresh the browser a second time after the live reload in order to see the change).
 
 For CHANGELOG.md update use :
+
 ```cli
 npm run release
 ```

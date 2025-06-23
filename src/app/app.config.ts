@@ -1,6 +1,6 @@
-import {provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
-import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { provideHighcharts } from 'highcharts-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -14,12 +14,12 @@ export const appConfig: ApplicationConfig = {
       options: {
         title: {
           style: {
-            color: 'tomato'
-          }
+            color: 'tomato',
+          },
         },
         legend: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       // The modules will work for all charts.
       modules: () => {
@@ -27,9 +27,9 @@ export const appConfig: ApplicationConfig = {
           import('highcharts/esm/highcharts-more'),
           import('highcharts/esm/modules/accessibility'),
           import('highcharts/esm/modules/exporting'),
-          import('highcharts/esm/themes/sunset')
-        ]
-      }
-    })
-  ]
+          import('highcharts/esm/themes/sunset'),
+        ];
+      },
+    }),
+  ],
 };

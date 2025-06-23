@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { InstanceFactoryFunction, ModuleFactoryFunction, PartialHighchartsConfig } from './types'
+import { InstanceFactoryFunction, ModuleFactoryFunction, PartialHighchartsConfig } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
 export const HIGHCHARTS_LOADER = new InjectionToken<InstanceFactoryFunction>('HIGHCHARTS_LOADER');

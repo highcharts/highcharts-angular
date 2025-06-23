@@ -2,7 +2,7 @@ article {
   display: flex;
 }
 
-button{
+button {
   margin-right: 1rem;
 }
 
@@ -23,10 +23,10 @@ highcharts-chart {
 section {
   display: flex;
   flex-direction: column;
-  width: 40%
+  width: 40%;
 }
 
 textarea {
-  border: 1px solid #E1E1E1;
+  border: 1px solid #e1e1e1;
   border-radius: 0.5rem;
 }

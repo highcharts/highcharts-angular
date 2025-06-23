@@ -5,7 +5,6 @@ import { MapChartComponent } from './map-chart/map-chart.component';
 import { GanttChartComponent } from './gantt-chart/gantt-chart.component';
 import { LazyLoadingChartComponent } from './lazy-loading-chart/lazy-loading-chart.component';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
