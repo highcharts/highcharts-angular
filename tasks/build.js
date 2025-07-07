@@ -19,7 +19,7 @@ child_process.spawnSync('node', [ngLocation, 'build', 'highcharts-angular', '--c
 
 // Copy License and Readme to package
 console.log('Copying ./LICENSE to dist/highcharts-angular/LICENSE');
-fs.copyFileSync(`${rootDir}/LICENSE`, `${distDir}/LICENSE`);
+fs.copyFileSync(`${rootDir}/license.pdf`, `${distDir}/license.pdf`);
 
 console.log('Copying ./README.md to dist/highcharts-angular/README.md');
 fs.copyFileSync(`${rootDir}/README.md`, `${distDir}/README.md`);
