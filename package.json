@@ -3,7 +3,7 @@
   "private": true,
   "description": "Project to develop the Highcharts component for Angular. See the ./highcharts-angular folder for published project.",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "see license in LICENSE",
   "author": "Black Label <start@blacklabel.net> (http://blacklabel.net)",
   "scripts": {
     "ng": "ng",
