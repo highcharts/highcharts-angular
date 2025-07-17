@@ -21,9 +21,8 @@ Official minimal Highcharts integration for Angular.
 5. [Demo App](#demo-app)
    1. [Play with the App](#play-with-the-app)
    2. [Files to Modify](#files-to-play-with)
-6. [Online Examples](#online-examples)
-7. [Release](#release)
-8. [Help and FAQ](#help-and-faq)
+6. [Release](#release)
+7. [Help and FAQ](#help-and-faq)
 
 ---
 
@@ -522,22 +521,6 @@ Keep the console running, and modify files — after saving, the app will automa
 
 This file contains the main Angular component, which utilizes different components like _line-chart_, _gantt-chart_, _map-chart_, and _stock-chart_.
 
-## Online examples
-
-- [Basic line](https://stackblitz.com/edit/highcharts-angular-line)
-- [Stock](https://stackblitz.com/edit/highcharts-angular-stock-chart)
-- [Stock + indicators](https://stackblitz.com/edit/highcharts-angular-stock-with-indicators)
-- [Stock + GUI](https://stackblitz.com/edit/highcharts-angular-stock-tools-gui)
-- [Map](https://stackblitz.com/edit/highcharts-angular-world-map)
-- [Gantt](https://stackblitz.com/edit/highcharts-angular-gantt-chart)
-- [Map + mapppoints with lat/lon](https://stackblitz.com/edit/highcharts-angular-mappoint-lat-lon)
-- [Map + mapppoints with proj4](https://stackblitz.com/edit/highcharts-angular-map-with-proj4)
-- [Optimal way to update](https://stackblitz.com/edit/highcharts-angular-update-optimal-way)
-- [Data from the service](https://stackblitz.com/edit/highcharts-angular-data-from-a-service)
-- [Property `XXX` does not exist on type `YYY`](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist)
-- [Using portals to render an angular component within a chart](https://stackblitz.com/edit/highcharts-angular-portals)
-- [Angular Elements and useHTML](https://stackblitz.com/~/github.com/karolkolodziej/highcharts-angular-elements)
-
 ## Release
 
 Using Angular CLI v19, the library must be manually rebuilt on each change in order to reflect in the demo app.
@@ -569,7 +552,6 @@ For TypeScript problems with Highcharts first see [Highcharts documentation for 
 #### How to add and use indicators?
 
 Add [indicators](https://www.highcharts.com/docs/chart-and-series-types/technical-indicator-series) as any other module.
-[Live demo](https://stackblitz.com/edit/highcharts-angular-stock-with-indicators)
 
 #### How to add and use themes?
 
@@ -582,20 +564,14 @@ More info about custom themes in [Highcharts general documentation](https://www.
 
 The correct repository to report such issues is [main Highcharts repository](https://github.com/highcharts/highcharts/issues).
 
-#### Synchronized Charts Angular demo
-
-Based on original Highcharts demo for [Synchronized charts](https://www.highcharts.com/demo/synchronized-charts).
-
-Additionally added class based sync between charts - [demo](https://stackblitz.com/edit/highcharts-angular-synced-charts).
-
 #### Property `XXX` does not exist on type `YYY`
 
-It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you need to create your own type that will extend the default Highcharts one with the new properties. Then all you need to do is to cast the selected option / to the extended type - [demo](https://stackblitz.com/edit/highcharts-angular-property-xxx-doesnt-exist).
+It is happening when you are trying to use non-existing property or one of our internal properties that are not publicly available for example `axis.dataMin`. To fix that you need to create your own type that will extend the default Highcharts one with the new properties. Then all you need to do is to cast the selected option / to the extended type.
 
 #### How to use Highcharts Maps with the proj4?
 
-Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository or [live demo](https://stackblitz.com/edit/highcharts-angular-map-with-proj4) example.
+Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository.
 
 #### I want to render angular component in the tooltip/axis formatter
 
-To render angular component within the chart you can use the angular [portals](https://material.angular.io/cdk/portal/overview) - [demo](https://stackblitz.com/edit/highcharts-angular-portals)
+To render angular component within the chart you can use the angular [portals](https://material.angular.io/cdk/portal/overview).
