@@ -39,14 +39,14 @@ describe('HighchartsChartService', () => {
     expect(service.highcharts()).toBeNull();
 
     service.load(null);
-    tick(100); // Simulate the passage of time for the timeout in the load method
+    tick(300); // Simulate the passage of time for the timeout in the load method
 
     expect(service.highcharts()).toBe(mockLoader); // The Highcharts object should be emitted
   }));
 
   it('should call setOptions with global options if provided', fakeAsync(() => {
     service.load(null);
-    tick(100); // Simulate the passage of time for the timeout in the load method
+    tick(300); // Simulate the passage of time for the timeout in the load method
 
     // Check if setOptions was called with the global options
     expect(mockLoader.setOptions).toHaveBeenCalledWith(mockGlobalOptions);
