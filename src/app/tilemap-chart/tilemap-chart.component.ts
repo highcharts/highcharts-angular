@@ -9,7 +9,7 @@ import { HighchartsChartComponent, providePartialHighcharts, ChartConstructorTyp
   providers: [
     providePartialHighcharts({
       modules: () => [import('highcharts/esm/modules/map'), import('highcharts/esm/modules/tilemap')],
-    })
+    }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -19,10 +19,10 @@ export class TilemapChartComponent {
       chart: {
         type: 'tilemap',
         inverted: true,
-        height: '80%'
+        height: '80%',
       },
       title: {
-        text: "My Title",
+        text: 'My Title',
       },
       xAxis: {
         visible: false,
