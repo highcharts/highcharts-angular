@@ -16,10 +16,17 @@ export class HighchartsChartService {
     optional: true,
   });
 
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   private async loadHighchartsWithModules(partialConfig: PartialHighchartsConfig | null): Promise<typeof Highcharts> {
     const highcharts = await this.loader(); // Ensure Highcharts core is loaded
 
-    await Promise.all([...(this.globalModules?.() ?? []), ...(partialConfig?.modules?.() ?? [])]);
+    await Promise.allSettled([...(this.globalModules?.() ?? [])]);
+    await this.delay(100);
+    await Promise.allSettled([...(partialConfig?.modules?.() ?? [])]);
+    await this.delay(100);
 
     // Return the Highcharts instance
     return highcharts;
