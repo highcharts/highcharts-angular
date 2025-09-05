@@ -16,7 +16,7 @@ import { providePartialHighcharts } from 'highcharts-angular';
           import('highcharts/esm/modules/pattern-fill'),
         ];
       },
-      timeout: 900
+      timeout: 900,
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

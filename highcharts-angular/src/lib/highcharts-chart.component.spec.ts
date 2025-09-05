@@ -78,7 +78,7 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
         expect(hc.seriesTypes?.arearange).toBeDefined();
         expect(hc.seriesTypes?.dumbbell).toBeDefined();
       },
-      timeout: 2000
+      timeout: 2000,
     },
     {
       title: 'pattern-fill → adds SVGRenderer.addPattern',
