@@ -78,7 +78,7 @@ export class HighchartsChartDirective {
 
   // Create the chart as soon as we can
   private readonly chart = computed(async () => {
-    await this.delay(this.timeout ?? 500);
+    await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
     return this.constructorChart()?.(
       this.el.nativeElement,
       // Use untracked, so we don't re-create new chart everytime options change

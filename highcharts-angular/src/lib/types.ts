@@ -21,6 +21,11 @@ export type PartialHighchartsConfig = {
    * Include Highcharts additional modules (e.g., exporting, accessibility) or custom themes
    */
   modules?: ModuleFactoryFunction;
+  /**
+   * Timeout in milliseconds to wait for the Highcharts library to load
+   * Default is 500ms
+   */
+  timeout?: number;
 };
 
 export type HighchartsConfig = {
@@ -33,10 +38,4 @@ export type HighchartsConfig = {
    * Global chart options applied across all charts
    */
   options?: Highcharts.Options;
-
-  /**
-   * Timeout in milliseconds to wait for the Highcharts library to load
-   * Default is 500ms
-   */
-  timeout?: number;
 } & PartialHighchartsConfig;

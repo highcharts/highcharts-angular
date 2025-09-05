@@ -52,6 +52,7 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
     title: string;
     modules: ModuleFactoryFunction;
     assert(hc: any): void;
+    timeout?: number;
   };
 
   const CASES: Case[] = [
@@ -77,6 +78,7 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
         expect(hc.seriesTypes?.arearange).toBeDefined();
         expect(hc.seriesTypes?.dumbbell).toBeDefined();
       },
+      timeout: 2000
     },
     {
       title: 'pattern-fill → adds SVGRenderer.addPattern',
@@ -102,7 +104,7 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
       // 3) Provide the module(s) at the component level. This mirrors your real component’s
       //    `providers: [providePartialHighcharts({ modules: () => [...] })]`.
       TestBed.overrideComponent(TestComponent, {
-        set: { providers: [providePartialHighcharts({ modules: c.modules })] },
+        set: { providers: [providePartialHighcharts({ modules: c.modules, timeout: c.timeout })] },
       });
 
       const fixture = TestBed.createComponent(TestComponent);
