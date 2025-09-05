@@ -331,6 +331,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
           import('highcharts/esm/modules/exporting'),
         ];
       },
+      timeout: 900, // Optional: increase timeout for loading modules
     }),
   ],
 })
