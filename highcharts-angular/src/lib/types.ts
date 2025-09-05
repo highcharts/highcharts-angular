@@ -33,4 +33,10 @@ export type HighchartsConfig = {
    * Global chart options applied across all charts
    */
   options?: Highcharts.Options;
+
+  /**
+   * Timeout in milliseconds to wait for the Highcharts library to load
+   * Default is 500ms
+   */
+  timeout?: number;
 } & PartialHighchartsConfig;
