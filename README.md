@@ -214,6 +214,27 @@ Our showcase application includes an example of SSR integration. You can try it 
 ng serve my-ssr-app --open
 ```
 
+### Highcharts AST
+
+Highcharts sanitizes HTML/SVG content with its internal AST (Abstract Syntax Tree) parser. By default, only a safe list of attributes and tags is allowed. If you need to support custom attributes or elements (for example, to render extra data attributes), you must extend the AST configuration before Highcharts is initialized.
+
+```ts
+provideHighcharts({
+    instance: () =>
+    import('highcharts/esm/highcharts').then((m) => {
+        const Highcharts = m.default;
+
+        // Allow custom attributes
+        Highcharts.AST.allowedAttributes.push('custom-attribute');
+
+        // Allow custom elements
+        Highcharts.AST.allowedTags.push('my-custom-tag');
+
+        return Highcharts;
+    }),
+}),
+```
+
 ### Angular Elements and useHTML
 
 First, install angular elements:
