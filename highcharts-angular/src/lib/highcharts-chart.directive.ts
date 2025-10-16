@@ -87,8 +87,7 @@ export class HighchartsChartDirective {
     effect(() => {
       this.update();
       if (!this.chartCreated) {
-        const chart = this.chart();
-        if (chart) {
+        if (this.chart()) {
           this.chartCreated = true;
         }
       } else {
