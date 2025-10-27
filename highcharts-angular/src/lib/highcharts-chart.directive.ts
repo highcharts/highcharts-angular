@@ -64,6 +64,8 @@ export class HighchartsChartDirective {
 
   private readonly highchartsChartService = inject(HighchartsChartService);
 
+  private chartCreated = false;
+
   private readonly constructorChart = computed<ConstructorChart | undefined>(() => {
     const highCharts = this.highchartsChartService.highcharts();
     if (highCharts) {
@@ -94,8 +96,16 @@ export class HighchartsChartDirective {
     effect(async () => {
       // Wait for the chart to be created
       this.update();
+
       const chart = await this.chart();
-      chart?.update(this.options(), true, this.oneToOne());
+
+      if (!this.chartCreated) {
+        if (chart) {
+          this.chartCreated = true;
+        }
+      } else {
+        chart?.update(this.options(), true, this.oneToOne());
+      }
     });
   }
 
