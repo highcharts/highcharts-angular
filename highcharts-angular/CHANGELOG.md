@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.2.0) (2025-11-05)
+
+
+### Features
+
+* add configurable timeout for Highcharts module loading ([0382051](https://github.com/highcharts/highcharts-angular/commit/0382051d14061be0a3556f3bdccc40e8d4a878c6))
+* add timeout configuration for Highcharts loading ([034b9e3](https://github.com/highcharts/highcharts-angular/commit/034b9e3fac06f90e593019a026e3f988cddbd981))
+* add timeout handling for Highcharts chart creation and updates ([599056c](https://github.com/highcharts/highcharts-angular/commit/599056caf00b149ceb069a067f149768697210e0))
+
+
+### Bug Fixes
+
+* add missing comma for timeout configuration in module loading ([35fb36b](https://github.com/highcharts/highcharts-angular/commit/35fb36bef4b08609de5c6efe6bb0bf5be9465b9d))
+
 ## [5.1.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.1.0) (2025-06-23)
 
 ## [5.0.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.0.0) (2025-06-13)
