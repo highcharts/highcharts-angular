@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.2.0) (2025-11-05)
+
+
+### Features
+
+* Introduce an optional timeout in the loading pipeline to accommodate modules that need a few extra milliseconds before augmenting the Highcharts namespace. ([4486b78](https://github.com/highcharts/highcharts-angular/commit/4486b787270d75ae928ab0c61cae6bef01d8d9b7))
+
+
+### Bug Fixes
+
+* Fixed #421, prevent chart updates before creation in highcharts-chart.directive.ts. ([e999063](https://github.com/highcharts/highcharts-angular/commit/e999063fa98d8ef1f1319a910af8fb5d44ba7af5))
+
 ## [5.1.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.1.0) (2025-06-23)
 
 ## [5.0.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.0.0) (2025-06-13)
