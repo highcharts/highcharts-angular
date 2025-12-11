@@ -4,7 +4,6 @@ import {
   HIGHCHARTS_CONFIG,
   HIGHCHARTS_ROOT_MODULES,
   HIGHCHARTS_OPTIONS,
-  HIGHCHARTS_TIMEOUT,
 } from './highcharts-chart.token';
 import { ModuleFactoryFunction, HighchartsConfig, PartialHighchartsConfig, InstanceFactoryFunction } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
@@ -35,10 +34,9 @@ export function providePartialHighcharts(config: PartialHighchartsConfig): Provi
 }
 
 export function provideHighcharts(config: HighchartsConfig = {}): EnvironmentProviders {
-  const providers: (Provider | EnvironmentProviders)[] = [
+  const providers: EnvironmentProviders[] = [
     provideHighchartsInstance(config.instance),
     provideHighchartsRootModules(config.modules ?? emptyModuleFactoryFunction),
-    { provide: HIGHCHARTS_TIMEOUT, useValue: config.timeout },
   ];
   if (config.options) {
     providers.push(provideHighchartsOptions(config.options));

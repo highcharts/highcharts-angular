@@ -17,7 +17,6 @@
     "run:ssr": "node dist/my-ssr-app/server/server.mjs",
     "test": "ng test my-app",
     "lint": "ng lint",
-    "prettier": "prettier . --write",
     "release": "cd ./highcharts-angular && standard-version && cd ../ && node tasks/build.js && node tasks/release.js",
     "release-minor": "cd ./highcharts-angular && standard-version --release-as minor  && cd ../ && node tasks/build.js && node tasks/release.js",
     "release-major": "cd ./highcharts-angular && standard-version --release-as major  && cd ../ && node tasks/build.js && node tasks/release.js",

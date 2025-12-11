@@ -6,4 +6,3 @@ export const HIGHCHARTS_LOADER = new InjectionToken<InstanceFactoryFunction>('HI
 export const HIGHCHARTS_ROOT_MODULES = new InjectionToken<ModuleFactoryFunction>('HIGHCHARTS_ROOT_MODULES');
 export const HIGHCHARTS_OPTIONS = new InjectionToken<Highcharts.Options>('HIGHCHARTS_OPTIONS');
 export const HIGHCHARTS_CONFIG = new InjectionToken<PartialHighchartsConfig>('HIGHCHARTS_CONFIG');
-export const HIGHCHARTS_TIMEOUT = new InjectionToken<number>('HIGHCHARTS_TIMEOUT');

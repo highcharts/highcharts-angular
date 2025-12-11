@@ -352,7 +352,6 @@ import { HighchartsChartDirective } from 'highcharts-angular';
           import('highcharts/esm/modules/exporting'),
         ];
       },
-      timeout: 900, // Optional: increase timeout for loading modules
     }),
   ],
 })
@@ -433,12 +432,6 @@ export class StockComponent {
   };
 }
 ```
-
-**Note:**
-
-- Some Highcharts modules have dependencies and must be loaded in a specific order.
-- In such cases, use a promise chain (e.g., `import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell'))`)
-- instead of just listing them as array items. This ensures the dependent module loads only after its dependency.
 
 ### To load a wrapper
 

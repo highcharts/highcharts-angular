@@ -17,8 +17,7 @@ import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-a
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapChartComponent {
-  // https://code.highcharts.com/mapdata/
-  public readonly worldMap = httpResource<GeoJSON>('https://code.highcharts.com/mapdata/custom/world.topo.json');
+  public readonly worldMap = httpResource<GeoJSON>('/highcharts/world.geo.json');
   public readonly chartMap = computed<Highcharts.Options>(() => {
     return {
       chart: {

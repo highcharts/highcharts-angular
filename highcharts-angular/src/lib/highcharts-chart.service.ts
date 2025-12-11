@@ -5,7 +5,8 @@ import type Highcharts from 'highcharts/esm/highcharts';
 
 @Injectable({ providedIn: 'root' })
 export class HighchartsChartService {
-  public readonly highcharts = signal<typeof Highcharts | null>(null);
+  private readonly writableHighcharts = signal<typeof Highcharts | null>(null);
+  public readonly highcharts = this.writableHighcharts.asReadonly();
 
   private readonly loader = inject(HIGHCHARTS_LOADER);
   private readonly globalOptions = inject(HIGHCHARTS_OPTIONS, {
@@ -18,7 +19,7 @@ export class HighchartsChartService {
   private async loadHighchartsWithModules(partialConfig: PartialHighchartsConfig | null): Promise<typeof Highcharts> {
     const highcharts = await this.loader(); // Ensure Highcharts core is loaded
 
-    await Promise.allSettled([...(this.globalModules?.() ?? []), ...(partialConfig?.modules?.() ?? [])]);
+    await Promise.all([...(this.globalModules?.() ?? []), ...(partialConfig?.modules?.() ?? [])]);
 
     // Return the Highcharts instance
     return highcharts;
@@ -29,7 +30,8 @@ export class HighchartsChartService {
       if (this.globalOptions) {
         highcharts.setOptions(this.globalOptions);
       }
-      this.highcharts.set(highcharts);
+      // add timeout to make sure the loader has attached all modules
+      setTimeout(() => this.writableHighcharts.set(highcharts), 100);
     });
   }
 }
