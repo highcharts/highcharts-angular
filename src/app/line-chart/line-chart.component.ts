@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-angular';
 import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({

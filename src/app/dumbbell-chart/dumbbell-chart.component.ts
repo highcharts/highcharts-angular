@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { HighchartsChartComponent } from 'highcharts-angular';
-import { providePartialHighcharts } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-angular';
 
 @Component({
   selector: 'app-dumbbell-chart',
