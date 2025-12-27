@@ -12,9 +12,9 @@ import type Highcharts from 'highcharts/esm/highcharts';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent {
-  public updateFromInput = false;
   public showChart = true;
   public toggleButtonTitle = 'Destroy chart';
+  private chart: Highcharts.Chart | undefined = undefined;
 
   public optFromInputString = `
     {
@@ -42,6 +42,7 @@ export class LineChartComponent {
   // Demonstrate chart instance
   public logChartInstance(chart: Highcharts.Chart): void {
     console.log('Chart instance received:', chart);
+    this.chart = chart;
   }
 
   public updateInputChart(): void {
@@ -52,7 +53,7 @@ export class LineChartComponent {
     const key: keyof typeof this.seriesTypes = (this.optFromInput.series as any)[index].type ?? 'line';
     (this.optFromInput.series as any)[index].type = this.seriesTypes[key];
     // nested change - must trigger update
-    this.updateFromInput = true;
+    this.chart?.update(this.optFromInput, true, true);
   }
 
   public toggleChart(): void {
