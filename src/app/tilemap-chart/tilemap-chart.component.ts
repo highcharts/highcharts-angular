@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { HighchartsChartComponent, providePartialHighcharts, ChartConstructorType } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts, ChartConstructorType } from '@highcharts-angular';
 
 @Component({
   selector: 'app-tilemap-chart',
@@ -98,6 +98,4 @@ export class TilemapChartComponent {
   }
 
   public chartConstructor: ChartConstructorType = 'chart';
-  public updateFlag = false;
-  public oneToOneFlag = true;
 }

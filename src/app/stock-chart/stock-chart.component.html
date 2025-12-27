@@ -8,18 +8,18 @@
       (ngModelChange)="titleChange($event)"
     />
     <p>Data sets:</p>
-    <div>
+    <div style="display: flex; flex-direction: column">
       @for (i of [0, 1, 2]; track i) {
         <button (click)="usedIndex = i">
           {{ i + 1 }}
         </button>
+        <button (click)="load(i)">Redraw {{ i + 1 }}</button>
       }
     </div>
   </section>
   <highcharts-chart
     constructorType="stockChart"
     [options]="charts[usedIndex]"
-    [(update)]="updateDemo2"
     (chartInstance)="chartInstance($event)"
   />
 </article>

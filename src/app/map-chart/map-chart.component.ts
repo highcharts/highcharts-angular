@@ -2,7 +2,7 @@ import { httpResource } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import type { GeoJSON } from 'highcharts';
 import type Highcharts from 'highcharts/esm/highcharts';
-import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-angular';
 
 @Component({
   selector: 'app-map-chart',

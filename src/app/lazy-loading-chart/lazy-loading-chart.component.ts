@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import type Highcharts from 'highcharts/esm/highcharts';
 import { AppleDataService } from '../apple-data.service';
 import { Observable } from 'rxjs';
-import { HighchartsChartComponent, providePartialHighcharts } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-angular';
 
 type ExtendedPlotCandlestickDataGroupingOptions = {
   enabled: boolean;

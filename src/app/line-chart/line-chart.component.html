@@ -9,11 +9,6 @@
     </div>
   </section>
   @if (showChart) {
-    <highcharts-chart
-      [options]="optFromInput"
-      [oneToOne]="true"
-      [(update)]="updateFromInput"
-      (chartInstance)="logChartInstance($event)"
-    />
+    <highcharts-chart [options]="optFromInput" (chartInstance)="logChartInstance($event)" />
   }
 </article>
