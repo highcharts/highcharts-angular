@@ -93,6 +93,7 @@ export class HighchartsChartDirective {
     }
     // make sure to load global config + modules on demand
     this.highchartsChartService.load(this.relativeConfig);
+    // destroy the chart when the directive is destroyed
     this.destroyRef.onDestroy(() => this._chartInstance?.destroy()); // #44
 
     // Keep the chart up to date whenever options change or the update special input is set to true
