@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHighcharts } from '../../../../highcharts-angular/src/public_api';
+import { provideHighcharts } from '@highcharts-angular';
 import { LineTestComponent } from './line-test.component';
 import type Highcharts from 'highcharts/esm/highcharts';
 
