@@ -55,13 +55,8 @@ export class HighchartsChartDirective {
 
   private _chartInstance: Highcharts.Chart | undefined;
 
-  private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   private keepChartUpToDate(): void {
-    effect(async () => {
-      await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
+    effect(onCleanup => {
       const highCharts = this.highchartsChartService.highcharts();
       const options = this.options();
       const constructorType = this.constructorType();
@@ -70,16 +65,21 @@ export class HighchartsChartDirective {
         this._chartInstance.destroy();
         this._chartInstance = undefined;
       }
-      const instance: Highcharts.Chart = (highCharts as any)[constructorType](
-        this.el.nativeElement,
-        // Use untracked, so we don't re-create new chart everytime options change
-        options,
-        // Use Highcharts callback to emit chart instance, so it is available as early
-        // as possible. So that Angular is already aware of the instance if Highcharts raise
-        // events during the initialization that happens before coming back to Angular
-        (createdChart: Highcharts.Chart) => this.chartInstance.emit(createdChart),
+      const scheduledTimeout = setTimeout(
+        () => {
+          const instance: Highcharts.Chart = (highCharts as any)[constructorType](
+            this.el.nativeElement,
+            options,
+            // Use Highcharts callback to emit chart instance, so it is available as early
+            // as possible. So that Angular is already aware of the instance if Highcharts raise
+            // events during the initialization that happens before coming back to Angular
+            (createdChart: Highcharts.Chart) => this.chartInstance.emit(createdChart),
+          );
+          if (!this._chartInstance) this._chartInstance = instance;
+        },
+        this.relativeConfig?.timeout ?? this.timeout ?? 500,
       );
-      if (!this._chartInstance) this._chartInstance = instance;
+      onCleanup(() => clearTimeout(scheduledTimeout));
     });
   }
 
