@@ -10,8 +10,7 @@ import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-
     providePartialHighcharts({
       modules: () => {
         return [
-          import('highcharts/esm/highcharts-more'),
-          import('highcharts/esm/modules/dumbbell'),
+          import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell')),
           import('highcharts/esm/modules/pattern-fill'),
         ];
       },
