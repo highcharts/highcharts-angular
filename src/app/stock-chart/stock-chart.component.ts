@@ -17,9 +17,9 @@ import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-
 })
 export class StockChartComponent {
   // starting values
-  public updateDemo2 = false;
   public usedIndex = 0;
   public chartTitle = 'My chart'; // for init - change through titleChange
+  public chartInstances: Highcharts.Chart[] = [];
 
   // change in all places
   public titleChange(event: string): void {
@@ -31,7 +31,7 @@ export class StockChartComponent {
     });
 
     // trigger ngOnChanges
-    this.updateDemo2 = true;
+    this.chartInstances[this.usedIndex].update(this.charts[this.usedIndex], false, true);
   }
 
   public charts: Highcharts.Options[] = [
@@ -99,5 +99,10 @@ export class StockChartComponent {
 
   public chartInstance(chart: Highcharts.Chart): void {
     console.log('some variables: ', chart, this.charts);
+    this.chartInstances[this.usedIndex] = chart;
+  }
+
+  protected load(i: number): void {
+    this.chartInstances[this.usedIndex].update(this.charts[i], true, true);
   }
 }
