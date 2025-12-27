@@ -98,6 +98,4 @@ export class TilemapChartComponent {
   }
 
   public chartConstructor: ChartConstructorType = 'chart';
-  public updateFlag = false;
-  public oneToOneFlag = true;
 }
