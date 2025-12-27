@@ -2,7 +2,7 @@ import { DestroyRef, Directive, effect, ElementRef, inject, input, model, output
 import { isPlatformServer } from '@angular/common';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token';
-import { ChartConstructorType } from './types';
+import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
 @Directive({
@@ -67,15 +67,18 @@ export class HighchartsChartDirective {
       }
       const scheduledTimeout = setTimeout(
         () => {
-          const instance: Highcharts.Chart = (highCharts as any)[constructorType](
-            this.el.nativeElement,
-            options,
-            // Use Highcharts callback to emit chart instance, so it is available as early
-            // as possible. So that Angular is already aware of the instance if Highcharts raise
-            // events during the initialization that happens before coming back to Angular
-            (createdChart: Highcharts.Chart) => this.chartInstance.emit(createdChart),
-          );
-          if (!this._chartInstance) this._chartInstance = instance;
+          const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
+            return this.chartInstance.emit(chart);
+          };
+          const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
+            chart: highCharts.chart,
+            ganttChart: (highCharts as any).ganttChart,
+            mapChart: (highCharts as any).mapChart,
+            stockChart: (highCharts as any).stockChart,
+          };
+          if (!this._chartInstance) {
+            this._chartInstance = chartFactories[constructorType](this.el.nativeElement, options, callback);
+          }
         },
         this.relativeConfig?.timeout ?? this.timeout ?? 500,
       );
