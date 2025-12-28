@@ -119,8 +119,6 @@ import { HighchartsChartComponent, ChartConstructorType } from 'highcharts-angul
     <highcharts-chart
       [constructorType]="chartConstructor"
       [options]="chartOptions"
-      [(update)]="updateFlag"
-      [oneToOne]="oneToOneFlag"
       class="chart"
     />
   `,
@@ -130,8 +128,6 @@ import { HighchartsChartComponent, ChartConstructorType } from 'highcharts-angul
 export class AppComponent {
   chartOptions: Highcharts.Options = { ... }; // Required
   chartConstructor: ChartConstructorType = 'chart'; // Optional, defaults to 'chart'
-  updateFlag: boolean = false; // Optional
-  oneToOneFlag: boolean = true; // Optional, defaults to false
 }
 ```
 
@@ -149,8 +145,6 @@ import { HighchartsChartDirective, ChartConstructorType } from 'highcharts-angul
       highchartsChart
       [constructorType]="chartConstructor"
       [options]="chartOptions"
-      [(update)]="updateFlag"
-      [oneToOne]="oneToOneFlag"
       class="chart"
     ></div>
   `,
@@ -160,8 +154,6 @@ import { HighchartsChartDirective, ChartConstructorType } from 'highcharts-angul
 export class AppComponent {
   chartOptions: Highcharts.Options = { ... }; // Required
   chartConstructor: ChartConstructorType = 'chart'; // Optional, defaults to 'chart'
-  updateFlag: boolean = false; // Optional
-  oneToOneFlag: boolean = true; // Optional, defaults to false
 }
 ```
 
@@ -296,8 +288,6 @@ Version 5 introduces significant improvements and changes to align with modern A
 | ------------------- | ---------------------- | -------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `[constructorType]` | `ChartConstructorType` | No       | `'chart'` | A string for the [constructor method](https://www.highcharts.com/docs/getting-started/your-first-chart). Official constructors include: <br>- `'chart'` for Highcharts charts <br>- `'stockChart'` for Highcharts Stock <br>- `'mapChart'` for Highcharts Maps <br>- `'ganttChart'` for Highcharts Gantt <br><br> Note that `'stockChart'`, `'mapChart'`, and `'ganttChart'` require loading the appropriate package or module.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | `[options]`         | `Object`               | Yes      | `-`       | The chart options as described in the [Highcharts API reference](http://api.highcharts.com/highcharts). A minimal working object for basic testing is `{ series:[{ data:[1, 2] }] }`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| `[(update)]`        | `Boolean`              | No       | `-`       | A boolean to trigger a chart update. Angular does not detect nested changes in objects passed to a component. Set the corresponding variable (`updateFlag` in the example) to `true`, and after the update is done, it will asynchronously change back to `false` by the Highcharts Angular component.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `[oneToOne]`        | `Boolean`              | No       | `false`   | The `oneToOne` parameter for [updates](https://api.highcharts.com/class-reference/Highcharts.Chart#update). When `true`, the `series`, `xAxis`, and `yAxis` collections will be updated one to one, and items will be added or removed to match the updated options. For example, if a chart has **two** series, calling `chart.update` with a configuration containing **three** series will add **one**. Similarly, calling `chart.update` with **one** series will remove **one**. Setting an empty series array removes all series, while leaving out the `series` property leaves them untouched. If the series have `id`s, new series options will be matched by `id`, and the remaining ones will be removed. <br><br> This option is demonstrated in [the demo](#demo-app). Try setting new chart options with different numbers of series in the [textarea input](https://github.com/highcharts/highcharts-angular/blob/36e158e684b5823e1b1bd1cedf75548022eba1a9/src/app/app.component.html#L7) to see it in action. |
 
 ## Chart instance
 
