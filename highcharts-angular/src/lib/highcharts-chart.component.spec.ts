@@ -25,7 +25,7 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
     //    - provideHighcharts(): should wire up HIGHCHARTS_LOADER, etc., so the service can load core Highcharts.
     await TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [provideHighcharts()],
+      providers: [provideHighcharts({ timeout: 1 })],
     }).compileComponents();
   });
 
@@ -78,7 +78,6 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
         expect(hc.seriesTypes?.arearange).toBeDefined();
         expect(hc.seriesTypes?.dumbbell).toBeDefined();
       },
-      timeout: 2000,
     },
     {
       title: 'pattern-fill → adds SVGRenderer.addPattern',
