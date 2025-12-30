@@ -1,7 +1,7 @@
 import { DestroyRef, Directive, effect, ElementRef, inject, input, model, output, PLATFORM_ID } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 import { HighchartsChartService } from './highcharts-chart.service';
-import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token';
+import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
@@ -47,16 +47,12 @@ export class HighchartsChartDirective {
     optional: true,
   });
 
-  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, {
-    optional: true,
-  });
-
   private readonly highchartsChartService = inject(HighchartsChartService);
 
   private _chartInstance: Highcharts.Chart | undefined;
 
   private keepChartUpToDate(): void {
-    effect(onCleanup => {
+    effect(() => {
       const highCharts = this.highchartsChartService.highcharts();
       const options = this.options();
       const constructorType = this.constructorType();
@@ -65,24 +61,18 @@ export class HighchartsChartDirective {
         this._chartInstance.destroy();
         this._chartInstance = undefined;
       }
-      const scheduledTimeout = setTimeout(
-        () => {
-          const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
-            return this.chartInstance.emit(chart);
-          };
-          const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
-            chart: highCharts.chart,
-            ganttChart: (highCharts as any).ganttChart,
-            mapChart: (highCharts as any).mapChart,
-            stockChart: (highCharts as any).stockChart,
-          };
-          if (!this._chartInstance) {
-            this._chartInstance = chartFactories[constructorType](this.el.nativeElement, options, callback);
-          }
-        },
-        this.relativeConfig?.timeout ?? this.timeout ?? 500,
-      );
-      onCleanup(() => clearTimeout(scheduledTimeout));
+      const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
+        return this.chartInstance.emit(chart);
+      };
+      const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
+        chart: highCharts.chart,
+        ganttChart: (highCharts as any).ganttChart,
+        mapChart: (highCharts as any).mapChart,
+        stockChart: (highCharts as any).stockChart,
+      };
+      if (!this._chartInstance) {
+        this._chartInstance = chartFactories[constructorType](this.el.nativeElement, options, callback);
+      }
     });
   }
 
