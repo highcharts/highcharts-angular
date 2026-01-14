@@ -97,6 +97,7 @@ export class HighchartsChartDirective {
       // Wait for the chart to be created
       this.update();
 
+      const options = this.options();
       const chart = await this.chart();
 
       if (!this.chartCreated) {
@@ -104,7 +105,7 @@ export class HighchartsChartDirective {
           this.chartCreated = true;
         }
       } else {
-        chart?.update(this.options(), true, this.oneToOne());
+        chart?.update(options, true, this.oneToOne());
       }
     });
   }
