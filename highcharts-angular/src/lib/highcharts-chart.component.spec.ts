@@ -25,7 +25,7 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
     //    - provideHighcharts(): should wire up HIGHCHARTS_LOADER, etc., so the service can load core Highcharts.
     await TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [provideHighcharts({ timeout: 500 })],
+      providers: [provideHighcharts()],
     }).compileComponents();
   });
 
@@ -134,7 +134,8 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
         providers: [
           providePartialHighcharts({
             modules: () => [
-              import('highcharts/esm/modules/map').then(() => import('highcharts/esm/modules/tilemap')),
+              import('highcharts/esm/modules/map'),
+              import('highcharts/esm/modules/tilemap'),
               import('highcharts/esm/modules/gantt'),
               import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell')),
               import('highcharts/esm/modules/pattern-fill'),

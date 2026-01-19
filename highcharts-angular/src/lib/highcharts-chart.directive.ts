@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 import { HighchartsChartService } from './highcharts-chart.service';
-import { HIGHCHARTS_CONFIG } from './highcharts-chart.token';
+import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token';
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
@@ -59,14 +59,23 @@ export class HighchartsChartDirective {
     optional: true,
   });
 
+  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, {
+    optional: true,
+  });
+
   private readonly highchartsChartService = inject(HighchartsChartService);
 
   private chartCreated = false;
 
   private _chartInstance: Highcharts.Chart | undefined;
 
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   // Create the chart as soon as we can
-  private readonly chart = computed(() => {
+  private readonly chart = computed(async () => {
+    await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
     if (!highCharts) return;
@@ -80,7 +89,8 @@ export class HighchartsChartDirective {
       stockChart: (highCharts as any).stockChart,
     };
     return chartFactories[constructorType](
-      this.el.nativeElement, // Use untracked, so we don't re-create new chart everytime options change
+      this.el.nativeElement,
+      // Use untracked, so we don't re-create new chart everytime options change
       untracked(() => this.options()),
       // Use Highcharts callback to emit chart instance, so it is available as early
       // as possible. So that Angular is already aware of the instance if Highcharts raise
@@ -90,11 +100,11 @@ export class HighchartsChartDirective {
   });
 
   private keepChartUpToDate(): void {
-    effect(() => {
+    effect(async () => {
       const update = this.update();
       const oneToOne = this.oneToOne();
       const options = this.options();
-      this._chartInstance = this.chart();
+      this._chartInstance = await this.chart();
       if (!this.chartCreated) {
         if (this._chartInstance) {
           this.chartCreated = true;

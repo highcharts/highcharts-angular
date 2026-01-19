@@ -1,10 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import {
-  HIGHCHARTS_ROOT_MODULES,
-  HIGHCHARTS_LOADER,
-  HIGHCHARTS_OPTIONS,
-  HIGHCHARTS_TIMEOUT,
-} from './highcharts-chart.token';
+import { HIGHCHARTS_ROOT_MODULES, HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS } from './highcharts-chart.token';
 import { PartialHighchartsConfig } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
@@ -17,9 +12,6 @@ export class HighchartsChartService {
     optional: true,
   });
   private readonly globalModules = inject(HIGHCHARTS_ROOT_MODULES, {
-    optional: true,
-  });
-  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, {
     optional: true,
   });
 
@@ -37,7 +29,7 @@ export class HighchartsChartService {
       if (this.globalOptions) {
         highcharts.setOptions(this.globalOptions);
       }
-      setTimeout(() => this.highcharts.set(highcharts), this.timeout ?? 100);
+      this.highcharts.set(highcharts);
     });
   }
 }
