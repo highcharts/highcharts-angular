@@ -133,8 +133,7 @@ describe('TestComponent / HighchartsChartService (load module)', () => {
         providers: [
           providePartialHighcharts({
             modules: () => [
-              import('highcharts/esm/modules/map'),
-              import('highcharts/esm/modules/tilemap'),
+              import('highcharts/esm/modules/map').then(() => import('highcharts/esm/modules/tilemap')),
               import('highcharts/esm/modules/gantt'),
               import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell')),
               import('highcharts/esm/modules/pattern-fill'),
