@@ -8,7 +8,7 @@ import { HighchartsChartComponent, providePartialHighcharts, ChartConstructorTyp
   styleUrl: './tilemap-chart.component.css',
   providers: [
     providePartialHighcharts({
-      modules: () => [import('highcharts/esm/modules/map'), import('highcharts/esm/modules/tilemap')],
+      modules: () => [import('highcharts/esm/modules/map').then(() => import('highcharts/esm/modules/tilemap'))],
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
