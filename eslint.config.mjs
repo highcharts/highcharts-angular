@@ -20,6 +20,7 @@ function tsFiles(files, extraRules = {}) {
       },
     },
     rules: {
+      '@typescript-eslint/no-deprecated': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unnecessary-type-assertion': 'off',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
