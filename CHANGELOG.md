@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.3.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.3.0) (2026-01-23)
+
+
+### Features
+
+* Deprecation: Marked `[(update)]` and `[(oneToOne)]` inputs as deprecated- they will be removed in a future 6.0.0 release.
+*  Simplified Logic: Shifted the responsibility of triggering updates from the wrapper's internal state checking to the developer via manual `.update()` calls
+
+
 ## [5.2.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.2.0) (2025-11-05)
 
 ### Features
