@@ -19,7 +19,7 @@ export class StockChartComponent {
   // starting values
   public usedIndex = 0;
   public chartTitle = 'My chart'; // for init - change through titleChange
-  public chartInstances: Highcharts.Chart[] = [];
+  public chartInstances?: Highcharts.Chart;
 
   // change in all places
   public titleChange(event: string): void {
@@ -31,7 +31,7 @@ export class StockChartComponent {
     });
 
     // trigger ngOnChanges
-    this.chartInstances[this.usedIndex].update(this.charts[this.usedIndex], false, true);
+    this.chartInstances?.update(this.charts[this.usedIndex], true, true);
   }
 
   public charts: Highcharts.Options[] = [
@@ -99,10 +99,10 @@ export class StockChartComponent {
 
   public chartInstance(chart: Highcharts.Chart): void {
     console.log('some variables: ', chart, this.charts);
-    this.chartInstances[this.usedIndex] = chart;
+    this.chartInstances = chart;
   }
 
   protected load(i: number): void {
-    this.chartInstances[this.usedIndex].update(this.charts[i], true, true);
+    this.chartInstances?.update(this.charts[i], true, true);
   }
 }

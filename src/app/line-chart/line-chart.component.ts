@@ -47,6 +47,7 @@ export class LineChartComponent {
 
   public updateInputChart(): void {
     this.optFromInput = JSON.parse(this.optFromInputString);
+    this.chart?.update(this.optFromInput, true, true);
   }
 
   public toggleSeriesType(index = 0): void {
