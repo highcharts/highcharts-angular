@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { HighchartsChartComponent, providePartialHighcharts, ChartConstructorType } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts, ChartConstructorType } from '@highcharts-angular';
 
 @Component({
   selector: 'app-tilemap-chart',
@@ -8,7 +8,7 @@ import { HighchartsChartComponent, providePartialHighcharts, ChartConstructorTyp
   styleUrl: './tilemap-chart.component.css',
   providers: [
     providePartialHighcharts({
-      modules: () => [import('highcharts/esm/modules/map'), import('highcharts/esm/modules/tilemap')],
+      modules: () => [import('highcharts/esm/modules/map').then(() => import('highcharts/esm/modules/tilemap'))],
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,6 +98,4 @@ export class TilemapChartComponent {
   }
 
   public chartConstructor: ChartConstructorType = 'chart';
-  public updateFlag = false;
-  public oneToOneFlag = true;
 }

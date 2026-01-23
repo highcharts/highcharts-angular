@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHighcharts } from '../../../../highcharts-angular/src/public_api';
+import { provideHighcharts } from '@highcharts-angular';
 import { LineTestComponent } from './line-test.component';
 import type Highcharts from 'highcharts/esm/highcharts';
 
@@ -35,6 +35,7 @@ describe('LineTestComponent', () => {
     // Simulate the chartInstance being assigned (this happens when the chart is rendered)
     component.chartInstance = {
       series: [{ yData: [1, 2, 3] }],
+      update: jasmine.createSpy('update'),
     } as unknown as Highcharts.Chart;
 
     const series = component.chartInstance.series[0];
@@ -46,7 +47,6 @@ describe('LineTestComponent', () => {
 
     const updatedSeries = (component.chartOptions.series as any)[0];
     expect(updatedSeries.color).toBe('hotpink');
-    expect(component.updateFlag).toBeTrue();
   });
 
   it('should be properly updated', () => {
@@ -55,6 +55,7 @@ describe('LineTestComponent', () => {
 
     component.chartInstance = {
       series: [mockSeries],
+      update: jasmine.createSpy('update'),
     } as unknown as Highcharts.Chart;
 
     // Perform the color update

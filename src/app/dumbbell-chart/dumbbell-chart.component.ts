@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { HighchartsChartComponent } from 'highcharts-angular';
-import { providePartialHighcharts } from 'highcharts-angular';
+import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-angular';
 
 @Component({
   selector: 'app-dumbbell-chart',
@@ -11,12 +10,10 @@ import { providePartialHighcharts } from 'highcharts-angular';
     providePartialHighcharts({
       modules: () => {
         return [
-          import('highcharts/esm/highcharts-more'),
-          import('highcharts/esm/modules/dumbbell'),
+          import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell')),
           import('highcharts/esm/modules/pattern-fill'),
         ];
       },
-      timeout: 900,
     }),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
