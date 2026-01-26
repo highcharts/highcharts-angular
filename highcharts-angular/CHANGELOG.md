@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.4.0) (2026-01-26)
+
+
+### Features
+
+* add configurable timeout for Highcharts module loading ([0382051](https://github.com/highcharts/highcharts-angular/commit/0382051d14061be0a3556f3bdccc40e8d4a878c6))
+* add timeout configuration for Highcharts loading ([034b9e3](https://github.com/highcharts/highcharts-angular/commit/034b9e3fac06f90e593019a026e3f988cddbd981))
+* add timeout handling for Highcharts chart creation and updates ([599056c](https://github.com/highcharts/highcharts-angular/commit/599056caf00b149ceb069a067f149768697210e0))
+
+
+### Bug Fixes
+
+* add missing comma for timeout configuration in module loading ([35fb36b](https://github.com/highcharts/highcharts-angular/commit/35fb36bef4b08609de5c6efe6bb0bf5be9465b9d))
+* add path mapping for [@highcharts-angular](https://github.com/highcharts-angular) in tsconfig.json ([f71ee56](https://github.com/highcharts/highcharts-angular/commit/f71ee568cc0315a1962fcb2b7d3217b10360396d))
+* adjust timeout configuration in test setup for highcharts-chart component ([b311c6f](https://github.com/highcharts/highcharts-angular/commit/b311c6f41c3db43085090ef5f3cb1c361e132266))
+* clean up highcharts-chart.directive.ts by removing unused imports and simplifying chart creation logic ([04b661c](https://github.com/highcharts/highcharts-angular/commit/04b661ca4f308db9748c7cafe6500d1457903e9e))
+* default update to true to avoid breaking change ([07d7f8a](https://github.com/highcharts/highcharts-angular/commit/07d7f8a24223c78e4815582e47dc2ba042d15834))
+* enable warning for deprecated TypeScript rules in ESLint configuration ([c2e8dbf](https://github.com/highcharts/highcharts-angular/commit/c2e8dbf680d97040a2ff99c841e51cc890f18d86))
+* enhance chart initialization logic by using a callback for emitting chart instance ([25f3099](https://github.com/highcharts/highcharts-angular/commit/25f3099c74fbaa64b54a56854057b719be5ccd5b))
+* enhance stock chart component by removing update flag and adding redraw functionality ([00cf587](https://github.com/highcharts/highcharts-angular/commit/00cf58777b2e00404d81fd6f9c02cad6b7aeecf6))
+* ensure chart instance is destroyed when directive is destroyed ([9a703a2](https://github.com/highcharts/highcharts-angular/commit/9a703a23152557b23985fa824a55aaafce73b5e0))
+* increase timeout configuration in highcharts-chart component tests ([890f9d1](https://github.com/highcharts/highcharts-angular/commit/890f9d10035edeb704c8be4833165ae1517b5371))
+* read signals before await for proper dependency tracking ([b14f8a9](https://github.com/highcharts/highcharts-angular/commit/b14f8a9742a5be9d875ada3cc070d19818a6e638))
+* refactor chart creation and update logic in highcharts-chart directive ([9c17178](https://github.com/highcharts/highcharts-angular/commit/9c1717819adfc9546d85d6d2f6807d5579b10648))
+* refactor keepChartUpToDate to use setTimeout for chart initialization delay ([6f04802](https://github.com/highcharts/highcharts-angular/commit/6f04802edc638c73d743566b3d647719acd0dc84))
+* refactor timeout handling and chart creation logic in highcharts components ([c0096de](https://github.com/highcharts/highcharts-angular/commit/c0096de6766c8c6a9ba411f98543ce439263ab05))
+* remove unnecessary update flag and streamline chart color update logic ([ef7f417](https://github.com/highcharts/highcharts-angular/commit/ef7f417f73ec4b0f4564e28c513368a4de86f138))
+* remove unused timeout logic and streamline chart instance management ([7b402f5](https://github.com/highcharts/highcharts-angular/commit/7b402f548a5d75f48a718b8d5e3ef1fef4c66234))
+* remove update flag and one-to-one binding from chart component ([bd09203](https://github.com/highcharts/highcharts-angular/commit/bd092037cc3d5e1e4de68a5027b28b9ef1031345))
+* remove update flag and one-to-one binding from tilemap chart component ([3c7bd46](https://github.com/highcharts/highcharts-angular/commit/3c7bd4638981db7ac059dce8b61115d485ee392a))
+* simplify chart update logic by removing unnecessary bindings and storing chart instance ([c07ba05](https://github.com/highcharts/highcharts-angular/commit/c07ba05bd397df1294843433d9dc61f9fd99ed9f))
+* simplify options table in README for clarity ([93f732a](https://github.com/highcharts/highcharts-angular/commit/93f732a08b90aa27a4312f2d9bd79f0b2b6bb8b1))
+* update bootstrap function to accept BootstrapContext parameter ([046ed5e](https://github.com/highcharts/highcharts-angular/commit/046ed5ef23c517cc9940c072c1c0db06b8587696))
+* update CHANGELOG for version 5.2.0 release notes ([8cf09ef](https://github.com/highcharts/highcharts-angular/commit/8cf09efd23bdf6377dcdcd65cf5559223658cee7))
+* update dumbbell chart module imports to use promise chaining for better loading sequence ([d860397](https://github.com/highcharts/highcharts-angular/commit/d860397c12308754f9da0e71e47f2ddd9c2e6a1c))
+* update import path for provideHighcharts to use [@highcharts-angular](https://github.com/highcharts-angular) ([5bd920d](https://github.com/highcharts/highcharts-angular/commit/5bd920da633b6fd4d307b22007279ee35f7f26cd))
+* update import paths for Highcharts components to use [@highcharts-angular](https://github.com/highcharts-angular) ([bcb4787](https://github.com/highcharts/highcharts-angular/commit/bcb4787c2bd1fc083333deeabf35982c13dcfff7))
+* update module import logic for highcharts-chart component ([7f1add0](https://github.com/highcharts/highcharts-angular/commit/7f1add08f7e5cae18c1cbc4439e4fbf60dca9f6f))
+* update module import logic for tilemap-chart component ([9f0e83d](https://github.com/highcharts/highcharts-angular/commit/9f0e83d416ba769ec468cafe22f5f49a898d2e01))
+* update README to reflect deprecation of oneToOne parameter in chart options ([b64f985](https://github.com/highcharts/highcharts-angular/commit/b64f985bc93a4c361ef25fb5395e2fd0720db9f4))
+* update README to reflect deprecation of update and oneToOne parameters in chart options ([1a2382e](https://github.com/highcharts/highcharts-angular/commit/1a2382e306a0e75631085cc6bcdbacc8cbc70d9d))
+
 ## [5.3.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.3.0) (2026-01-23)
 
 
