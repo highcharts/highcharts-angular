@@ -45,7 +45,7 @@ export class HighchartsChartDirective {
    * Check how update works in Highcharts
    * API doc here: https://api.highcharts.com/class-reference/Highcharts.Chart#update
    */
-  public readonly update = model<boolean>();
+  public readonly update = model<boolean>(true);
 
   public readonly chartInstance = output<Highcharts.Chart>(); // #26
 
