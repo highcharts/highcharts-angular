@@ -45,7 +45,7 @@ export class HighchartsChartDirective {
    * Check how update works in Highcharts
    * API doc here: https://api.highcharts.com/class-reference/Highcharts.Chart#update
    */
-  public readonly update = model<boolean>();
+  public readonly update = model<boolean>(true);
 
   public readonly chartInstance = output<Highcharts.Chart>(); // #26
 
@@ -75,9 +75,9 @@ export class HighchartsChartDirective {
 
   // Create the chart as soon as we can
   private readonly chart = computed(async () => {
-    await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
+    await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
     if (!highCharts) return;
     const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
       return this.chartInstance.emit(chart);
