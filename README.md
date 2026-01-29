@@ -2,6 +2,15 @@
 
 Official minimal Highcharts integration for Angular.
 
+## Links
+
+* Official website: [www.highcharts.com](https://www.highcharts.com)
+* Product page: [www.highcharts.com/integrations/angular](https://www.highcharts.com/integrations/angular)
+* Download: [www.highcharts.com/download](https://www.highcharts.com/download)
+* License: [www.highcharts.com/license](https://www.highcharts.com/license)
+* Support: [www.highcharts.com/support](https://www.highcharts.com/support)
+* Issues: [Working repo](https://github.com/highcharts/highcharts/issues)
+
 ## Table of Contents
 
 1. [Getting Started](#getting-started)
