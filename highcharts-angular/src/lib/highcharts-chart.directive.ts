@@ -80,6 +80,7 @@ export class HighchartsChartDirective {
     await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
     if (!highCharts) return;
     const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
+      if (chart.renderer.forExport) return;
       return this.chartInstance.emit(chart);
     };
     const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
