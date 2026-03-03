@@ -81,7 +81,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideHighcharts({
       // Optional: Define the Highcharts instance dynamically
-      instance: () => import('highcharts'),
+      instance: () => import('highcharts/esm/highcharts').then(m => m.default),
 
       // Global chart options applied across all charts
       options: {
@@ -108,6 +108,8 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 ```
+
+**Note:** Always use the ESM import (`highcharts/esm/highcharts`) over the CommonJS one (`highcharts`). ESM guarantees a stable instance reference, enables better tree-shaking, and works natively with modern bundlers.
 
 ### Usage
 
