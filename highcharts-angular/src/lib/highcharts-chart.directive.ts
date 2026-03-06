@@ -69,6 +69,8 @@ export class HighchartsChartDirective {
 
   private _chartInstance: Highcharts.Chart | undefined;
 
+  private isDestroyed = false;
+
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -80,7 +82,7 @@ export class HighchartsChartDirective {
     await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
     if (!highCharts) return;
     const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
-      if (chart.renderer.forExport) return;
+      if (chart.renderer.forExport || this.isDestroyed) return;
       return this.chartInstance.emit(chart);
     };
     const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
@@ -129,6 +131,7 @@ export class HighchartsChartDirective {
     this.destroyRef.onDestroy(() => {
       this._chartInstance?.destroy();
       this._chartInstance = undefined;
+      this.isDestroyed = true;
     }); // #44
 
     // Keep the chart up to date whenever options change or the update special input is set to true
