@@ -103,6 +103,9 @@ export const appConfig: ApplicationConfig = {
           import('highcharts/esm/themes/sunset'),
         ];
       },
+
+      // Optional: override the default 500ms delay before chart creation
+      timeout: 0,
     }),
     // Other providers here ...
   ],
