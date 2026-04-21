@@ -17,6 +17,9 @@ import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token'
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
+// A shared promise chain to serialize chart initializations across all directive instances.
+let chartInitializationQueue: Promise<void> = Promise.resolve();
+
 @Directive({
   selector: '[highchartsChart]',
 })
@@ -75,31 +78,55 @@ export class HighchartsChartDirective {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // Create the chart as soon as we can
   private readonly chart = computed(async () => {
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
+
     await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
+
     if (!highCharts) return;
+
     const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
       if (chart.renderer.forExport || this.isDestroyed) return;
       return this.chartInstance.emit(chart);
     };
+
     const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
       chart: highCharts.chart,
       ganttChart: (highCharts as any).ganttChart,
       mapChart: (highCharts as any).mapChart,
       stockChart: (highCharts as any).stockChart,
     };
-    return chartFactories[constructorType](
-      this.el.nativeElement,
-      // Use untracked, so we don't re-create new chart everytime options change
-      untracked(() => this.options()),
-      // Use Highcharts callback to emit chart instance, so it is available as early
-      // as possible. So that Angular is already aware of the instance if Highcharts raise
-      // events during the initialization that happens before coming back to Angular
-      callback,
-    );
+
+    return new Promise<Highcharts.Chart | undefined>((resolve) => {
+      chartInitializationQueue = chartInitializationQueue.then(async () => {
+        // If the component was destroyed while waiting in the queue, skip rendering
+        if (this.isDestroyed) {
+          resolve(undefined);
+          return;
+        }
+
+        const createdChart = chartFactories[constructorType](
+          this.el.nativeElement,
+          // Use untracked, so we don't re-create new chart everytime options change
+          untracked(() => this.options()),
+          // Use Highcharts callback to emit chart instance, so it is available as early
+          // as possible. So that Angular is already aware of the instance if Highcharts raise
+          // events during the initialization that happens before coming back to Angular
+          callback,
+        );
+
+        // Yield back to the browser's main thread to allow paint/animation frames
+        // This prevents the UI from freezing between successive chart initializations
+        await new Promise(r => setTimeout(r, 0));
+
+        resolve(createdChart as Highcharts.Chart);
+      }).catch((error: unknown) => {
+        // Ensure the queue doesn't break permanently if one chart throws an error
+        console.error('Highcharts-Angular: Error initializing chart', error);
+        resolve(undefined);
+      });
+    });
   });
 
   private keepChartUpToDate(): void {
