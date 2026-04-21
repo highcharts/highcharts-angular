@@ -5,5 +5,4 @@ import { ApplicationRef } from '@angular/core';
 
 const bootstrap = (): Promise<ApplicationRef> => bootstrapApplication(AppComponent, config);
 
-
 export default bootstrap;

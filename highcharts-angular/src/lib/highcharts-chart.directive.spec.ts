@@ -47,11 +47,11 @@ describe('HighchartsChartDirective', () => {
     chartSpy = jasmine.createSpy('chart').and.returnValue({
       renderer: { forExport: false },
       destroy: jasmine.createSpy('destroy'),
-      update: jasmine.createSpy('update')
+      update: jasmine.createSpy('update'),
     });
 
     mockHighcharts = {
-      chart: chartSpy
+      chart: chartSpy,
     };
 
     TestBed.configureTestingModule({
