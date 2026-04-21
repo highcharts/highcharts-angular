@@ -78,6 +78,7 @@ export class HighchartsChartDirective {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  // Create the chart as soon as we can
   private readonly chart = computed(async () => {
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
@@ -99,35 +100,25 @@ export class HighchartsChartDirective {
     };
 
     return new Promise<Highcharts.Chart | undefined>(resolve => {
-      chartInitializationQueue = chartInitializationQueue
-        .then(async () => {
-          // If the component was destroyed while waiting in the queue, skip rendering
-          if (this.isDestroyed) {
-            resolve(undefined);
-            return;
-          }
+      chartInitializationQueue = chartInitializationQueue.then(() => {
+        // If the component was destroyed while waiting in the queue, skip rendering
+        if (this.isDestroyed) {
+          resolve(undefined);
+          return;
+        }
 
+        try {
           const createdChart = chartFactories[constructorType](
             this.el.nativeElement,
-            // Use untracked, so we don't re-create new chart everytime options change
             untracked(() => this.options()),
-            // Use Highcharts callback to emit chart instance, so it is available as early
-            // as possible. So that Angular is already aware of the instance if Highcharts raise
-            // events during the initialization that happens before coming back to Angular
             callback,
           );
-
-          // Yield back to the browser's main thread to allow paint/animation frames
-          // This prevents the UI from freezing between successive chart initializations
-          await new Promise(r => setTimeout(r, 0));
-
           resolve(createdChart as Highcharts.Chart);
-        })
-        .catch((error: unknown) => {
-          // Ensure the queue doesn't break permanently if one chart throws an error
+        } catch (error) {
           console.error('Highcharts-Angular: Error initializing chart', error);
           resolve(undefined);
-        });
+        }
+      });
     });
   });
 
