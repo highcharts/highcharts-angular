@@ -1,5 +1,5 @@
 /// <reference types="jasmine" />
-import { TestBed, fakeAsync, tick, flush, flushMicrotasks } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HighchartsChartDirective } from './highcharts-chart.directive';
@@ -18,62 +18,32 @@ class TestHostComponent {
   public options: Highcharts.Options = {};
 }
 
-// Added to simulate the #437 performance issue scenario
-@Component({
-  selector: 'highcharts-multi-test-host',
-  template: `
-    <div highchartsChart [options]="options"></div>
-    <div highchartsChart [options]="options"></div>
-    <div highchartsChart [options]="options"></div>
-  `,
-  imports: [HighchartsChartDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-class MultiTestHostComponent {
-  public options: Highcharts.Options = {};
-}
-
 describe('HighchartsChartDirective', () => {
   let debugElement: DebugElement;
   let directive: HighchartsChartDirective;
   let loadSpy: Spy;
-  let chartSpy: Spy;
-  let mockHighcharts: any;
 
   beforeEach(() => {
     loadSpy = jasmine.createSpy('load');
-
-    // Mock the chart factory to return a dummy chart instance
-    chartSpy = jasmine.createSpy('chart').and.returnValue({
-      renderer: { forExport: false },
-      destroy: jasmine.createSpy('destroy'),
-      update: jasmine.createSpy('update'),
-    });
-
-    mockHighcharts = {
-      chart: chartSpy,
-    };
-
     TestBed.configureTestingModule({
-      imports: [TestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
+      imports: [TestHostComponent, HighchartsChartDirective],
       providers: [
         {
           provide: HIGHCHARTS_CONFIG,
-          useValue: { timeout: 500 }, // Explicitly set the timeout for predictable ticking
+          useValue: { timeout: 500 }, // Ensure a predictable 500ms timeout for tests
         },
         {
           provide: HighchartsChartService,
           useValue: {
             load: loadSpy,
-            // Return our mocked Highcharts object instead of null
-            highcharts: () => mockHighcharts,
+            highcharts: () => null,
           },
         },
       ],
     });
 
     const fixture = TestBed.createComponent(TestHostComponent);
-    fixture.detectChanges();
+    fixture.detectChanges(); // Triggers the first chart rendering
     debugElement = fixture.debugElement.query(By.directive(HighchartsChartDirective));
     directive = debugElement.injector.get(HighchartsChartDirective);
   });
@@ -87,33 +57,31 @@ describe('HighchartsChartDirective', () => {
   });
 
   it('should load global config on initialization', () => {
-    expect(loadSpy).toHaveBeenCalled();
+    expect(loadSpy).toHaveBeenCalledWith({ timeout: 500 });
   });
 
-  it('should stagger multiple chart initializations to prevent main thread blocking', fakeAsync(() => {
-    // Reset spy to ensure a clean slate
-    chartSpy.calls.reset();
+  it('should stagger multiple chart initializations via setTimeout to prevent main thread blocking', () => {
+    // Spy on the global setTimeout function to see what delays the directive is requesting
+    // eslint-disable-next-line no-restricted-globals
+    const setTimeoutSpy = spyOn(window, 'setTimeout').and.callThrough();
 
-    const multiFixture = TestBed.createComponent(MultiTestHostComponent);
-    multiFixture.detectChanges(); // Triggers the effect for 3 charts
+    // Create two MORE charts rapidly (simulating a complex dashboard)
+    const fixture2 = TestBed.createComponent(TestHostComponent);
+    const fixture3 = TestBed.createComponent(TestHostComponent);
 
-    tick(0);
-    expect(chartSpy).not.toHaveBeenCalled();
+    // Trigger their effects synchronously
+    fixture2.detectChanges();
+    fixture3.detectChanges();
 
-    // The initial delay() resolves for all 3 charts simultaneously.
-    // Chart 1 takes the "Fast Path" and renders synchronously.
-    // Charts 2 and 3 are pushed to the renderingQueue.
-    tick(500);
-    expect(chartSpy).toHaveBeenCalledTimes(1);
+    // Look at all the milliseconds passed to setTimeout during those detectChanges
+    const allTimeouts = setTimeoutSpy.calls.allArgs().map(args => args[1]);
 
-    // Chart 2 is processed from the queue with a 16ms setTimeout
-    tick(16);
-    expect(chartSpy).toHaveBeenCalledTimes(2);
+    // Filter out the 0ms resets, we only care about the actual chart delays (>= 500)
+    const chartDelays = allTimeouts.filter(ms => typeof ms === 'number' && ms >= 500);
 
-    // Chart 3 is processed from the queue with a 16ms setTimeout
-    tick(16);
-    expect(chartSpy).toHaveBeenCalledTimes(3);
-
-    flush(); // Clear out any remaining asynchronous tasks
-  }));
+    // Because the `beforeEach` chart finished in a previous event loop, the stagger count reset.
+    // Therefore, fixture2 gets 500ms, and fixture3 gets staggered by 16ms (516ms)!
+    expect(chartDelays).toContain(500);
+    expect(chartDelays).toContain(516);
+  });
 });
