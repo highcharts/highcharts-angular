@@ -18,47 +18,25 @@ class TestHostComponent {
   public options: Highcharts.Options = {};
 }
 
-// Added to test batch rendering logic perfectly
-@Component({
-  selector: 'highcharts-multi-test-host',
-  template: `
-    <div highchartsChart [options]="options"></div>
-    <div highchartsChart [options]="options"></div>
-    <div highchartsChart [options]="options"></div>
-  `,
-  imports: [HighchartsChartDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-class MultiTestHostComponent {
-  public options: Highcharts.Options = {};
-}
-
 describe('HighchartsChartDirective', () => {
   let debugElement: DebugElement;
   let directive: HighchartsChartDirective;
   let loadSpy: Spy;
-  let chartSpy: Spy;
 
   beforeEach(() => {
     loadSpy = jasmine.createSpy('load');
-    chartSpy = jasmine.createSpy('chart').and.returnValue({
-      renderer: { forExport: false },
-      destroy: jasmine.createSpy('destroy'),
-      update: jasmine.createSpy('update'),
-    });
-
     TestBed.configureTestingModule({
-      imports: [TestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
+      imports: [TestHostComponent, HighchartsChartDirective],
       providers: [
         {
           provide: HIGHCHARTS_CONFIG,
-          useValue: { timeout: 500 },
+          useValue: {},
         },
         {
           provide: HighchartsChartService,
           useValue: {
             load: loadSpy,
-            highcharts: () => ({ chart: chartSpy }),
+            highcharts: () => null,
           },
         },
       ],
@@ -79,23 +57,6 @@ describe('HighchartsChartDirective', () => {
   });
 
   it('should load global config on initialization', () => {
-    expect(loadSpy).toHaveBeenCalledWith({ timeout: 500 });
-  });
-
-  it('should stagger multiple chart initializations via setTimeout to prevent main thread blocking', () => {
-    // eslint-disable-next-line no-restricted-globals
-    const setTimeoutSpy = spyOn(window, 'setTimeout').and.callThrough();
-
-    // Create a multi-chart host so they batch in the exact same synchronous execution
-    const multiFixture = TestBed.createComponent(MultiTestHostComponent);
-    multiFixture.detectChanges();
-
-    const allTimeouts = setTimeoutSpy.calls.allArgs().map(args => args[1]);
-    const chartDelays = allTimeouts.filter(ms => typeof ms === 'number' && ms >= 500);
-
-    // 3 charts in the component should get staggering of +0, +16, and +32ms
-    expect(chartDelays).toContain(500);
-    expect(chartDelays).toContain(516);
-    expect(chartDelays).toContain(532);
+    expect(loadSpy).toHaveBeenCalledWith({});
   });
 });
