@@ -57,7 +57,7 @@ export class HighchartsChartDirective {
   private isDestroyed = false;
 
   private static staggerCount = 0;
-  private static resetScheduled = false;
+  private static resetStaggerTimer: NodeJS.Timeout | undefined;
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -68,21 +68,20 @@ export class HighchartsChartDirective {
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
 
-    // Grab the current order in the batch and increment
-    const order = HighchartsChartDirective.staggerCount++;
+    // Calculate stagger to prevent main thread blocking when rendering many charts
+    const currentStaggerDelay = HighchartsChartDirective.staggerCount * 16;
+    HighchartsChartDirective.staggerCount++;
 
-    // Schedule a microtask to reset the counter once this synchronous batch finishes evaluating
-    if (!HighchartsChartDirective.resetScheduled) {
-      HighchartsChartDirective.resetScheduled = true;
-      queueMicrotask(() => {
-        HighchartsChartDirective.staggerCount = 0;
-        HighchartsChartDirective.resetScheduled = false;
-      });
-    }
+    // Debounce the reset so all charts initialized in this macro-task get uniquely staggered.
+    // This naturally cleans up state so tests do not leak.
+    clearTimeout(HighchartsChartDirective.resetStaggerTimer);
+    HighchartsChartDirective.resetStaggerTimer = setTimeout(() => {
+      HighchartsChartDirective.staggerCount = 0;
+    }, 0);
 
-    const currentStaggerDelay = order * 16;
     const baseTimeout = this.relativeConfig?.timeout ?? this.timeout ?? 500;
 
+    // Add the computed stagger incrementally to the base timeout
     await this.delay(baseTimeout + currentStaggerDelay);
 
     if (!highCharts) return;
