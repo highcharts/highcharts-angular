@@ -9,6 +9,16 @@ import Spy = jasmine.Spy;
 import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({
+  selector: 'highcharts-test-host',
+  template: ` <div highchartsChart [options]="options"></div>`,
+  imports: [HighchartsChartDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+class TestHostComponent {
+  public options: Highcharts.Options = {};
+}
+
+@Component({
   selector: 'highcharts-multi-test-host',
   template: `
     <div highchartsChart [options]="options"></div>
@@ -37,7 +47,7 @@ describe('HighchartsChartDirective', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [MultiTestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
+      imports: [TestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
       providers: [
         {
           provide: HIGHCHARTS_CONFIG,
@@ -53,7 +63,7 @@ describe('HighchartsChartDirective', () => {
       ],
     });
 
-    const fixture = TestBed.createComponent(MultiTestHostComponent);
+    const fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
     debugElement = fixture.debugElement.query(By.directive(HighchartsChartDirective));
     directive = debugElement.injector.get(HighchartsChartDirective);
@@ -84,7 +94,7 @@ describe('HighchartsChartDirective', () => {
     // Verify that the charts received staggered delays (a difference of 16ms between calls).
     // By checking for the difference rather than a hardcoded 500ms, we completely
     // decouple the test from any state leakage originating from the beforeEach block!
-    const hasStagger = chartDelays.some(d1 => chartDelays.includes(d1 + 16));
+    const hasStagger = chartDelays.some(d1 => d1 !== undefined && chartDelays.includes(d1 + 16));
 
     expect(hasStagger)
       .withContext(`Expected a 16ms stagger difference, but found delays: [${chartDelays.join(', ')}]`)
