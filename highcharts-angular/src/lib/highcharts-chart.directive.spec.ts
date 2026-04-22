@@ -1,5 +1,5 @@
 /// <reference types="jasmine" />
-import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, flush, flushMicrotasks } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HighchartsChartDirective } from './highcharts-chart.directive';
@@ -91,21 +91,29 @@ describe('HighchartsChartDirective', () => {
   });
 
   it('should stagger multiple chart initializations to prevent main thread blocking', fakeAsync(() => {
+    // 1. Reset the spy in case the component from beforeEach() fired and leaked a call
+    chartSpy.calls.reset();
+
     const multiFixture = TestBed.createComponent(MultiTestHostComponent);
     multiFixture.detectChanges(); // Triggers initialization for 3 charts synchronously
 
+    // Flush the initial effects so all timers start exactly at T=0
+    tick(0);
     expect(chartSpy).not.toHaveBeenCalled();
 
     // First chart renders at baseTimeout (500ms) + 0ms stagger
     tick(500);
+    flushMicrotasks(); // CRUCIAL: Allow the 'await' to resume after the timer fires
     expect(chartSpy).toHaveBeenCalledTimes(1);
 
     // Second chart renders 16ms later
     tick(16);
+    flushMicrotasks(); // CRUCIAL
     expect(chartSpy).toHaveBeenCalledTimes(2);
 
     // Third chart renders another 16ms later
     tick(16);
+    flushMicrotasks(); // CRUCIAL
     expect(chartSpy).toHaveBeenCalledTimes(3);
 
     flush(); // Clear out any remaining tasks
