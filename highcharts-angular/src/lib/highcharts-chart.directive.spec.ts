@@ -91,13 +91,13 @@ describe('HighchartsChartDirective', () => {
   });
 
   it('should stagger multiple chart initializations to prevent main thread blocking', fakeAsync(() => {
-    // 1. Reset the spy in case the component from beforeEach() fired and leaked a call
+    // Reset spy to ensure a clean slate in case a previous test leaked
     chartSpy.calls.reset();
 
     const multiFixture = TestBed.createComponent(MultiTestHostComponent);
-    multiFixture.detectChanges(); // Triggers initialization for 3 charts synchronously
+    multiFixture.detectChanges(); // Triggers the effect
 
-    // Flush the initial effects so all timers start exactly at T=0
+    // Flush the initial effect so the timers actually get created and start at T=0
     tick(0);
     expect(chartSpy).not.toHaveBeenCalled();
 
