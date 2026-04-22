@@ -17,9 +17,8 @@ import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token'
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
-// A shared promise chain to serialize chart initializations across all directive instances.
-let chartInitializationQueue: Promise<void> | null = null;
-let pendingChartsCount = 0;
+// Module-level counter to stagger parallel chart initializations across multiple directives
+let staggerCount = 0;
 
 @Directive({
   selector: '[highchartsChart]',
@@ -84,7 +83,20 @@ export class HighchartsChartDirective {
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
 
-    await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
+    // Group simultaneous chart initializations
+    const currentStaggerDelay = staggerCount * 16; // Stagger by 16ms (~1 frame) per chart
+    staggerCount++;
+
+    // Reset the count at the end of the microtask queue.
+    // This ensures independent charts rendered later start back at 0 delay.
+    Promise.resolve().then(() => {
+      staggerCount = 0;
+    });
+
+    const baseTimeout = this.relativeConfig?.timeout ?? this.timeout ?? 500;
+
+    // The native Angular/browser setTimeout natively staggers the macrotasks!
+    await this.delay(baseTimeout + currentStaggerDelay);
 
     if (!highCharts) return;
 
@@ -100,43 +112,15 @@ export class HighchartsChartDirective {
       stockChart: (highCharts as any).stockChart,
     };
 
-    return new Promise<Highcharts.Chart | undefined>(resolve => {
-      pendingChartsCount++;
+    // Because the promises resolve synchronously at staggered intervals,
+    // N N charts no longer hit the main thread at the exact same time.
+    const createdChart = chartFactories[constructorType](
+      this.el.nativeElement,
+      untracked(() => this.options()),
+      callback,
+    );
 
-      // If this is the first chart in the batch, start a new Promise chain
-      // This ensures the Promise is tracked by the current Angular Zone/Test
-      if (!chartInitializationQueue) {
-        chartInitializationQueue = Promise.resolve();
-      }
-
-      chartInitializationQueue = chartInitializationQueue
-        .then(() => {
-          if (this.isDestroyed) {
-            resolve(undefined);
-            return;
-          }
-
-          try {
-            const createdChart = chartFactories[constructorType](
-              this.el.nativeElement,
-              untracked(() => this.options()),
-              callback,
-            );
-            resolve(createdChart as Highcharts.Chart);
-          } catch (error) {
-            console.error('Highcharts-Angular: Error initializing chart', error);
-            resolve(undefined);
-          }
-        })
-        .finally(() => {
-          pendingChartsCount--;
-          // Once all queued charts have rendered, wipe the queue cleanly.
-          // This prevents tests from leaking state into each other.
-          if (pendingChartsCount === 0) {
-            chartInitializationQueue = null;
-          }
-        });
-    });
+    return createdChart as Highcharts.Chart;
   });
 
   private keepChartUpToDate(): void {

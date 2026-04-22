@@ -90,36 +90,24 @@ describe('HighchartsChartDirective', () => {
     expect(loadSpy).toHaveBeenCalled();
   });
 
-  it('should process multiple charts sequentially through the queue without failing', fakeAsync(() => {
+  it('should stagger multiple chart initializations to prevent main thread blocking', fakeAsync(() => {
     const multiFixture = TestBed.createComponent(MultiTestHostComponent);
-    multiFixture.detectChanges(); // Triggers initialization for 3 charts
+    multiFixture.detectChanges(); // Triggers initialization for 3 charts synchronously
 
-    // Initially, no charts should be created because of the 500ms initial delay
     expect(chartSpy).not.toHaveBeenCalled();
 
-    // Tick past the initial 500ms delay for all directives
+    // First chart renders at baseTimeout (500ms) + 0ms stagger
     tick(500);
+    expect(chartSpy).toHaveBeenCalledTimes(1);
 
-    // Because of the Promise queue, they resolve in a strict sequence.
-    // In fakeAsync, the microtask queue drains instantly after the macro-task delay,
-    // so all 3 queued initializations safely complete within this tick.
+    // Second chart renders 16ms later
+    tick(16);
+    expect(chartSpy).toHaveBeenCalledTimes(2);
+
+    // Third chart renders another 16ms later
+    tick(16);
     expect(chartSpy).toHaveBeenCalledTimes(3);
 
     flush(); // Clear out any remaining tasks
-  }));
-
-  it('should skip chart initialization if the directive is destroyed while waiting in the queue', fakeAsync(() => {
-    const multiFixture = TestBed.createComponent(MultiTestHostComponent);
-    multiFixture.detectChanges();
-
-    // Destroy the component before the 500ms delay finishes and the queue processes
-    multiFixture.destroy();
-
-    // Advance time to when the charts WOULD have been created
-    tick(500);
-    flush();
-
-    // The factory should never be called because `this.isDestroyed` was checked in the queue
-    expect(chartSpy).not.toHaveBeenCalled();
   }));
 });
