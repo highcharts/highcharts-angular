@@ -91,31 +91,29 @@ describe('HighchartsChartDirective', () => {
   });
 
   it('should stagger multiple chart initializations to prevent main thread blocking', fakeAsync(() => {
-    // Reset spy to ensure a clean slate in case a previous test leaked
+    // Reset spy to ensure a clean slate
     chartSpy.calls.reset();
 
     const multiFixture = TestBed.createComponent(MultiTestHostComponent);
-    multiFixture.detectChanges(); // Triggers the effect
+    multiFixture.detectChanges(); // Triggers the effect for 3 charts
 
-    // Flush the initial effect so the timers actually get created and start at T=0
     tick(0);
     expect(chartSpy).not.toHaveBeenCalled();
 
-    // First chart renders at baseTimeout (500ms) + 0ms stagger
+    // The initial delay() resolves for all 3 charts simultaneously.
+    // Chart 1 takes the "Fast Path" and renders synchronously.
+    // Charts 2 and 3 are pushed to the renderingQueue.
     tick(500);
-    flushMicrotasks(); // CRUCIAL: Allow the 'await' to resume after the timer fires
     expect(chartSpy).toHaveBeenCalledTimes(1);
 
-    // Second chart renders 16ms later
+    // Chart 2 is processed from the queue with a 16ms setTimeout
     tick(16);
-    flushMicrotasks(); // CRUCIAL
     expect(chartSpy).toHaveBeenCalledTimes(2);
 
-    // Third chart renders another 16ms later
+    // Chart 3 is processed from the queue with a 16ms setTimeout
     tick(16);
-    flushMicrotasks(); // CRUCIAL
     expect(chartSpy).toHaveBeenCalledTimes(3);
 
-    flush(); // Clear out any remaining tasks
+    flush(); // Clear out any remaining asynchronous tasks
   }));
 });

@@ -17,8 +17,22 @@ import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token'
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
-// Module-level counter to stagger parallel chart initializations across multiple directives
-let staggerCount = 0;
+let isRendering = false;
+const renderingQueue: (() => void)[] = [];
+
+const processQueue = () => {
+  if (renderingQueue.length > 0) {
+    isRendering = true;
+    const next = renderingQueue.shift();
+    // Stagger the next queued chart by ~1 frame to allow DOM paint
+    setTimeout(() => {
+      if (next) next();
+      processQueue(); // Process the next one in line
+    }, 16);
+  } else {
+    isRendering = false; // Queue is empty, reset state
+  }
+};
 
 @Directive({
   selector: '[highchartsChart]',
@@ -83,20 +97,7 @@ export class HighchartsChartDirective {
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
 
-    // Group simultaneous chart initializations
-    const currentStaggerDelay = staggerCount * 16; // Stagger by 16ms (~1 frame) per chart
-    staggerCount++;
-
-    // Reset the count at the end of the microtask queue.
-    // This ensures independent charts rendered later start back at 0 delay.
-    Promise.resolve().then(() => {
-      staggerCount = 0;
-    });
-
-    const baseTimeout = this.relativeConfig?.timeout ?? this.timeout ?? 500;
-
-    // The native Angular/browser setTimeout natively staggers the macrotasks!
-    await this.delay(baseTimeout + currentStaggerDelay);
+    await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
 
     if (!highCharts) return;
 
@@ -112,15 +113,41 @@ export class HighchartsChartDirective {
       stockChart: (highCharts as any).stockChart,
     };
 
-    // Because the promises resolve synchronously at staggered intervals,
-    // N N charts no longer hit the main thread at the exact same time.
-    const createdChart = chartFactories[constructorType](
-      this.el.nativeElement,
-      untracked(() => this.options()),
-      callback,
-    );
+    // --- UPDATED SYNCHRONOUS/ASYNCHRONOUS HYBRID QUEUE ---
+    return new Promise<Highcharts.Chart | undefined>(resolve => {
+      const renderTask = () => {
+        if (this.isDestroyed) {
+          resolve(undefined);
+          return;
+        }
+        try {
+          const createdChart = chartFactories[constructorType](
+            this.el.nativeElement,
+            untracked(() => this.options()),
+            callback,
+          );
+          resolve(createdChart as Highcharts.Chart);
+        } catch (error) {
+          console.error('Highcharts-Angular: Error initializing chart', error);
+          resolve(undefined);
+        }
+      };
 
-    return createdChart as Highcharts.Chart;
+      if (!isRendering && renderingQueue.length === 0) {
+        // FAST PATH: First chart in the batch renders SYNCHRONOUSLY.
+        // This guarantees 100% backward compatibility for single-chart legacy tests.
+        isRendering = true;
+        renderTask();
+
+        // Schedule the queue processor for any OTHER charts that wake up in this microtask
+        Promise.resolve().then(() => {
+          processQueue();
+        });
+      } else {
+        // SLOW PATH: If a chart is currently rendering, queue this one up to be staggered.
+        renderingQueue.push(renderTask);
+      }
+    });
   });
 
   private keepChartUpToDate(): void {
