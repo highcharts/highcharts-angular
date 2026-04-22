@@ -37,7 +37,7 @@ describe('HighchartsChartDirective', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [TestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
+      imports: [MultiTestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
       providers: [
         {
           provide: HIGHCHARTS_CONFIG,
@@ -53,7 +53,7 @@ describe('HighchartsChartDirective', () => {
       ],
     });
 
-    const fixture = TestBed.createComponent(TestHostComponent);
+    const fixture = TestBed.createComponent(MultiTestHostComponent);
     fixture.detectChanges();
     debugElement = fixture.debugElement.query(By.directive(HighchartsChartDirective));
     directive = debugElement.injector.get(HighchartsChartDirective);
