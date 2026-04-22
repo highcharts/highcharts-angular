@@ -20,6 +20,8 @@ A clear and concise description of what you expected to happen.
 
 ### Demo
 
+<!-- template: https://stackblitz.com/edit/hc-angular-issue-template -->
+
 Please provide live demo of the problem or provide any other way to recreate the problem.
 
 #### Steps required to recreate the problem in the demo:
