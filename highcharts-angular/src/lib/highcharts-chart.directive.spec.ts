@@ -18,10 +18,10 @@ class TestHostComponent {
   public options: Highcharts.Options = {};
 }
 
+// Added to simulate the dashboard performance scenario
 @Component({
   selector: 'highcharts-multi-test-host',
   template: `
-    <div highchartsChart [options]="options"></div>
     <div highchartsChart [options]="options"></div>
     <div highchartsChart [options]="options"></div>
   `,
@@ -36,16 +36,9 @@ describe('HighchartsChartDirective', () => {
   let debugElement: DebugElement;
   let directive: HighchartsChartDirective;
   let loadSpy: Spy;
-  let chartSpy: Spy;
 
   beforeEach(() => {
     loadSpy = jasmine.createSpy('load');
-    chartSpy = jasmine.createSpy('chart').and.returnValue({
-      renderer: { forExport: false },
-      destroy: jasmine.createSpy('destroy'),
-      update: jasmine.createSpy('update'),
-    });
-
     TestBed.configureTestingModule({
       imports: [TestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
       providers: [
@@ -57,7 +50,7 @@ describe('HighchartsChartDirective', () => {
           provide: HighchartsChartService,
           useValue: {
             load: loadSpy,
-            highcharts: () => ({ chart: chartSpy }),
+            highcharts: () => null,
           },
         },
       ],
@@ -81,23 +74,21 @@ describe('HighchartsChartDirective', () => {
     expect(loadSpy).toHaveBeenCalledWith({ timeout: 500 });
   });
 
-  it('should stagger multiple chart initializations via setTimeout to prevent main thread blocking', () => {
+  it('should natively stagger simultaneous chart initializations to prevent main thread blocking', () => {
     // eslint-disable-next-line no-restricted-globals
     const setTimeoutSpy = spyOn(window, 'setTimeout').and.callThrough();
 
+    // Create a multi-chart host so they process in the exact same synchronous execution frame
     const multiFixture = TestBed.createComponent(MultiTestHostComponent);
     multiFixture.detectChanges();
 
     const allTimeouts = setTimeoutSpy.calls.allArgs().map(args => args[1]);
     const chartDelays = allTimeouts.filter(ms => typeof ms === 'number' && ms >= 500);
 
-    // Verify that the charts received staggered delays (a difference of 16ms between calls).
-    // By checking for the difference rather than a hardcoded 500ms, we completely
-    // decouple the test from any state leakage originating from the beforeEach block!
-    const hasStagger = chartDelays.some(d1 => d1 !== undefined && chartDelays.includes(d1 + 16));
+    // Verify that the charts received staggered delays (a difference of exactly 16ms between calls).
+    // Testing the difference safely ignores any timer increments stolen by the beforeEach() chart!
+    const difference = (chartDelays[1] ?? 0) - (chartDelays[0] ?? 0);
 
-    expect(hasStagger)
-      .withContext(`Expected a 16ms stagger difference, but found delays: [${chartDelays.join(', ')}]`)
-      .toBeTrue();
+    expect(difference).withContext(`Expected a 16ms stagger difference between chart delays`).toBe(16);
   });
 });

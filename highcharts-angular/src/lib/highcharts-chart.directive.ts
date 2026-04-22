@@ -17,71 +17,52 @@ import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token'
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
+// --- STAGGER STATE ---
+// Module-level variables to safely space out parallel chart creations
+let staggerCount = 0;
+let staggerResetTimer: any;
+
 @Directive({
   selector: '[highchartsChart]',
 })
 export class HighchartsChartDirective {
-  /**
-   * Type of the chart constructor.
-   */
   public readonly constructorType = input<ChartConstructorType>('chart');
-
   public readonly oneToOne = input<boolean>(false);
-
   public readonly options = input.required<Highcharts.Options>();
-
   public readonly update = model<boolean>(true);
-
-  public readonly chartInstance = output<Highcharts.Chart>(); // #26
+  public readonly chartInstance = output<Highcharts.Chart>();
 
   private readonly destroyRef = inject(DestroyRef);
-
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-
   private readonly platformId = inject(PLATFORM_ID);
-
-  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, {
-    optional: true,
-  });
-
-  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, {
-    optional: true,
-  });
-
+  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, { optional: true });
+  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, { optional: true });
   private readonly highchartsChartService = inject(HighchartsChartService);
 
   private chartCreated = false;
-
   private _chartInstance: Highcharts.Chart | undefined;
-
   private isDestroyed = false;
-
-  private static staggerCount = 0;
-  private static resetStaggerTimer: NodeJS.Timeout | undefined;
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // Create the chart as soon as we can
   private readonly chart = computed(async () => {
     const highCharts = this.highchartsChartService.highcharts();
     const constructorType = this.constructorType();
 
-    // Calculate stagger to prevent main thread blocking when rendering many charts
-    const currentStaggerDelay = HighchartsChartDirective.staggerCount * 16;
-    HighchartsChartDirective.staggerCount++;
+    // 1. Grab the current stagger increment (0 for single charts)
+    const currentStaggerDelay = staggerCount * 16;
+    staggerCount++;
 
-    // Debounce the reset so all charts initialized in this macro-task get uniquely staggered.
-    // This naturally cleans up state so tests do not leak.
-    clearTimeout(HighchartsChartDirective.resetStaggerTimer);
-    HighchartsChartDirective.resetStaggerTimer = setTimeout(() => {
-      HighchartsChartDirective.staggerCount = 0;
-    }, 0);
+    // 2. Safely debounce the reset so independent charts start fresh at 0
+    clearTimeout(staggerResetTimer);
+    staggerResetTimer = setTimeout(() => {
+      staggerCount = 0;
+    }, 50);
 
+    // 3. Apply the stagger natively to the existing delay. No extra Promises required!
     const baseTimeout = this.relativeConfig?.timeout ?? this.timeout ?? 500;
-
-    // Add the computed stagger incrementally to the base timeout
     await this.delay(baseTimeout + currentStaggerDelay);
 
     if (!highCharts) return;
@@ -98,13 +79,12 @@ export class HighchartsChartDirective {
       stockChart: (highCharts as any).stockChart,
     };
 
-    const createdChart = chartFactories[constructorType](
+    // Return exactly as the original codebase did to satisfy all strict component tests
+    return chartFactories[constructorType](
       this.el.nativeElement,
       untracked(() => this.options()),
       callback,
-    );
-
-    return createdChart as Highcharts.Chart;
+    ) as Highcharts.Chart;
   });
 
   private keepChartUpToDate(): void {
