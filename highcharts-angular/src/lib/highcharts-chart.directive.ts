@@ -100,7 +100,7 @@ export class HighchartsChartDirective {
       stockChart: (highCharts as any).stockChart,
     };
 
-    return new Promise<Highcharts.Chart | undefined>((resolve) => {
+    return new Promise<Highcharts.Chart | undefined>(resolve => {
       pendingChartsCount++;
 
       // If this is the first chart in the batch, start a new Promise chain
@@ -109,31 +109,33 @@ export class HighchartsChartDirective {
         chartInitializationQueue = Promise.resolve();
       }
 
-      chartInitializationQueue = chartInitializationQueue.then(() => {
-        if (this.isDestroyed) {
-          resolve(undefined);
-          return;
-        }
+      chartInitializationQueue = chartInitializationQueue
+        .then(() => {
+          if (this.isDestroyed) {
+            resolve(undefined);
+            return;
+          }
 
-        try {
-          const createdChart = chartFactories[constructorType](
-            this.el.nativeElement,
-            untracked(() => this.options()),
-            callback,
-          );
-          resolve(createdChart as Highcharts.Chart);
-        } catch (error) {
-          console.error('Highcharts-Angular: Error initializing chart', error);
-          resolve(undefined);
-        }
-      }).finally(() => {
-        pendingChartsCount--;
-        // Once all queued charts have rendered, wipe the queue cleanly.
-        // This prevents tests from leaking state into each other.
-        if (pendingChartsCount === 0) {
-          chartInitializationQueue = null;
-        }
-      });
+          try {
+            const createdChart = chartFactories[constructorType](
+              this.el.nativeElement,
+              untracked(() => this.options()),
+              callback,
+            );
+            resolve(createdChart as Highcharts.Chart);
+          } catch (error) {
+            console.error('Highcharts-Angular: Error initializing chart', error);
+            resolve(undefined);
+          }
+        })
+        .finally(() => {
+          pendingChartsCount--;
+          // Once all queued charts have rendered, wipe the queue cleanly.
+          // This prevents tests from leaking state into each other.
+          if (pendingChartsCount === 0) {
+            chartInitializationQueue = null;
+          }
+        });
     });
   });
 
