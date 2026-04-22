@@ -18,7 +18,8 @@ import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
 // A shared promise chain to serialize chart initializations across all directive instances.
-let chartInitializationQueue: Promise<void> = Promise.resolve();
+let chartInitializationQueue: Promise<void> | null = null;
+let pendingChartsCount = 0;
 
 @Directive({
   selector: '[highchartsChart]',
@@ -99,9 +100,16 @@ export class HighchartsChartDirective {
       stockChart: (highCharts as any).stockChart,
     };
 
-    return new Promise<Highcharts.Chart | undefined>(resolve => {
+    return new Promise<Highcharts.Chart | undefined>((resolve) => {
+      pendingChartsCount++;
+
+      // If this is the first chart in the batch, start a new Promise chain
+      // This ensures the Promise is tracked by the current Angular Zone/Test
+      if (!chartInitializationQueue) {
+        chartInitializationQueue = Promise.resolve();
+      }
+
       chartInitializationQueue = chartInitializationQueue.then(() => {
-        // If the component was destroyed while waiting in the queue, skip rendering
         if (this.isDestroyed) {
           resolve(undefined);
           return;
@@ -117,6 +125,13 @@ export class HighchartsChartDirective {
         } catch (error) {
           console.error('Highcharts-Angular: Error initializing chart', error);
           resolve(undefined);
+        }
+      }).finally(() => {
+        pendingChartsCount--;
+        // Once all queued charts have rendered, wipe the queue cleanly.
+        // This prevents tests from leaking state into each other.
+        if (pendingChartsCount === 0) {
+          chartInitializationQueue = null;
         }
       });
     });
