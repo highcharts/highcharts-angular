@@ -67,6 +67,8 @@ export class HighchartsChartDirective {
 
       const chart = chartFactories[constructorType](
         this.el.nativeElement,
+        // Read options without tracking them here: option changes should update
+        // the existing chart, not tear it down and create a new one.
         untracked(() => this.options()),
         callback,
       ) as Highcharts.Chart;
@@ -96,6 +98,8 @@ export class HighchartsChartDirective {
         return;
       }
 
+      // Skip the first pass after creation. The constructor already consumed
+      // the initial options, so calling `update` immediately would duplicate work.
       if (chart !== lastChart) {
         lastChart = chart;
         return;
@@ -112,6 +116,8 @@ export class HighchartsChartDirective {
       const highcharts = await this.highchartsChartService.load(this.relativeConfig);
       const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
 
+      // Keep an async boundary even at 0ms so Angular test stability and
+      // component timing remain aligned with the directive's async setup.
       await this.delay(delayMs);
 
       if (!this.isDestroyed) {

@@ -53,6 +53,8 @@ export class HighchartsChartService {
       this.sharedHighchartsPromise = (async () => {
         const highcharts = await this.loader();
 
+        // Root-level modules and options mutate a shared Highcharts singleton,
+        // so initialize them once and reuse the same ready instance afterwards.
         await this.loadModules(this.globalModules);
 
         if (this.globalOptions && !this.globalOptionsApplied) {
@@ -70,6 +72,8 @@ export class HighchartsChartService {
   public async load(partialConfig: PartialHighchartsConfig | null): Promise<typeof Highcharts> {
     const highcharts = await this.ensureSharedHighcharts();
 
+    // Component-level modules are still loaded per config, but cached by the
+    // factory function so identical providers do not repeat the same work.
     await this.loadModules(partialConfig?.modules);
 
     this.highcharts.set(highcharts);
