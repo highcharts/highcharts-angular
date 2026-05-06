@@ -50,7 +50,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-- Updated to Angular 13 ([aa202ec](https://github.com/highcharts/highcharts-angular/pull/305/commits/aa202ec98bb41bc85eb74229059adcc6398e3cc6)
+- Updated to Angular 13 ([aa202ec](https://github.com/highcharts/highcharts-angular/pull/305/commits/aa202ec98bb41bc85eb74229059adcc6398e3cc6))
 
 ## [2.10.0](https://github.com/highcharts/highcharts-angular/compare/v2.8.1...v2.10.0) (2021-02-09)
 
