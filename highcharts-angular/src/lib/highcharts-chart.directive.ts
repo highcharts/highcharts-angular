@@ -7,6 +7,7 @@ import {
   input,
   model,
   output,
+  PendingTasks,
   PLATFORM_ID,
   signal,
   untracked,
@@ -33,6 +34,7 @@ export class HighchartsChartDirective {
   private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, { optional: true });
   private readonly timeout = inject(HIGHCHARTS_TIMEOUT, { optional: true });
   private readonly highchartsChartService = inject(HighchartsChartService);
+  private readonly pendingTasks = inject(PendingTasks);
 
   private readonly loadedHighcharts = signal<typeof Highcharts | null>(null);
   private readonly chart = signal<Highcharts.Chart | null>(null);
@@ -106,14 +108,18 @@ export class HighchartsChartDirective {
   }
 
   private async initializeHighcharts(): Promise<void> {
-    const highcharts = await this.highchartsChartService.load(this.relativeConfig);
-    const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
+    await this.pendingTasks.run(async () => {
+      const highcharts = await this.highchartsChartService.load(this.relativeConfig);
+      const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
 
-    await this.delay(delayMs);
+      await this.delay(delayMs);
 
-    if (!this.isDestroyed) {
-      this.loadedHighcharts.set(highcharts);
-    }
+      if (!this.isDestroyed) {
+        this.loadedHighcharts.set(highcharts);
+      }
+
+      return highcharts;
+    });
   }
 
   public constructor() {
