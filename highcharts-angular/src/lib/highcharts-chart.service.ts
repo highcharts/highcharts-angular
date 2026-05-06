@@ -18,15 +18,16 @@ export class HighchartsChartService {
   private async loadHighchartsWithModules(partialConfig: PartialHighchartsConfig | null): Promise<typeof Highcharts> {
     const highcharts = await this.loader(); // Ensure Highcharts core is loaded
 
-    const moduleResults = await Promise.allSettled([...(this.globalModules?.() ?? []), ...(partialConfig?.modules?.() ?? [])]);
+    const moduleResults = await Promise.allSettled([
+      ...(this.globalModules?.() ?? []),
+      ...(partialConfig?.modules?.() ?? []),
+    ]);
     const rejectedModules = moduleResults.filter(
       (result): result is PromiseRejectedResult => result.status === 'rejected',
     );
 
     if (rejectedModules.length) {
-      const reasons = rejectedModules.map(({ reason }) =>
-        reason instanceof Error ? reason.message : String(reason),
-      );
+      const reasons = rejectedModules.map(({ reason }) => (reason instanceof Error ? reason.message : String(reason)));
 
       throw new Error(`Failed to load Highcharts modules: ${reasons.join('; ')}`);
     }
