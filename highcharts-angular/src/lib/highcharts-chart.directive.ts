@@ -1,5 +1,4 @@
 import {
-  computed,
   DestroyRef,
   Directive,
   effect,
@@ -8,19 +7,15 @@ import {
   input,
   model,
   output,
-  untracked,
   PLATFORM_ID,
+  signal,
+  untracked,
 } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token';
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
-
-// --- STAGGER STATE ---
-// Module-level variables to safely space out parallel chart creations
-let staggerCount = 0;
-let staggerResetTimer: any;
 
 @Directive({
   selector: '[highchartsChart]',
@@ -39,83 +34,99 @@ export class HighchartsChartDirective {
   private readonly timeout = inject(HIGHCHARTS_TIMEOUT, { optional: true });
   private readonly highchartsChartService = inject(HighchartsChartService);
 
-  private chartCreated = false;
-  private _chartInstance: Highcharts.Chart | undefined;
+  private readonly loadedHighcharts = signal<typeof Highcharts | null>(null);
+  private readonly chart = signal<Highcharts.Chart | null>(null);
   private isDestroyed = false;
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  private readonly chart = computed(async () => {
-    const highCharts = this.highchartsChartService.highcharts();
-    const constructorType = this.constructorType();
+  private createChart(): void {
+    effect(onCleanup => {
+      const highcharts = this.loadedHighcharts();
+      const constructorType = this.constructorType();
 
-    // 1. Grab the current stagger increment (0 for single charts)
-    const currentStaggerDelay = staggerCount * 16;
-    staggerCount++;
+      if (!highcharts || this.isDestroyed) {
+        return;
+      }
 
-    // 2. Safely debounce the reset so independent charts start fresh at 0
-    clearTimeout(staggerResetTimer);
-    staggerResetTimer = setTimeout(() => {
-      staggerCount = 0;
-    }, 50);
+      const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
+        if (chart.renderer.forExport || this.isDestroyed) return;
+        return this.chartInstance.emit(chart);
+      };
 
-    // 3. Apply the stagger natively to the existing delay. No extra Promises required!
-    const baseTimeout = this.relativeConfig?.timeout ?? this.timeout ?? 500;
-    await this.delay(baseTimeout + currentStaggerDelay);
+      const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
+        chart: highcharts.chart,
+        ganttChart: (highcharts as any).ganttChart,
+        mapChart: (highcharts as any).mapChart,
+        stockChart: (highcharts as any).stockChart,
+      };
 
-    if (!highCharts) return;
+      const chart = chartFactories[constructorType](
+        this.el.nativeElement,
+        untracked(() => this.options()),
+        callback,
+      ) as Highcharts.Chart;
 
-    const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
-      if (chart.renderer.forExport || this.isDestroyed) return;
-      return this.chartInstance.emit(chart);
-    };
+      this.chart.set(chart);
 
-    const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
-      chart: highCharts.chart,
-      ganttChart: (highCharts as any).ganttChart,
-      mapChart: (highCharts as any).mapChart,
-      stockChart: (highCharts as any).stockChart,
-    };
+      onCleanup(() => {
+        if (this.chart() === chart) {
+          this.chart.set(null);
+        }
 
-    // Return exactly as the original codebase did to satisfy all strict component tests
-    return chartFactories[constructorType](
-      this.el.nativeElement,
-      untracked(() => this.options()),
-      callback,
-    ) as Highcharts.Chart;
-  });
+        chart.destroy();
+      });
+    });
+  }
 
   private keepChartUpToDate(): void {
-    effect(async () => {
+    let lastChart: Highcharts.Chart | null = null;
+
+    effect(() => {
+      const chart = this.chart();
       const update = this.update();
       const oneToOne = this.oneToOne();
       const options = this.options();
-      this._chartInstance = await this.chart();
-      if (!this.chartCreated) {
-        if (this._chartInstance) {
-          this.chartCreated = true;
-        }
-      } else {
-        if (update) {
-          this._chartInstance?.update(options, true, oneToOne);
-        }
+
+      if (!chart) {
+        return;
+      }
+
+      if (chart !== lastChart) {
+        lastChart = chart;
+        return;
+      }
+
+      if (update) {
+        chart.update(options, true, oneToOne);
       }
     });
+  }
+
+  private async initializeHighcharts(): Promise<void> {
+    const highcharts = await this.highchartsChartService.load(this.relativeConfig);
+    const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
+
+    await this.delay(delayMs);
+
+    if (!this.isDestroyed) {
+      this.loadedHighcharts.set(highcharts);
+    }
   }
 
   public constructor() {
     if (this.platformId && isPlatformServer(this.platformId)) {
       return;
     }
-    this.highchartsChartService.load(this.relativeConfig);
+
     this.destroyRef.onDestroy(() => {
-      this._chartInstance?.destroy();
-      this._chartInstance = undefined;
       this.isDestroyed = true;
     });
 
+    this.createChart();
     this.keepChartUpToDate();
+    void this.initializeHighcharts();
   }
 }

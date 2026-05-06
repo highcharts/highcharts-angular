@@ -22,8 +22,7 @@ export type PartialHighchartsConfig = {
    */
   modules?: ModuleFactoryFunction;
   /**
-   * Timeout in milliseconds to wait for the Highcharts library to load
-   * Default is 500ms
+   * Optional delay in milliseconds before chart creation after Highcharts and modules are ready
    */
   timeout?: number;
 };

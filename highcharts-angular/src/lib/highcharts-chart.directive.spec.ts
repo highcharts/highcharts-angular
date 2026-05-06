@@ -1,5 +1,5 @@
 /// <reference types="jasmine" />
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HighchartsChartDirective } from './highcharts-chart.directive';
@@ -18,45 +18,45 @@ class TestHostComponent {
   public options: Highcharts.Options = {};
 }
 
-// Added to simulate the dashboard performance scenario
-@Component({
-  selector: 'highcharts-multi-test-host',
-  template: `
-    <div highchartsChart [options]="options"></div>
-    <div highchartsChart [options]="options"></div>
-  `,
-  imports: [HighchartsChartDirective],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-class MultiTestHostComponent {
-  public options: Highcharts.Options = {};
-}
-
 describe('HighchartsChartDirective', () => {
+  let fixture: ComponentFixture<TestHostComponent>;
   let debugElement: DebugElement;
   let directive: HighchartsChartDirective;
   let loadSpy: Spy;
+  let chartFactorySpy: Spy;
 
   beforeEach(() => {
-    loadSpy = jasmine.createSpy('load');
+    chartFactorySpy = jasmine.createSpy('chart').and.returnValue({
+      destroy: jasmine.createSpy('destroy'),
+      renderer: {
+        forExport: false,
+      },
+      update: jasmine.createSpy('update'),
+    } as unknown as Partial<Highcharts.Chart>);
+
+    const mockHighcharts = {
+      chart: chartFactorySpy,
+    } as unknown as typeof Highcharts;
+
+    loadSpy = jasmine.createSpy('load').and.resolveTo(mockHighcharts);
+
     TestBed.configureTestingModule({
-      imports: [TestHostComponent, MultiTestHostComponent, HighchartsChartDirective],
+      imports: [TestHostComponent, HighchartsChartDirective],
       providers: [
         {
           provide: HIGHCHARTS_CONFIG,
-          useValue: { timeout: 500 },
+          useValue: {},
         },
         {
           provide: HighchartsChartService,
           useValue: {
             load: loadSpy,
-            highcharts: () => null,
           },
         },
       ],
     });
 
-    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
     debugElement = fixture.debugElement.query(By.directive(HighchartsChartDirective));
     directive = debugElement.injector.get(HighchartsChartDirective);
@@ -71,24 +71,15 @@ describe('HighchartsChartDirective', () => {
   });
 
   it('should load global config on initialization', () => {
-    expect(loadSpy).toHaveBeenCalledWith({ timeout: 500 });
+    expect(loadSpy).toHaveBeenCalledWith({});
   });
 
-  it('should natively stagger simultaneous chart initializations to prevent main thread blocking', () => {
-    // eslint-disable-next-line no-restricted-globals
-    const setTimeoutSpy = spyOn(window, 'setTimeout').and.callThrough();
+  it('should create the chart as soon as Highcharts is loaded', async () => {
+    expect(chartFactorySpy).not.toHaveBeenCalled();
 
-    // Create a multi-chart host so they process in the exact same synchronous execution frame
-    const multiFixture = TestBed.createComponent(MultiTestHostComponent);
-    multiFixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-    const allTimeouts = setTimeoutSpy.calls.allArgs().map(args => args[1]);
-    const chartDelays = allTimeouts.filter(ms => typeof ms === 'number' && ms >= 500);
-
-    // Verify that the charts received staggered delays (a difference of exactly 16ms between calls).
-    // Testing the difference safely ignores any timer increments stolen by the beforeEach() chart!
-    const difference = (chartDelays[1] ?? 0) - (chartDelays[0] ?? 0);
-
-    expect(difference).withContext(`Expected a 16ms stagger difference between chart delays`).toBe(16);
+    expect(chartFactorySpy).toHaveBeenCalled();
   });
 });
