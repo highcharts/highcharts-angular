@@ -104,7 +104,7 @@ export const appConfig: ApplicationConfig = {
         ];
       },
 
-      // Optional: override the default 500ms delay before chart creation
+      // Optional: defer chart creation even after Highcharts is ready
       timeout: 0,
     }),
     // Other providers here ...
@@ -358,7 +358,7 @@ import { HighchartsChartDirective } from 'highcharts-angular';
           import('highcharts/esm/modules/exporting'),
         ];
       },
-      timeout: 900, // Optional: increase timeout for loading modules
+      timeout: 900, // Optional: defer chart creation after module loading
     }),
   ],
 })

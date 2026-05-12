@@ -1,4 +1,5 @@
-import { TestBed } from '@angular/core/testing';
+/// <reference types="jasmine" />
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HighchartsChartDirective } from './highcharts-chart.directive';
@@ -18,12 +19,27 @@ class TestHostComponent {
 }
 
 describe('HighchartsChartDirective', () => {
+  let fixture: ComponentFixture<TestHostComponent>;
   let debugElement: DebugElement;
   let directive: HighchartsChartDirective;
   let loadSpy: Spy;
+  let chartFactorySpy: Spy;
 
   beforeEach(() => {
-    loadSpy = jasmine.createSpy('load');
+    chartFactorySpy = jasmine.createSpy('chart').and.returnValue({
+      destroy: jasmine.createSpy('destroy'),
+      renderer: {
+        forExport: false,
+      },
+      update: jasmine.createSpy('update'),
+    } as unknown as Partial<Highcharts.Chart>);
+
+    const mockHighcharts = {
+      chart: chartFactorySpy,
+    } as unknown as typeof Highcharts;
+
+    loadSpy = jasmine.createSpy('load').and.resolveTo(mockHighcharts);
+
     TestBed.configureTestingModule({
       imports: [TestHostComponent, HighchartsChartDirective],
       providers: [
@@ -35,13 +51,12 @@ describe('HighchartsChartDirective', () => {
           provide: HighchartsChartService,
           useValue: {
             load: loadSpy,
-            highcharts: () => null,
           },
         },
       ],
     });
 
-    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
     debugElement = fixture.debugElement.query(By.directive(HighchartsChartDirective));
     directive = debugElement.injector.get(HighchartsChartDirective);
@@ -57,5 +72,14 @@ describe('HighchartsChartDirective', () => {
 
   it('should load global config on initialization', () => {
     expect(loadSpy).toHaveBeenCalledWith({});
+  });
+
+  it('should create the chart as soon as Highcharts is loaded', async () => {
+    expect(chartFactorySpy).not.toHaveBeenCalled();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(chartFactorySpy).toHaveBeenCalled();
   });
 });

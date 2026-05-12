@@ -1,5 +1,4 @@
 import {
-  computed,
   DestroyRef,
   Directive,
   effect,
@@ -8,8 +7,10 @@ import {
   input,
   model,
   output,
-  untracked,
+  PendingTasks,
   PLATFORM_ID,
+  signal,
+  untracked,
 } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
 import { HighchartsChartService } from './highcharts-chart.service';
@@ -21,120 +22,123 @@ import type Highcharts from 'highcharts/esm/highcharts';
   selector: '[highchartsChart]',
 })
 export class HighchartsChartDirective {
-  /**
-   * Type of the chart constructor.
-   */
   public readonly constructorType = input<ChartConstructorType>('chart');
-
-  /**
-   * @deprecated Will be removed in a future release.
-   * When enabled, Updates `series`, `xAxis`, `yAxis`, and `annotations` to match new options.
-   * Items are added/removed as needed. Series with `id`s are matched by `id`;
-   * unmatched items are removed. Omitted `series` leaves existing ones unchanged.
-   */
   public readonly oneToOne = input<boolean>(false);
-
-  /**
-   * Options for the Highcharts chart.
-   */
   public readonly options = input.required<Highcharts.Options>();
-
-  /**
-   * @deprecated Will be removed in a future release.
-   * Whether to redraw the chart.
-   * Check how update works in Highcharts
-   * API doc here: https://api.highcharts.com/class-reference/Highcharts.Chart#update
-   */
   public readonly update = model<boolean>(true);
-
-  public readonly chartInstance = output<Highcharts.Chart>(); // #26
+  public readonly chartInstance = output<Highcharts.Chart>();
 
   private readonly destroyRef = inject(DestroyRef);
-
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-
   private readonly platformId = inject(PLATFORM_ID);
-
-  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, {
-    optional: true,
-  });
-
-  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, {
-    optional: true,
-  });
-
+  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, { optional: true });
+  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, { optional: true });
   private readonly highchartsChartService = inject(HighchartsChartService);
+  private readonly pendingTasks = inject(PendingTasks);
 
-  private chartCreated = false;
-
-  private _chartInstance: Highcharts.Chart | undefined;
-
+  private readonly loadedHighcharts = signal<typeof Highcharts | null>(null);
+  private readonly chart = signal<Highcharts.Chart | null>(null);
   private isDestroyed = false;
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // Create the chart as soon as we can
-  private readonly chart = computed(async () => {
-    const highCharts = this.highchartsChartService.highcharts();
-    const constructorType = this.constructorType();
-    await this.delay(this.relativeConfig?.timeout ?? this.timeout ?? 500);
-    if (!highCharts) return;
-    const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
-      if (chart.renderer.forExport || this.isDestroyed) return;
-      return this.chartInstance.emit(chart);
-    };
-    const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
-      chart: highCharts.chart,
-      ganttChart: (highCharts as any).ganttChart,
-      mapChart: (highCharts as any).mapChart,
-      stockChart: (highCharts as any).stockChart,
-    };
-    return chartFactories[constructorType](
-      this.el.nativeElement,
-      // Use untracked, so we don't re-create new chart everytime options change
-      untracked(() => this.options()),
-      // Use Highcharts callback to emit chart instance, so it is available as early
-      // as possible. So that Angular is already aware of the instance if Highcharts raise
-      // events during the initialization that happens before coming back to Angular
-      callback,
-    );
-  });
+  private createChart(): void {
+    effect(onCleanup => {
+      const highcharts = this.loadedHighcharts();
+      const constructorType = this.constructorType();
+
+      if (!highcharts || this.isDestroyed) {
+        return;
+      }
+
+      const callback: Highcharts.ChartCallbackFunction = (chart: Highcharts.Chart) => {
+        if (chart.renderer.forExport || this.isDestroyed) return;
+        return this.chartInstance.emit(chart);
+      };
+
+      const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
+        chart: highcharts.chart,
+        ganttChart: (highcharts as any).ganttChart,
+        mapChart: (highcharts as any).mapChart,
+        stockChart: (highcharts as any).stockChart,
+      };
+
+      const chart = chartFactories[constructorType](
+        this.el.nativeElement,
+        // Read options without tracking them here: option changes should update
+        // the existing chart, not tear it down and create a new one.
+        untracked(() => this.options()),
+        callback,
+      ) as Highcharts.Chart;
+
+      this.chart.set(chart);
+
+      onCleanup(() => {
+        if (this.chart() === chart) {
+          this.chart.set(null);
+        }
+
+        chart.destroy();
+      });
+    });
+  }
 
   private keepChartUpToDate(): void {
-    effect(async () => {
+    let lastChart: Highcharts.Chart | null = null;
+
+    effect(() => {
+      const chart = this.chart();
       const update = this.update();
       const oneToOne = this.oneToOne();
       const options = this.options();
-      this._chartInstance = await this.chart();
-      if (!this.chartCreated) {
-        if (this._chartInstance) {
-          this.chartCreated = true;
-        }
-      } else {
-        if (update) {
-          this._chartInstance?.update(options, true, oneToOne);
-        }
+
+      if (!chart) {
+        return;
+      }
+
+      // Skip the first pass after creation. The constructor already consumed
+      // the initial options, so calling `update` immediately would duplicate work.
+      if (chart !== lastChart) {
+        lastChart = chart;
+        return;
+      }
+
+      if (update) {
+        chart.update(options, true, oneToOne);
       }
     });
   }
 
+  private async initializeHighcharts(): Promise<void> {
+    await this.pendingTasks.run(async () => {
+      const highcharts = await this.highchartsChartService.load(this.relativeConfig);
+      const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
+
+      // Keep an async boundary even at 0ms so Angular test stability and
+      // component timing remain aligned with the directive's async setup.
+      await this.delay(delayMs);
+
+      if (!this.isDestroyed) {
+        this.loadedHighcharts.set(highcharts);
+      }
+
+      return highcharts;
+    });
+  }
+
   public constructor() {
-    // should stop loading on the server side for SSR
     if (this.platformId && isPlatformServer(this.platformId)) {
       return;
     }
-    // make sure to load global config + modules on demand
-    this.highchartsChartService.load(this.relativeConfig);
-    // destroy the chart when the directive is destroyed
-    this.destroyRef.onDestroy(() => {
-      this._chartInstance?.destroy();
-      this._chartInstance = undefined;
-      this.isDestroyed = true;
-    }); // #44
 
-    // Keep the chart up to date whenever options change or the update special input is set to true
+    this.destroyRef.onDestroy(() => {
+      this.isDestroyed = true;
+    });
+
+    this.createChart();
     this.keepChartUpToDate();
+    void this.initializeHighcharts();
   }
 }
