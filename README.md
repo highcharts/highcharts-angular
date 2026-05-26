@@ -443,8 +443,7 @@ export class StockComponent {
 **Note:**
 
 - Some Highcharts modules have dependencies and must be loaded in a specific order.
-- In such cases, use a promise chain (e.g., `import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell'))`)
-- instead of just listing them as array items. This ensures the dependent module loads only after its dependency.
+- Use a promise chain instead of listing dependent modules as separate array items, for example `import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell'))`. For `tilemap`, load `map` first: `import('highcharts/esm/modules/map').then(() => import('highcharts/esm/modules/tilemap'))`.
 
 ### To load a wrapper
 

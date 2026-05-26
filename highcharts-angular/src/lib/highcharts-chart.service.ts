@@ -17,7 +17,6 @@ export class HighchartsChartService {
 
   private sharedHighchartsPromise: Promise<typeof Highcharts> | null = null;
   private readonly moduleLoadCache = new WeakMap<ModuleFactoryFunction, Promise<void>>();
-  private globalOptionsApplied = false;
 
   private async loadModules(modulesFactory?: ModuleFactoryFunction | null): Promise<void> {
     if (!modulesFactory) {
@@ -57,9 +56,8 @@ export class HighchartsChartService {
         // so initialize them once and reuse the same ready instance afterwards.
         await this.loadModules(this.globalModules);
 
-        if (this.globalOptions && !this.globalOptionsApplied) {
+        if (this.globalOptions) {
           highcharts.setOptions(this.globalOptions);
-          this.globalOptionsApplied = true;
         }
 
         return highcharts;

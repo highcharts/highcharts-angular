@@ -8,20 +8,21 @@ describe('HighchartsChartService', () => {
   let service: HighchartsChartService;
   let mockLoader: typeof Highcharts;
   let mockGlobalOptions: Highcharts.Options;
-  let mockGlobalModules: ModuleFactoryFunction;
+  let mockGlobalModules: jasmine.Spy<ModuleFactoryFunction>;
+  let mockLoaderInstance: jasmine.Spy<InstanceFactoryFunction>;
 
   beforeEach(() => {
     mockLoader = {
       setOptions: jasmine.createSpy('setOptions'),
     } as unknown as typeof Highcharts;
     mockGlobalOptions = { lang: { thousandsSep: ',' } };
-    mockGlobalModules = jasmine.createSpy('mockGlobalModules').and.returnValue([]);
-    const instance = (): Promise<typeof Highcharts> => Promise.resolve(mockLoader);
+    mockGlobalModules = jasmine.createSpy<ModuleFactoryFunction>('mockGlobalModules').and.returnValue([]);
+    mockLoaderInstance = jasmine.createSpy<InstanceFactoryFunction>('mockLoaderInstance').and.resolveTo(mockLoader);
 
     TestBed.configureTestingModule({
       providers: [
         HighchartsChartService,
-        { provide: HIGHCHARTS_LOADER, useValue: instance },
+        { provide: HIGHCHARTS_LOADER, useValue: mockLoaderInstance },
         { provide: HIGHCHARTS_OPTIONS, useValue: mockGlobalOptions },
         { provide: HIGHCHARTS_ROOT_MODULES, useValue: mockGlobalModules },
       ],
@@ -55,7 +56,7 @@ describe('HighchartsChartService', () => {
   });
 
   it('should load partialConfig modules if provided', async () => {
-    const mockPartialModules = jasmine.createSpy('mockPartialModules').and.returnValue([]);
+    const mockPartialModules = jasmine.createSpy<ModuleFactoryFunction>('mockPartialModules').and.returnValue([]);
 
     await service.load({ modules: mockPartialModules });
 
@@ -70,7 +71,27 @@ describe('HighchartsChartService', () => {
 
     expect(firstInstance).toBe(mockLoader);
     expect(secondInstance).toBe(mockLoader);
+    expect(mockLoaderInstance).toHaveBeenCalledTimes(1);
+    expect(mockGlobalModules).toHaveBeenCalledTimes(1);
     expect(mockLoader.setOptions).toHaveBeenCalledTimes(1);
+  });
+
+  it('should reuse identical partial module factories across load calls', async () => {
+    const mockPartialModules = jasmine.createSpy<ModuleFactoryFunction>('mockPartialModules').and.returnValue([]);
+
+    await Promise.all([service.load({ modules: mockPartialModules }), service.load({ modules: mockPartialModules })]);
+
+    expect(mockPartialModules).toHaveBeenCalledTimes(1);
+  });
+
+  it('should report module load failures', async () => {
+    const mockPartialModules = jasmine
+      .createSpy<ModuleFactoryFunction>('mockPartialModules')
+      .and.returnValue([Promise.reject(new Error('broken module'))]);
+
+    await expectAsync(service.load({ modules: mockPartialModules })).toBeRejectedWithError(
+      'Failed to load Highcharts modules: broken module',
+    );
   });
 });
 
@@ -100,8 +121,7 @@ describe('With not provided Value', () => {
 
   it('should not call setOptions if global options are not provided', async () => {
     await service.load(null);
-    const highcharts = await mockLoaderInstance();
 
-    expect(highcharts.setOptions).not.toHaveBeenCalled();
+    expect(mockLoader.setOptions).not.toHaveBeenCalled();
   });
 });

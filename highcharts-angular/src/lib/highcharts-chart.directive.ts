@@ -28,6 +28,7 @@ type HighchartsWithModuleConstructors = typeof Highcharts &
 export class HighchartsChartDirective {
   /**
    * Type of the chart constructor.
+   * Changing it recreates the chart because Highcharts constructors are not update-compatible.
    */
   public readonly constructorType = input<ChartConstructorType>('chart');
 
@@ -155,8 +156,8 @@ export class HighchartsChartDirective {
       const highcharts = await this.highchartsChartService.load(this.relativeConfig);
       const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
 
-      // Keep an async boundary even at 0ms so Angular test stability and
-      // component timing remain aligned with the directive's async setup.
+      // Keep a timer boundary even at 0ms so Angular test stability and
+      // component timing stay aligned with the directive's async setup.
       await this.delay(delayMs);
 
       if (!this.isDestroyed) {
