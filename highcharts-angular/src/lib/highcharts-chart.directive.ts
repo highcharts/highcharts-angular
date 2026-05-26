@@ -18,14 +18,40 @@ import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token'
 import { ChartConstructorType, ConstructorChart } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
 
+type ModuleChartConstructorType = Exclude<ChartConstructorType, 'chart'>;
+type HighchartsWithModuleConstructors = typeof Highcharts &
+  Partial<Record<ModuleChartConstructorType, ConstructorChart>>;
+
 @Directive({
   selector: '[highchartsChart]',
 })
 export class HighchartsChartDirective {
+  /**
+   * Type of the chart constructor.
+   */
   public readonly constructorType = input<ChartConstructorType>('chart');
+
+  /**
+   * @deprecated Will be removed in a future release.
+   * When enabled, Updates `series`, `xAxis`, `yAxis`, and `annotations` to match new options.
+   * Items are added/removed as needed. Series with `id`s are matched by `id`;
+   * unmatched items are removed. Omitted `series` leaves existing ones unchanged.
+   */
   public readonly oneToOne = input<boolean>(false);
+
+  /**
+   * Options for the Highcharts chart.
+   */
   public readonly options = input.required<Highcharts.Options>();
+
+  /**
+   * @deprecated Will be removed in a future release.
+   * Whether to redraw the chart.
+   * Check how update works in Highcharts
+   * API doc here: https://api.highcharts.com/class-reference/Highcharts.Chart#update
+   */
   public readonly update = model<boolean>(true);
+
   public readonly chartInstance = output<Highcharts.Chart>();
 
   private readonly destroyRef = inject(DestroyRef);
@@ -44,6 +70,23 @@ export class HighchartsChartDirective {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  private getChartFactory(highcharts: typeof Highcharts, constructorType: ChartConstructorType): ConstructorChart {
+    if (constructorType === 'chart') {
+      return highcharts.chart;
+    }
+
+    const highchartsWithModuleConstructors: HighchartsWithModuleConstructors = highcharts;
+    const chartFactory = highchartsWithModuleConstructors[constructorType];
+
+    if (!chartFactory) {
+      throw new Error(
+        `Highcharts constructor "${constructorType}" is not available. Did you load the required module?`,
+      );
+    }
+
+    return chartFactory;
+  }
+
   private createChart(): void {
     effect(onCleanup => {
       const highcharts = this.loadedHighcharts();
@@ -58,20 +101,13 @@ export class HighchartsChartDirective {
         return this.chartInstance.emit(chart);
       };
 
-      const chartFactories: Record<ChartConstructorType, ConstructorChart> = {
-        chart: highcharts.chart,
-        ganttChart: (highcharts as any).ganttChart,
-        mapChart: (highcharts as any).mapChart,
-        stockChart: (highcharts as any).stockChart,
-      };
-
-      const chart = chartFactories[constructorType](
+      const chart = this.getChartFactory(highcharts, constructorType)(
         this.el.nativeElement,
         // Read options without tracking them here: option changes should update
         // the existing chart, not tear it down and create a new one.
         untracked(() => this.options()),
         callback,
-      ) as Highcharts.Chart;
+      );
 
       this.chart.set(chart);
 
@@ -90,7 +126,10 @@ export class HighchartsChartDirective {
 
     effect(() => {
       const chart = this.chart();
+      // Deprecated inputs remain supported internally until they are removed.
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
       const update = this.update();
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
       const oneToOne = this.oneToOne();
       const options = this.options();
 
