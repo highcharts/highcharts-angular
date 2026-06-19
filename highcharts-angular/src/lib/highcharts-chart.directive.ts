@@ -153,18 +153,22 @@ export class HighchartsChartDirective {
 
   private async initializeHighcharts(): Promise<void> {
     await this.pendingTasks.run(async () => {
-      const highcharts = await this.highchartsChartService.load(this.relativeConfig);
-      const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
+      try {
+        const highcharts = await this.highchartsChartService.load(this.relativeConfig);
+        const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
 
-      // Keep a timer boundary even at 0ms so Angular test stability and
-      // component timing stay aligned with the directive's async setup.
-      await this.delay(delayMs);
+        // Keep a timer boundary even at 0ms so Angular test stability and
+        // component timing stay aligned with the directive's async setup.
+        await this.delay(delayMs);
 
-      if (!this.isDestroyed) {
-        this.loadedHighcharts.set(highcharts);
+        if (!this.isDestroyed) {
+          this.loadedHighcharts.set(highcharts);
+        }
+      } catch (error) {
+        // Core/module loading failed: leave the chart uncreated and surface the
+        // reason instead of letting it become an unhandled promise rejection.
+        console.error('Highcharts failed to load; chart was not created.', error);
       }
-
-      return highcharts;
     });
   }
 
