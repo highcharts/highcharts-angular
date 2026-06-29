@@ -15,12 +15,8 @@ import {
 import { isPlatformServer } from '@angular/common';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_CONFIG, HIGHCHARTS_TIMEOUT } from './highcharts-chart.token';
-import { ChartConstructorType, ConstructorChart } from './types';
+import { ChartConstructorType, ConstructorChart, HighchartsWithModuleConstructors } from './types';
 import type Highcharts from 'highcharts/esm/highcharts';
-
-type ModuleChartConstructorType = Exclude<ChartConstructorType, 'chart'>;
-type HighchartsWithModuleConstructors = typeof Highcharts &
-  Partial<Record<ModuleChartConstructorType, ConstructorChart>>;
 
 @Directive({
   selector: '[highchartsChart]',
