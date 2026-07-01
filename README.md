@@ -103,9 +103,6 @@ export const appConfig: ApplicationConfig = {
           import('highcharts/esm/themes/sunset'),
         ];
       },
-
-      // Optional: defer chart creation even after Highcharts is ready
-      timeout: 0,
     }),
     // Other providers here ...
   ],
@@ -358,7 +355,10 @@ import { HighchartsChartDirective } from 'highcharts-angular';
           import('highcharts/esm/modules/exporting'),
         ];
       },
-      timeout: 900, // Optional: defer chart creation after module loading
+      // Optional escape hatch: extra delay (ms) before the chart is created,
+      // after Highcharts and modules are ready (e.g. to let the container settle).
+      // Rarely needed — module loading is awaited automatically. Defaults to 0.
+      timeout: 0,
     }),
   ],
 })

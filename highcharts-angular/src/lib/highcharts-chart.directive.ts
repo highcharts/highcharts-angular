@@ -153,9 +153,11 @@ export class HighchartsChartDirective {
         const highcharts = await this.highchartsChartService.load(this.relativeConfig);
         const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
 
-        // Keep a timer boundary even at 0ms so Angular test stability and
-        // component timing stay aligned with the directive's async setup.
-        await this.delay(delayMs);
+        // Optional escape hatch: defer chart creation after Highcharts is ready
+        // (e.g. to let the container settle). Skipped entirely by default.
+        if (delayMs > 0) {
+          await this.delay(delayMs);
+        }
 
         if (!this.isDestroyed) {
           this.loadedHighcharts.set(highcharts);

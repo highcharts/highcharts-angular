@@ -44,12 +44,20 @@ export class HighchartsChartService {
 
     this.moduleLoadCache.set(modulesFactory, moduleLoad);
 
+    // Drop the memo if the load fails so an identical factory can be retried
+    // instead of reusing a permanently rejected promise.
+    moduleLoad.catch(() => {
+      if (this.moduleLoadCache.get(modulesFactory) === moduleLoad) {
+        this.moduleLoadCache.delete(modulesFactory);
+      }
+    });
+
     return moduleLoad;
   }
 
   private async ensureSharedHighcharts(): Promise<typeof Highcharts> {
     if (!this.sharedHighchartsPromise) {
-      this.sharedHighchartsPromise = (async () => {
+      const load = (async () => {
         const highcharts = await this.loader();
 
         // Root-level modules and options mutate a shared Highcharts singleton,
@@ -62,6 +70,15 @@ export class HighchartsChartService {
 
         return highcharts;
       })();
+
+      // Cache the in-flight load, but drop the memo if it fails so a later
+      // load() can retry instead of reusing a permanently rejected promise.
+      this.sharedHighchartsPromise = load;
+      load.catch(() => {
+        if (this.sharedHighchartsPromise === load) {
+          this.sharedHighchartsPromise = null;
+        }
+      });
     }
 
     return this.sharedHighchartsPromise;
