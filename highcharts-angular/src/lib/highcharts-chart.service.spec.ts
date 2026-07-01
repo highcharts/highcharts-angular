@@ -1,4 +1,4 @@
-import { TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { HighchartsChartService } from './highcharts-chart.service';
 import { HIGHCHARTS_LOADER, HIGHCHARTS_OPTIONS, HIGHCHARTS_ROOT_MODULES } from './highcharts-chart.token';
 import { ModuleFactoryFunction, InstanceFactoryFunction } from './types';
@@ -8,21 +8,21 @@ describe('HighchartsChartService', () => {
   let service: HighchartsChartService;
   let mockLoader: typeof Highcharts;
   let mockGlobalOptions: Highcharts.Options;
-  let mockGlobalModules: ModuleFactoryFunction;
+  let mockGlobalModules: jasmine.Spy<ModuleFactoryFunction>;
+  let mockLoaderInstance: jasmine.Spy<InstanceFactoryFunction>;
 
   beforeEach(() => {
-    // Mock Highcharts instance with the setOptions method
     mockLoader = {
       setOptions: jasmine.createSpy('setOptions'),
     } as unknown as typeof Highcharts;
     mockGlobalOptions = { lang: { thousandsSep: ',' } };
-    mockGlobalModules = jasmine.createSpy('mockGlobalModules').and.returnValue([]);
-    const instance = (): Promise<typeof Highcharts> => Promise.resolve(mockLoader);
+    mockGlobalModules = jasmine.createSpy<ModuleFactoryFunction>('mockGlobalModules').and.returnValue([]);
+    mockLoaderInstance = jasmine.createSpy<InstanceFactoryFunction>('mockLoaderInstance').and.resolveTo(mockLoader);
 
     TestBed.configureTestingModule({
       providers: [
         HighchartsChartService,
-        { provide: HIGHCHARTS_LOADER, useValue: instance },
+        { provide: HIGHCHARTS_LOADER, useValue: mockLoaderInstance },
         { provide: HIGHCHARTS_OPTIONS, useValue: mockGlobalOptions },
         { provide: HIGHCHARTS_ROOT_MODULES, useValue: mockGlobalModules },
       ],
@@ -35,41 +35,64 @@ describe('HighchartsChartService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should emit the loaded Highcharts instance', fakeAsync(() => {
+  it('should emit the loaded Highcharts instance', async () => {
     expect(service.highcharts()).toBeNull();
 
-    service.load(null);
-    tick(100); // Simulate the passage of time for the timeout in the load method
+    await service.load(null);
 
-    expect(service.highcharts()).toBe(mockLoader); // The Highcharts object should be emitted
-  }));
+    expect(service.highcharts()).toBe(mockLoader);
+  });
 
-  it('should call setOptions with global options if provided', fakeAsync(() => {
-    service.load(null);
-    tick(100); // Simulate the passage of time for the timeout in the load method
+  it('should call setOptions with global options if provided', async () => {
+    await service.load(null);
 
-    // Check if setOptions was called with the global options
     expect(mockLoader.setOptions).toHaveBeenCalledWith(mockGlobalOptions);
-  }));
+  });
 
-  it('should load global modules if provided', fakeAsync(() => {
-    service.load(null);
-    tick(100); // Simulate the passage of time for the timeout in the load method
+  it('should load global modules if provided', async () => {
+    await service.load(null);
 
-    // Wait for each module to resolve, then check if its `default` method was called with highcharts
     expect(mockGlobalModules).toHaveBeenCalled();
-  }));
+  });
 
-  it('should load partialConfig modules if provided', fakeAsync(() => {
-    const mockPartialModules = jasmine.createSpy('mockPartialModules').and.returnValue([]);
+  it('should load partialConfig modules if provided', async () => {
+    const mockPartialModules = jasmine.createSpy<ModuleFactoryFunction>('mockPartialModules').and.returnValue([]);
 
-    // Call the load method with partial modules
-    service.load({ modules: mockPartialModules });
-    tick(100); // Simulate the passage of time for the timeout in the load method
+    await service.load({ modules: mockPartialModules });
 
-    // Check if partial modules were loaded
     expect(mockPartialModules).toHaveBeenCalled();
-  }));
+  });
+
+  it('should reuse the shared Highcharts load across multiple load calls', async () => {
+    const firstLoad = service.load(null);
+    const secondLoad = service.load(null);
+
+    const [firstInstance, secondInstance] = await Promise.all([firstLoad, secondLoad]);
+
+    expect(firstInstance).toBe(mockLoader);
+    expect(secondInstance).toBe(mockLoader);
+    expect(mockLoaderInstance).toHaveBeenCalledTimes(1);
+    expect(mockGlobalModules).toHaveBeenCalledTimes(1);
+    expect(mockLoader.setOptions).toHaveBeenCalledTimes(1);
+  });
+
+  it('should reuse identical partial module factories across load calls', async () => {
+    const mockPartialModules = jasmine.createSpy<ModuleFactoryFunction>('mockPartialModules').and.returnValue([]);
+
+    await Promise.all([service.load({ modules: mockPartialModules }), service.load({ modules: mockPartialModules })]);
+
+    expect(mockPartialModules).toHaveBeenCalledTimes(1);
+  });
+
+  it('should report module load failures', async () => {
+    const mockPartialModules = jasmine
+      .createSpy<ModuleFactoryFunction>('mockPartialModules')
+      .and.returnValue([Promise.reject(new Error('broken module'))]);
+
+    await expectAsync(service.load({ modules: mockPartialModules })).toBeRejectedWithError(
+      'Failed to load Highcharts modules: broken module',
+    );
+  });
 });
 
 describe('With not provided Value', () => {
@@ -97,9 +120,8 @@ describe('With not provided Value', () => {
   });
 
   it('should not call setOptions if global options are not provided', async () => {
-    service.load(null);
-    const highcharts = await mockLoaderInstance();
+    await service.load(null);
 
-    expect(highcharts.setOptions).not.toHaveBeenCalled();
+    expect(mockLoader.setOptions).not.toHaveBeenCalled();
   });
 });

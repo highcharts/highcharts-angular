@@ -103,9 +103,6 @@ export const appConfig: ApplicationConfig = {
           import('highcharts/esm/themes/sunset'),
         ];
       },
-
-      // Optional: override the default 500ms delay before chart creation
-      timeout: 0,
     }),
     // Other providers here ...
   ],
@@ -358,7 +355,10 @@ import { HighchartsChartDirective } from 'highcharts-angular';
           import('highcharts/esm/modules/exporting'),
         ];
       },
-      timeout: 900, // Optional: increase timeout for loading modules
+      // Optional escape hatch: extra delay (ms) before the chart is created,
+      // after Highcharts and modules are ready (e.g. to let the container settle).
+      // Rarely needed — module loading is awaited automatically. Defaults to 0.
+      timeout: 0,
     }),
   ],
 })
@@ -443,8 +443,7 @@ export class StockComponent {
 **Note:**
 
 - Some Highcharts modules have dependencies and must be loaded in a specific order.
-- In such cases, use a promise chain (e.g., `import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell'))`)
-- instead of just listing them as array items. This ensures the dependent module loads only after its dependency.
+- Use a promise chain instead of listing dependent modules as separate array items, for example `import('highcharts/esm/highcharts-more').then(() => import('highcharts/esm/modules/dumbbell'))`. For `tilemap`, load `map` first: `import('highcharts/esm/modules/map').then(() => import('highcharts/esm/modules/tilemap'))`.
 
 ### To load a wrapper
 
