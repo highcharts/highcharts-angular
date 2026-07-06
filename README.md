@@ -1,6 +1,18 @@
+<div align='center'>
+
 # Highcharts Angular
 
-Official minimal Highcharts integration for Angular.
+<i>Official Highcharts integration for Angular</i>
+
+<img src="https://assets.highcharts.com/images/highcharts-logo.svg" />
+
+<p>Incorporate Highcharts data visualizations in your Angular projects with Highcharts Angular.</p>
+
+<img src="https://img.shields.io/npm/v/highcharts-angular?style=flat&logoColor=white&label=npm&labelColor=2a2a2a&color=e53e3e" alt="NPM Version" />
+<img src="https://img.shields.io/npm/dm/highcharts-angular?style=flat&logoColor=white&label=downloads&labelColor=2a2a2a&color=10b981" alt="NPM Downloads" />
+<img src="https://img.shields.io/discord/1318933807059042305?style=flat&logoColor=white&label=discord&labelColor=2a2a2a&color=5865F2" alt="Discord" />
+
+</div>
 
 ## Links
 
@@ -9,31 +21,7 @@ Official minimal Highcharts integration for Angular.
 - Download: [www.highcharts.com/download](https://www.highcharts.com/download)
 - License: [www.highcharts.com/license](https://www.highcharts.com/license)
 - Support: [www.highcharts.com/support](https://www.highcharts.com/support)
-- Issues: [Working repo](https://github.com/highcharts/highcharts/issues)
 
-## Table of Contents
-
-1. [Getting Started](#getting-started)
-   1. [General Prerequisites](#general-prerequisites)
-   2. [Installing](#installing)
-   3. [Usage](#usage)
-   4. [SSR Support](#ssr-support)
-   5. [Angular Elements and `useHTML`](#angular-elements-and-usehtml)
-   6. [Upgrade to v5](#upgrade-to-v5)
-2. [Options Details](#options-details)
-3. [Chart Instance](#chart-instance)
-4. [Highcharts Partial Loading on the Component Level](#highcharts-partial-loading-on-the-component-level)
-   1. [Loading a Module](#to-load-a-module)
-   2. [Loading a Map for Highcharts Maps](#to-load-a-map-for-highcharts-maps)
-   3. [Loading a Map for Highcharts Stock](#to-load-a-stock-for-highcharts)
-   4. [Loading a Wrapper](#to-load-a-wrapper)
-5. [Demo App](#demo-app)
-   1. [Play with the App](#play-with-the-app)
-   2. [Files to Modify](#files-to-play-with)
-6. [Release](#release)
-7. [Help and FAQ](#help-and-faq)
-
----
 
 ## Getting Started
 
@@ -554,25 +542,6 @@ Keep the console running, and modify files — after saving, the app will automa
 
 This file contains the main Angular component, which utilizes different components like _line-chart_, _gantt-chart_, _map-chart_, and _stock-chart_.
 
-## Release
-
-Using Angular CLI v19, the library must be manually rebuilt on each change in order to reflect in the demo app.
-
-Run the following command on each change to the `highcharts-chart.directive.ts` file:
-
-```cli
-npm run build
-```
-
-If you are running the demo app in another terminal window when you rebuild the
-library, the changes should be reflected in your browser (note: you may need to
-refresh the browser a second time after the live reload in order to see the change).
-
-For CHANGELOG.md update use :
-
-```cli
-npm run release
-```
 
 ## Help and FAQ
 
