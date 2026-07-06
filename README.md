@@ -22,7 +22,6 @@
 - License: [www.highcharts.com/license](https://www.highcharts.com/license)
 - Support: [www.highcharts.com/support](https://www.highcharts.com/support)
 
-
 ## Getting Started
 
 ### General Prerequisites
@@ -541,7 +540,6 @@ Keep the console running, and modify files — after saving, the app will automa
 - **app.component.ts** (located in `src\app`)
 
 This file contains the main Angular component, which utilizes different components like _line-chart_, _gantt-chart_, _map-chart_, and _stock-chart_.
-
 
 ## Help and FAQ
 
