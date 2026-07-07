@@ -17,6 +17,7 @@
 ## Links
 
 - Official website: [www.highcharts.com](https://www.highcharts.com)
+- Changelog: [./CHANGELOG.md](./CHANGELOG.md)
 - Product page: [www.highcharts.com/integrations/angular](https://www.highcharts.com/integrations/angular)
 - Download: [www.highcharts.com/download](https://www.highcharts.com/download)
 - License: [www.highcharts.com/license](https://www.highcharts.com/license)
