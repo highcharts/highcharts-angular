@@ -1,32 +1,28 @@
 # Release
 
-Using Angular CLI v19, the library must be manually rebuilt on each change in
-order to reflect in the demo app.
-
-Run the following command on each change to the `highcharts-chart.directive.ts`
-file:
-
-```cli
-npm run build
+Run one of the release scripts:
+```bash
+npm run release          # patch (default)
+npm run release-minor    # minor
+npm run release-major    # major
 ```
 
-If you are running the demo app in another terminal window when you rebuild the
-library, the changes should be reflected in your browser (note: you may need to
-refresh the browser a second time after the live reload in order to see the
-change).
+The script will:
+1. Bump the version and update `CHANGELOG.md` (via `standard-version`)
+2. Build the library
+3. Copy the changelog to the root directory
+4. Create a release commit and annotated tag
 
-For CHANGELOG.md update use :
-
-```cli
-npm run release
+After the script completes:
+```bash
+git push --follow-tags origin master
 ```
 
-Verify CHANGELOG.md in the main folder and in the `highcharts-angular` folder.
-If changes are needed, added them via `git add *` & `git commit --amend`.
+Publishing to npm is automated via CI — when the push lands on `master` with a version change in `highcharts-angular/package.json`, the `npm-publish` workflow stages the package for approval.
 
-Next, run `git push --follow-tags origin master` and `npm publish` in the
-`highcharts-angular` folder - you'll need to be logged into npm with an account
-that has write access for publish.
+Mark a new release on GitHub.
 
-Finally, use `git push --tags` and mark a new release on GitHub - the same as
-older tags are done there.
+**Rollback** (if push or publish fails):
+```bash
+git tag -d vX.Y.Z && git reset --soft HEAD~1
+```

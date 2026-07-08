@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.4.1](https://github.com/highcharts/highcharts-angular/compare/v5.4.0...v5.4.1) (2026-07-08)
+
 ## [5.4.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.4.0) (2026-01-26)
 
 ### Bug Fixes
