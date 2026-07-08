@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [5.4.1](https://github.com/highcharts/highcharts-angular/compare/v5.4.0...v5.4.1) (2026-07-08)
 
+### Bug Fixes
+
+- Fixed [#437](https://github.com/highcharts/highcharts-angular/issues/437), performance regression when rendering multiple charts. ([#453](https://github.com/highcharts/highcharts-angular/pull/453))
+
 ## [5.4.0](https://github.com/highcharts/highcharts-angular/compare/v3.0.0...v5.4.0) (2026-01-26)
 
 ### Bug Fixes
