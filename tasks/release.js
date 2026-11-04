@@ -47,7 +47,9 @@ if (tagExists) {
   if (tagCommit === headCommit) {
     console.log(`Tag v${version} already points to HEAD, skipping`);
   } else {
-    console.error(`Error: Tag v${version} already exists and points to a different commit. Delete it first with: git tag -d v${version}`);
+    console.error(
+      `Error: Tag v${version} already exists and points to a different commit. Delete it first with: git tag -d v${version}`,
+    );
     process.exit(1);
   }
 } else {

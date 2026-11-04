@@ -95,20 +95,6 @@
         }
       }
     },
-    "my-app-e2e": {
-      "root": "",
-      "sourceRoot": "e2e",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "my-app:serve"
-          }
-        }
-      }
-    },
     "highcharts-angular": {
       "root": "highcharts-angular",
       "sourceRoot": "highcharts-angular/src",
@@ -157,7 +143,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/my-ssr-app",
             "index": "src/index.html",
@@ -208,7 +194,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "my-ssr-app:build:production"
@@ -220,7 +206,7 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

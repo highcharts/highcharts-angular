@@ -23,7 +23,6 @@ export class MapChartComponent {
     return {
       chart: {
         map: this.worldMap.value(),
-        // proj4: proj4
       },
       title: {
         text: 'Highcharts Maps - basic demo',
