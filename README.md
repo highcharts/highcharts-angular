@@ -571,7 +571,7 @@ It is happening when you are trying to use non-existing property or one of our i
 
 #### How to use Highcharts Maps with the proj4?
 
-Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property. See the [demo app](#demo-app) in this repository.
+Install the `proj4` library and its types `@types/proj4`. Then pass it to `chartOptions.chart.proj4` property.
 
 #### I want to render angular component in the tooltip/axis formatter
 

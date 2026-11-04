@@ -86,7 +86,7 @@ jobs:
       - name: Install dependencies
         if: steps.version.outputs.changed == 'true' && steps.npm.outputs.published == 'false'
         run: |
-          npm install
+          npm ci
 
       - name: Build package
         if: steps.version.outputs.changed == 'true' && steps.npm.outputs.published == 'false'
