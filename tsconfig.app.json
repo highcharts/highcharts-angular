@@ -4,7 +4,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "types": []
+    "types": [],
+    /* Highcharts >=13.0.1 ships modules/exporting.d.ts referencing an undeclared `Exporting` type (TS2304). */
+    "skipLibCheck": true
   },
   "files": ["src/main.ts", "src/main.server.ts", "src/server.ts"],
   "include": ["src/**/*.d.ts"]
