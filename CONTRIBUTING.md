@@ -1,3 +1,7 @@
+# Code of Conduct
+
+See the project's [Code of Conduct](CODE_OF_CONDUCT.md).
+
 # Release
 
 Run one of the release scripts:

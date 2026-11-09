@@ -548,6 +548,8 @@ For technical support please contact [Highcharts technical support](https://www.
 
 For TypeScript problems with Highcharts first see [Highcharts documentation for TypeScript usage](https://www.highcharts.com/docs/advanced-chart-features/highcharts-typescript-declarations).
 
+See the project's [Code of Conduct](https://github.com/highcharts/highcharts-angular/blob/master/CODE_OF_CONDUCT.md).
+
 ### FAQ:
 
 #### How to add and use indicators?
