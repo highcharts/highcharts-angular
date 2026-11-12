@@ -14,7 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: npm install
+        with:
+          node-version: 24
+      - run: npm ci
       - run: npm run build
       - run: npm run build:app
       - run: npm run build:ssr
@@ -24,7 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: npm install
+        with:
+          node-version: 24
+      - run: npm ci
       - run: npm run build
       - run: ./node_modules/.bin/ng test highcharts-angular --watch=false --browsers ChromeHeadless
       - run: ./node_modules/.bin/ng test my-app --watch=false --browsers ChromeHeadless
@@ -34,7 +38,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: npm install
+        with:
+          node-version: 24
+      - run: npm ci
       - run: npm run lint
 
   prettier:
@@ -42,5 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: npm install
+        with:
+          node-version: 24
+      - run: npm ci
       - run: ./node_modules/.bin/prettier --check .

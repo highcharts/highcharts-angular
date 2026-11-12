@@ -1,6 +1,6 @@
 /**
  * Build script to create the library package, and then copy over
- * the LICENSE and README.md files in a cross-platform manner.
+ * the LICENSE, README.md and CODE_OF_CONDUCT.md files in a cross-platform manner.
  */
 
 const child_process = require('child_process'),
@@ -23,3 +23,6 @@ fs.copyFileSync(`${rootDir}/LICENSE.txt`, `${distDir}/LICENSE.txt`);
 
 console.log('Copying ./README.md to dist/highcharts-angular/README.md');
 fs.copyFileSync(`${rootDir}/README.md`, `${distDir}/README.md`);
+
+console.log('Copying ./CODE_OF_CONDUCT.md to dist/highcharts-angular/CODE_OF_CONDUCT.md');
+fs.copyFileSync(`${rootDir}/CODE_OF_CONDUCT.md`, `${distDir}/CODE_OF_CONDUCT.md`);
