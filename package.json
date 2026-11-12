@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@angular/build": "^19.2.5",
-    "@angular/cli": "^19.2.5",
+    "@angular/cli": "^22.2.6",
     "@angular/compiler-cli": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@highcharts/map-collection": "^2.3.0",
