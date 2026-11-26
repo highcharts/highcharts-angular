@@ -8,9 +8,9 @@ type ExtendedSeriesCandlestickOptions = {
 
 @Component({
   selector: 'app-line-test',
+  imports: [HighchartsChartComponent],
   templateUrl: './line-test.component.html',
   styleUrl: './line-test.component.css',
-  imports: [HighchartsChartComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineTestComponent {

@@ -6,9 +6,9 @@ import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-
 
 @Component({
   selector: 'app-map-chart',
+  imports: [HighchartsChartComponent],
   templateUrl: './map-chart.component.html',
   styleUrl: './map-chart.component.css',
-  imports: [HighchartsChartComponent],
   providers: [
     providePartialHighcharts({
       modules: () => [import('highcharts/esm/modules/map')],
@@ -18,7 +18,7 @@ import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-
 })
 export class MapChartComponent {
   // https://code.highcharts.com/mapdata/
-  public readonly worldMap = httpResource<GeoJSON>('https://code.highcharts.com/mapdata/custom/world.topo.json');
+  public readonly worldMap = httpResource<GeoJSON>(() => 'https://code.highcharts.com/mapdata/custom/world.topo.json');
   public readonly chartMap = computed<Highcharts.Options>(() => {
     return {
       chart: {

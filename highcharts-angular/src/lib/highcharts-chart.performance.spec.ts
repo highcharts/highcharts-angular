@@ -25,12 +25,12 @@ import type Highcharts from 'highcharts/esm/highcharts';
  */
 @Component({
   selector: 'highcharts-perf-host',
+  imports: [HighchartsChartDirective],
   template: `
     @for (i of charts(); track i) {
       <div highchartsChart [options]="{}"></div>
     }
   `,
-  imports: [HighchartsChartDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class PerfHostComponent {

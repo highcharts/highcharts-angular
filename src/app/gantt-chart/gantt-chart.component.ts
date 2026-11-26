@@ -4,9 +4,9 @@ import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({
   selector: 'app-gantt-chart',
+  imports: [HighchartsChartComponent],
   templateUrl: './gantt-chart.component.html',
   styleUrl: './gantt-chart.component.css',
-  imports: [HighchartsChartComponent],
   providers: [
     providePartialHighcharts({
       modules: () => [import('highcharts/esm/modules/gantt')],

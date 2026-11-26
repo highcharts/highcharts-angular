@@ -5,9 +5,9 @@ import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({
   selector: 'app-line-chart',
+  imports: [FormsModule, HighchartsChartComponent],
   templateUrl: './line-chart.component.html',
   styleUrl: './line-chart.component.css',
-  imports: [FormsModule, HighchartsChartComponent],
   providers: [providePartialHighcharts({ modules: () => [] })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

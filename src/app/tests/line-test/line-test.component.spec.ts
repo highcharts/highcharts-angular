@@ -67,7 +67,7 @@ describe('LineTestComponent', () => {
   });
 
   it('should bind chart instance when Highcharts chart emits instance', () => {
-    const mockChartInstance = {} as Highcharts.Chart;
+    const mockChartInstance = {} as unknown as Highcharts.Chart;
     component.chartInstance = mockChartInstance;
 
     expect(component.chartInstance).toBe(mockChartInstance);

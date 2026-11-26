@@ -9,8 +9,6 @@ import { DumbbellChartComponent } from './dumbbell-chart/dumbbell-chart.componen
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
   imports: [
     LineChartComponent,
     StockChartComponent,
@@ -20,6 +18,8 @@ import { DumbbellChartComponent } from './dumbbell-chart/dumbbell-chart.componen
     TilemapChartComponent,
     DumbbellChartComponent,
   ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}

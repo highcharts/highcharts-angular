@@ -4,6 +4,7 @@ import { HighchartsChartDirective } from './highcharts-chart.directive';
 @Component({
   selector: 'highcharts-chart',
   template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [
     {
       directive: HighchartsChartDirective,
@@ -11,6 +12,5 @@ import { HighchartsChartDirective } from './highcharts-chart.directive';
       outputs: ['chartInstance', 'updateChange'],
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HighchartsChartComponent {}
