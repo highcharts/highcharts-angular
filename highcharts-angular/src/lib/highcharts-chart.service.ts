@@ -5,8 +5,6 @@ import type Highcharts from 'highcharts/esm/highcharts';
 
 @Injectable({ providedIn: 'root' })
 export class HighchartsChartService {
-  public readonly highcharts = signal<typeof Highcharts | null>(null);
-
   private readonly loader = inject(HIGHCHARTS_LOADER);
   private readonly globalOptions = inject(HIGHCHARTS_OPTIONS, {
     optional: true,
@@ -14,6 +12,8 @@ export class HighchartsChartService {
   private readonly globalModules = inject(HIGHCHARTS_ROOT_MODULES, {
     optional: true,
   });
+
+  public readonly highcharts = signal<typeof Highcharts | null>(null);
 
   private sharedHighchartsPromise: Promise<typeof Highcharts> | null = null;
   private readonly moduleLoadCache = new WeakMap<ModuleFactoryFunction, Promise<void>>();

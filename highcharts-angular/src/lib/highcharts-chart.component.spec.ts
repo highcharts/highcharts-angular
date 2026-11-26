@@ -12,10 +12,10 @@ import { ModuleFactoryFunction } from './types';
  */
 @Component({
   selector: 'highcharts-test',
-  template: `<highcharts-chart [options]="{}" />`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HighchartsChartComponent],
   standalone: true,
+  template: `<highcharts-chart [options]="{}" />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestComponent {}
 

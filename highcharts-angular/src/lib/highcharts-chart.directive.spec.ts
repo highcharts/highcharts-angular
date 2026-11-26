@@ -9,8 +9,8 @@ import type Highcharts from 'highcharts/esm/highcharts';
 
 @Component({
   selector: 'highcharts-test-host',
-  template: ` <div highchartsChart [options]="options"></div>`,
   imports: [HighchartsChartDirective],
+  template: ` <div highchartsChart [options]="options"></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestHostComponent {

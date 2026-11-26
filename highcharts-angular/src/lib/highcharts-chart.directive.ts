@@ -22,6 +22,14 @@ import type Highcharts from 'highcharts/esm/highcharts';
   selector: '[highchartsChart]',
 })
 export class HighchartsChartDirective {
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, { optional: true });
+  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, { optional: true });
+  private readonly highchartsChartService = inject(HighchartsChartService);
+  private readonly pendingTasks = inject(PendingTasks);
+
   /**
    * Type of the chart constructor.
    * Changing it recreates the chart because Highcharts constructors are not update-compatible.
@@ -50,14 +58,6 @@ export class HighchartsChartDirective {
   public readonly update = model<boolean>(true);
 
   public readonly chartInstance = output<Highcharts.Chart>();
-
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly relativeConfig = inject(HIGHCHARTS_CONFIG, { optional: true });
-  private readonly timeout = inject(HIGHCHARTS_TIMEOUT, { optional: true });
-  private readonly highchartsChartService = inject(HighchartsChartService);
-  private readonly pendingTasks = inject(PendingTasks);
 
   private readonly loadedHighcharts = signal<typeof Highcharts | null>(null);
   private readonly chart = signal<Highcharts.Chart | null>(null);
@@ -147,8 +147,10 @@ export class HighchartsChartDirective {
     });
   }
 
-  private async initializeHighcharts(): Promise<void> {
-    await this.pendingTasks.run(async () => {
+  private initializeHighcharts(): void {
+    // `run` returns a Promise up to Angular 19 and `void` from Angular 20, so its result is not awaited.
+    // eslint-disable-next-line @angular-eslint/no-developer-preview -- still developer preview, but available in every supported Angular version.
+    this.pendingTasks.run(async () => {
       try {
         const highcharts = await this.highchartsChartService.load(this.relativeConfig);
         const delayMs = this.relativeConfig?.timeout ?? this.timeout ?? 0;
@@ -181,6 +183,6 @@ export class HighchartsChartDirective {
 
     this.createChart();
     this.keepChartUpToDate();
-    void this.initializeHighcharts();
+    this.initializeHighcharts();
   }
 }

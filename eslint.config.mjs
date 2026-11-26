@@ -129,6 +129,8 @@ function tsFiles(files, extraRules = {}) {
 export default tseslint.config(
   tsFiles('src/**/*.ts'),
   tsFiles('highcharts-angular/src/**/*.ts', {
+    // `@Service()` requires Angular 22, but the library supports Angular >=19.
+    '@angular-eslint/prefer-service-decorator': 'off',
     '@angular-eslint/directive-selector': [
       'error',
       {

@@ -5,9 +5,9 @@ import { HighchartsChartComponent, providePartialHighcharts } from '@highcharts-
 
 @Component({
   selector: 'app-stock-chart',
+  imports: [FormsModule, HighchartsChartComponent],
   templateUrl: './stock-chart.component.html',
   styleUrl: './stock-chart.component.css',
-  imports: [FormsModule, HighchartsChartComponent],
   providers: [
     providePartialHighcharts({
       modules: () => [import('highcharts/esm/modules/stock')],

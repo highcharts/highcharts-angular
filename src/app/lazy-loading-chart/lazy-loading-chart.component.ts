@@ -10,9 +10,9 @@ type ExtendedPlotCandlestickDataGroupingOptions = {
 
 @Component({
   selector: 'app-lazy-loading-chart',
+  imports: [HighchartsChartComponent],
   templateUrl: './lazy-loading-chart.component.html',
   styleUrl: './lazy-loading-chart.component.css',
-  imports: [HighchartsChartComponent],
   providers: [
     providePartialHighcharts({
       modules: () => [import('highcharts/esm/modules/stock')],
